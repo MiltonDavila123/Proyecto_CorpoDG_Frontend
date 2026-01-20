@@ -1,9 +1,8 @@
 <template>
   <Navbar />
-  <Home />
+  <router-view />
 </template>
 
 <script setup>
 import Navbar from './components/Navbar.vue'
-import Home from './views/Home.vue'
 </script>

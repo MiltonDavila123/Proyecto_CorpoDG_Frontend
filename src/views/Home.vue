@@ -1,11 +1,22 @@
 <template>
   <section class="hero">
+    
+    <div 
+      v-for="(imagen, index) in imagenes" 
+      :key="index"
+      class="hero-bg"
+      :class="{ active: index === imagenActual }"
+      :style="{ backgroundImage: `url(${imagen})` }"
+    ></div>
     <div class="hero-overlay"></div>
+    <div class="logo">
+       <img :src="logoUrl"  class="logo-img" />
+    </div>
     <div class="content">
       <p class="subtitle">
-        Viaja a cualquier lado del mundo con nosotros
+        ¡Viaja a cualquier lado del mundo!
       </p>
-      <h2>Haz de tu viaje una experiencia unica<br />con nosotros</h2>
+      <h2>Haz de tu viaje una experiencia única<br />con nosotros</h2>
     </div>
   </section>
 
@@ -32,11 +43,26 @@
 <style scoped>
 .hero {
   height: 100vh;
-  background-image: url('/src/assets/images/imagen2.jpg');
-  background-size: cover;
-  background-position: center;
   position: relative;
   margin-top: 0;
+  overflow: hidden;
+}
+
+/* Imágenes de fondo con transición fade y zoom */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1.5s ease-in-out, transform 6s ease-in-out;
+  z-index: 0;
+}
+
+.hero-bg.active {
+  opacity: 1;
+  transform: scale(1.08);
 }
 
 .hero-overlay {
@@ -129,3 +155,38 @@ h2 {
   font-size: 3rem;
 }
 </style>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+// ==========================================
+// 🖼️ AGREGA O ELIMINA IMÁGENES AQUÍ
+// ==========================================
+const imagenes = [
+  '/src/assets/images/imagen2.jpg',
+  '/src/assets/images/imagen1.jpg',
+  // Agrega más imágenes aquí:
+  // '/src/assets/images/imagen3.jpg',
+  // '/src/assets/images/imagen4.jpg',
+]
+
+// ⏱️ Tiempo entre cambios (en milisegundos) - 5000 = 5 segundos
+const tiempoEntreCambios = 7500
+
+// ==========================================
+
+const imagenActual = ref(0)
+let intervalo = null
+
+const cambiarImagen = () => {
+  imagenActual.value = (imagenActual.value + 1) % imagenes.length
+}
+
+onMounted(() => {
+  intervalo = setInterval(cambiarImagen, tiempoEntreCambios)
+})
+
+onUnmounted(() => {
+  if (intervalo) clearInterval(intervalo)
+})
+</script>
