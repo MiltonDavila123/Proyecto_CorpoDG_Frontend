@@ -170,7 +170,7 @@ const imagenes = [
   // '/src/assets/images/imagen4.jpg',
 ]
 
-// ⏱️ Tiempo entre cambios (en milisegundos) - 5000 = 5 segundos
+// ⏱️ Tiempo entre cambios en milisegundos 5000 = 5 segundos
 const tiempoEntreCambios = 7500
 
 // ==========================================
