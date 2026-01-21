@@ -22,7 +22,7 @@
             <a href="#">Noticias</a>
             <a href="#">Galápagos</a>
             <a href="#">Descuentos</a>
-            <button class="btn-advisor">Boton de prueba</button>
+            
           </div>
         </div>
         <div class="line-top"></div>
@@ -63,6 +63,23 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* ===== VARIABLES DE COLORES ===== */
+.navbar-wrapper {
+  --color-primary: #b5931ae2;        /* Amarillo/Dorado principal */
+  --color-primary-hover-button: #544a28;  /* Amarillo/Dorado hover */
+  --color-dark: #ebeae7e0;           /* Azul oscuro/Negro para textos */
+  --color-background: #23221ee8;     /* Fondo navbar scroll */
+  --color-hover-nav: #ac9749;
+  
+  /* ===== VARIABLES DE FUENTES ===== */
+  --font-heading: 'Arial', serif;              /* Para títulos y números grandes */
+  --font-body: 'Arial', sans-serif;              /* Para textos normales */
+  --font-menu: 'Verdana', sans-serif;            /* Para menú principal */
+  --font-button: 'Trebuchet MS', sans-serif;     /* Para botones */
+  --font-secondary: 'Arial', serif;    /* Para links secundarios */
+}
+/* ===================================== */
+
 .navbar-wrapper {
   position: fixed;
   top: 0;
@@ -73,12 +90,12 @@ onUnmounted(() => {
 }
 
 .navbar-wrapper.navbar-scrolled {
-  background: #072741;
+  background: var(--color-background);
 }
 
 .top-bar {
   display: flex;
-  background: #facc15;
+  background: var(--color-primary);
   padding: 10px 60px;
   justify-content: center;
   align-items: center;
@@ -88,24 +105,26 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #1a365d;
+  color: var(--color-dark);
 }
 
 .phone-info svg {
-  color: #1a365d;
+  color: var(--color-dark);
 }
 
 .phone-number {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #1a365d;
+  color: var(--color-dark);
+  font-family: var(--font-heading);
 }
 
 .phone-text {
   font-size: 1.0rem;
   font-weight: bold;
-  color: #1a365d;
+  color: var(--color-dark);
   margin-left: 10px;
+  font-family: var(--font-body);
 }
 
 .navbar {
@@ -159,6 +178,7 @@ onUnmounted(() => {
   text-decoration: none;
   font-size: 0.8rem;
   transition: color 0.3s;
+  font-family: var(--font-secondary);
 }
 
 .top-links a:hover {
@@ -177,6 +197,7 @@ onUnmounted(() => {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: all 0.3s;
+  font-family: var(--font-button);
 }
 
 .btn-advisor:hover {
@@ -214,10 +235,11 @@ nav :deep(a) {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: color 0.3s ease;
+  font-family: var(--font-menu);
 }
 
 nav a:hover {
-  color: #facc15;
+  color: var(--color-hover-nav);
 }
 
 nav .router-link-exact-active {
@@ -226,20 +248,21 @@ nav .router-link-exact-active {
 }
 
 .btn {
-  background: #facc15;
+  background: var(--color-primary);
   border: none;
   padding: 12px 28px;
   border-radius: 25px;
   cursor: pointer;
   font-weight: bold;
   font-size: 0.85rem;
-  color: #1a365d;
+  color: var(--color-dark);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
+  font-family: var(--font-button);
 }
 
 .btn:hover {
-  background: #e6b800;
+  background: var(--color-primary-hover-button);
 }
 </style>

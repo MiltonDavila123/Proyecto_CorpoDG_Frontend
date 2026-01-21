@@ -13,10 +13,8 @@
        <img :src="logoUrl"  class="logo-img" />
     </div>
     <div class="content">
-      <p class="subtitle">
-        ¡Viaja a cualquier lado del mundo!
-      </p>
       <h2>Haz de tu viaje una experiencia única<br />con nosotros</h2>
+      
     </div>
   </section>
 
@@ -24,12 +22,12 @@
   <section class="content-section">
     <div class="content-wrapper">
       <div class="card">
-        <div class="card-icon">🌿</div>
+        
         <h3>Activities</h3>
         <p>A small river named Duden flows by their place and supplies</p>
       </div>
       <div class="card">
-        <div class="card-icon">📍</div>
+        
         <h3>Travel Arrangements</h3>
         <p>A small river named Duden flows by their place and supplies</p>
       </div>
@@ -41,6 +39,22 @@
 </template>
 
 <style scoped>
+/* ===== VARIABLES DE COLORES Y FUENTES ===== */
+.hero {
+  /* Colores */
+  --color-overlay: rgba(0, 0, 0, 0.35);       /* Overlay oscuro sobre imagen */
+  --color-text-light: white;                   /* Texto claro */
+  --color-background-section: #fff;            /* Fondo sección blanca */
+  --color-heading-dark: #333;                  /* Títulos oscuros */
+  --color-text-gray: #666;                     /* Texto gris */
+  
+  /* Fuentes */
+  --font-heading: 'Georgia', serif;            /* Títulos principales */
+  --font-body: 'Arial', sans-serif;            /* Texto normal */
+  --font-subtitle: 'Verdana', sans-serif;      /* Subtítulos */
+}
+/* ========================================== */
+
 .hero {
   height: 100vh;
   position: relative;
@@ -68,7 +82,7 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--color-overlay);
   z-index: 1;
 }
 
@@ -79,7 +93,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--color-text-light);
   text-align: center;
   padding: 0 20px;
   z-index: 2;
@@ -90,37 +104,51 @@ h2 {
   margin-top: 10px;
   font-weight: 400;
   font-style: italic;
+  font-family: var(--font-heading);
 }
 
 .subtitle {
   font-size: 1rem;
   opacity: 0.95;
-  color: white;
+  color: var(--color-text-light);
+  font-family: var(--font-heading);
 }
 
 
 /* Sección blanca */
 .content-section {
-  background: #fff;
-  padding: 60px;
+  background: var(--color-background-section);
+  padding: 80px 100px;
   display: flex;
-  gap: 60px;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: -80px;
+  flex-direction: column;
+  gap: 80px;
+  margin-top: -50px;
   position: relative;
   z-index: 10;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .content-wrapper {
   display: flex;
-  gap: 40px;
-  flex: 1;
+  gap: 80px;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .card {
   flex: 1;
+  max-width: 400px;
   text-align: center;
+  padding: 40px 30px;
+  background: #fafafa;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.342);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .card-icon {
@@ -129,30 +157,38 @@ h2 {
 }
 
 .card h3 {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: var(--color-heading-dark);
+  margin-bottom: 15px;
+  font-family: var(--font-heading);
+  font-weight: 600;
 }
 
 .card p {
-  color: #666;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  color: var(--color-text-gray);
+  font-size: 1rem;
+  line-height: 1.8;
+  font-family: var(--font-body);
 }
 
 .adventure-text {
-  flex: 1;
+  text-align: center;
+  padding: 40px 0;
 }
 
 .adventure-text h2 {
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 3rem;
+  color: var(--color-heading-dark);
   font-style: normal;
+  font-family: var(--font-heading);
+  line-height: 1.3;
 }
 
 .adventure-text .bold {
   font-weight: bold;
-  font-size: 3rem;
+  font-size: 3.5rem;
+  display: block;
+  margin-top: 10px;
 }
 </style>
 
@@ -164,14 +200,14 @@ import { ref, onMounted, onUnmounted } from 'vue'
 // ==========================================
 const imagenes = [
   '/src/assets/images/imagen2.jpg',
-  '/src/assets/images/imagen1.jpg',
+  '/src/assets/images/avion.jpg',
   // Agrega más imágenes aquí:
   // '/src/assets/images/imagen3.jpg',
   // '/src/assets/images/imagen4.jpg',
 ]
 
 // ⏱️ Tiempo entre cambios en milisegundos 5000 = 5 segundos
-const tiempoEntreCambios = 7500
+const tiempoEntreCambios = 6500
 
 // ==========================================
 
