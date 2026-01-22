@@ -5,7 +5,7 @@
       <div class="phone-info">
         <img src="https://raw.githubusercontent.com/MiltonDavila123/SVGs/refs/heads/main/Whatsapp%20Logo%20_%20parte%20_%20superior.svg"
           alt="Whatsapp Logo" width="30" height="30" />
-        <span class="phone-number">095-980-7049</span>
+        <a class="phone-number" href="https://wa.me/593984235152" target="_blank" rel="noopener">098-423-5152</a>
         <span class="phone-text">Llámanos o escribenos</span>
       </div>
     </div>
@@ -34,11 +34,61 @@
             <router-link to="/">Renta de autos</router-link>
             <router-link to="/destinos">Destinos</router-link>
           </nav>
-          <button class="btn">Contáctanos</button>
+          <button class="btn" @click="abrirModal">Contáctanos</button>
         </div>
       </div>
     </header>
     <div class="navbar-bottom-line"></div>
+
+    <!-- MODAL DE CONTACTO -->
+    <div class="modal-overlay" v-if="mostrarModal" @click.self="cerrarModal">
+      <div class="modal-contenido">
+        <button class="modal-cerrar" @click="cerrarModal">&times;</button>
+        <h2 class="modal-titulo">Contáctanos</h2>
+        <p class="modal-subtitulo">Déjanos tus datos y nos pondremos en contacto contigo</p>
+        
+        <form @submit.prevent="enviarFormulario" class="modal-form">
+          <div class="form-grupo">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" v-model="formulario.nombre" placeholder="Tu nombre completo" required maxlength="50" />
+            <span class="contador">{{ formulario.nombre.length }}/50</span>
+          </div>
+          
+          <div class="form-grupo">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" v-model="formulario.email" placeholder="tu_email@gmail.com" required maxlength="80" />
+            <span class="contador">{{ formulario.email.length }}/80</span>
+          </div>
+          
+          <div class="form-grupo">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" v-model="formulario.telefono" @input="soloNumeros" placeholder="0999999999" required maxlength="15" />
+            <span class="contador">{{ formulario.telefono.length }}/15</span>
+          </div>
+          
+          <div class="form-grupo">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" v-model="formulario.mensaje" placeholder="¿En qué podemos ayudarte?" rows="4" required maxlength="500"></textarea>
+            <span class="contador">{{ formulario.mensaje.length }}/500</span>
+          </div>
+          
+          <button type="submit" class="btn-enviar">Enviar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL DE CONFIRMACIÓN -->
+    <div class="modal-overlay" v-if="mostrarConfirmacion" @click.self="cerrarConfirmacion">
+      <div class="modal-contenido modal-confirmacion">
+        <button class="modal-cerrar" @click="cerrarConfirmacion">&times;</button>
+        <div class="confirmacion-contenido">
+          <div class="confirmacion-icono">✓</div>
+          <h2 class="confirmacion-titulo">¡Gracias por contactarnos!</h2>
+          <p class="confirmacion-texto">Pronto nos comunicaremos contigo.</p>
+          <button class="btn-enviar" @click="cerrarConfirmacion">Aceptar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,6 +97,55 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import logoUrl from '../assets/images/Logo_letras_blancas.png'
 
 const isScrolled = ref(false)
+
+// ===== MODAL =====
+const mostrarModal = ref(false)
+const mostrarConfirmacion = ref(false)
+const formulario = ref({
+  nombre: '',
+  email: '',
+  telefono: '',
+  mensaje: ''
+})
+
+const abrirModal = () => {
+  mostrarModal.value = true
+  document.body.style.overflow = 'hidden' // Evita scroll del fondo
+}
+
+const cerrarModal = () => {
+  mostrarModal.value = false
+  document.body.style.overflow = '' // Restaura scroll
+}
+
+const cerrarConfirmacion = () => {
+  mostrarConfirmacion.value = false
+  document.body.style.overflow = '' // Restaura scroll
+}
+
+// Función para permitir solo números en el teléfono
+const soloNumeros = (event) => {
+  formulario.value.telefono = formulario.value.telefono.replace(/[^0-9]/g, '')
+}
+
+const enviarFormulario = () => {
+  // Aquí irá la lógica para enviar a la base de datos, correo y WhatsApp
+  console.log('Datos del formulario:', formulario.value)
+  
+  // Cerramos el modal de contacto y abrimos el de confirmación
+  cerrarModal()
+  mostrarConfirmacion.value = true
+  document.body.style.overflow = 'hidden'
+  
+  // Limpiamos el formulario
+  formulario.value = {
+    nombre: '',
+    email: '',
+    telefono: '',
+    mensaje: ''
+  }
+}
+// ==================
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 0
@@ -265,4 +364,193 @@ nav .router-link-exact-active {
 .btn:hover {
   background: var(--color-primary-hover-button);
 }
+
+/* ===== ESTILOS DEL MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-contenido {
+  background: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-cerrar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s;
+}
+
+.modal-cerrar:hover {
+  color: #b5931a;
+}
+
+.modal-titulo {
+  font-size: 1.8rem;
+  color: #23221e;
+  margin-bottom: 8px;
+  font-family: var(--font-heading);
+  text-align: center;
+}
+
+.modal-subtitulo {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 25px;
+  font-family: var(--font-body);
+  text-align: center;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-grupo label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  font-family: var(--font-body);
+}
+
+.form-grupo input,
+.form-grupo textarea {
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-grupo input:focus,
+.form-grupo textarea:focus {
+  outline: none;
+  border-color: #b5931a;
+  box-shadow: 0 0 0 3px rgba(181, 147, 26, 0.15);
+}
+
+.form-grupo textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-enviar {
+  background: #b5931a;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  font-family: var(--font-button);
+  margin-top: 10px;
+}
+
+.btn-enviar:hover {
+  background: #544a28;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(181, 147, 26, 0.3);
+}
+
+/* Contador de caracteres */
+.contador {
+  font-size: 0.75rem;
+  color: #999;
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* ===== MODAL DE CONFIRMACIÓN ===== */
+.modal-confirmacion {
+  text-align: center;
+  max-width: 400px;
+}
+
+.confirmacion-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.confirmacion-icono {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #b5931a, #d4af37);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px rgba(181, 147, 26, 0.4);
+}
+
+.confirmacion-titulo {
+  font-size: 1.5rem;
+  color: #23221e;
+  margin-bottom: 10px;
+  font-family: var(--font-heading);
+}
+
+.confirmacion-texto {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 25px;
+  font-family: var(--font-body);
+}
+/* ============================= */
 </style>

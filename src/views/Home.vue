@@ -125,7 +125,7 @@ h2 {
   margin-top: -50px;
   position: relative;
   z-index: 10;
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+  /* box-shadow eliminado */
 }
 
 .content-wrapper {
