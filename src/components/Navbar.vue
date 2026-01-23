@@ -89,6 +89,30 @@
         </div>
       </div>
     </div>
+
+    <!-- MODAL DE ERROR -->
+    <div class="modal-overlay" v-if="mostrarError" @click.self="cerrarError">
+      <div class="modal-contenido modal-error">
+        <button class="modal-cerrar" @click="cerrarError">&times;</button>
+        <div class="confirmacion-contenido">
+          <div class="confirmacion-icono error-icono">✕</div>
+          <h2 class="confirmacion-titulo">Ha habido un error</h2>
+          <p class="confirmacion-texto">Por favor, intenta nuevamente más tarde.</p>
+          <button class="btn-enviar" @click="cerrarError">Aceptar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE CARGANDO -->
+    <div class="modal-overlay" v-if="enviando">
+      <div class="modal-contenido modal-loading">
+        <div class="confirmacion-contenido">
+          <div class="spinner"></div>
+          <h2 class="confirmacion-titulo">Enviando...</h2>
+          <p class="confirmacion-texto">Por favor espera un momento.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,6 +125,8 @@ const isScrolled = ref(false)
 // ===== MODAL =====
 const mostrarModal = ref(false)
 const mostrarConfirmacion = ref(false)
+const mostrarError = ref(false)
+const enviando = ref(false)
 const formulario = ref({
   nombre: '',
   email: '',
@@ -123,26 +149,65 @@ const cerrarConfirmacion = () => {
   document.body.style.overflow = '' // Restaura scroll
 }
 
+const cerrarError = () => {
+  mostrarError.value = false
+  document.body.style.overflow = '' // Restaura scroll
+}
+
 // Función para permitir solo números en el teléfono
 const soloNumeros = (event) => {
   formulario.value.telefono = formulario.value.telefono.replace(/[^0-9]/g, '')
 }
 
-const enviarFormulario = () => {
-  // Aquí irá la lógica para enviar a la base de datos, correo y WhatsApp
-  console.log('Datos del formulario:', formulario.value)
-  
-  // Cerramos el modal de contacto y abrimos el de confirmación
-  cerrarModal()
-  mostrarConfirmacion.value = true
-  document.body.style.overflow = 'hidden'
-  
-  // Limpiamos el formulario
-  formulario.value = {
-    nombre: '',
-    email: '',
-    telefono: '',
-    mensaje: ''
+const enviarFormulario = async () => {
+  try {
+    // Mostrar modal de cargando
+    cerrarModal()
+    enviando.value = true
+    document.body.style.overflow = 'hidden'
+    
+    // Enviar datos a la API
+    const response = await fetch('http://localhost:8000/api/contacto/', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nombre_completo: formulario.value.nombre,
+        email: formulario.value.email,
+        telefono: formulario.value.telefono,
+        mensaje: formulario.value.mensaje
+      })
+    })
+    
+    const data = await response.json()
+    
+    // Ocultar modal de cargando
+    enviando.value = false
+    
+    if (response.ok && data.success) {
+      // Mostrar modal de éxito
+      mostrarConfirmacion.value = true
+      
+      // Limpiamos el formulario
+      formulario.value = {
+        nombre: '',
+        email: '',
+        telefono: '',
+        mensaje: ''
+      }
+    } else {
+      // Mostrar modal de error
+      mostrarError.value = true
+      console.error('Error del servidor:', data.errors || data)
+    }
+    
+  } catch (error) {
+    // Error de conexión
+    enviando.value = false
+    mostrarError.value = true
+    document.body.style.overflow = 'hidden'
+    console.error('Error al enviar formulario:', error)
   }
 }
 // ==================
@@ -551,6 +616,37 @@ nav .router-link-exact-active {
   color: #666;
   margin-bottom: 25px;
   font-family: var(--font-body);
+}
+
+/* ===== MODAL DE ERROR ===== */
+.modal-error .confirmacion-icono {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.error-icono {
+  font-size: 3rem !important;
+  font-weight: bold;
+}
+
+/* ===== MODAL DE CARGANDO ===== */
+.modal-loading {
+  text-align: center;
+  max-width: 350px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #b5931a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 /* ============================= */
 </style>
