@@ -167,7 +167,7 @@ const enviarFormulario = async () => {
     document.body.style.overflow = 'hidden'
     
     // Enviar datos a la API
-    const response = await fetch('http://localhost:8000/api/contacto/', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contacto/`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json'

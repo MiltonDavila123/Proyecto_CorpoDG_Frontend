@@ -19,8 +19,8 @@
                 <div class="mapa-right">
                     <div class="mapa-info">
                         <h3>Dirección Matriz:</h3>
-                        <p>Av. de los Shyris y Rousseau</p>
-                        <p>Rousseau N-34, Quito 170513</p>
+                        <p>Av. de los Shyris N43-170 y Psje.Rousseau</p>
+                        <p>C.C. Plaza Shyris Piso 2, Of. 05</p>
                     </div>
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.8020713515048!2d-78.48103712519048!3d-0.16352133542922936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59be56f3543e3%3A0xf2691e2581d4515!2sCorporaci%C3%B3n%20D%C3%A1vila%20%26%20Granda%20CORPODG%20C%C3%ADa.%20Ltda.!5e0!3m2!1ses!2ec!4v1769092182293!5m2!1ses!2ec"
                         width="470"

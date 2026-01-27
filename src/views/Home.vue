@@ -201,7 +201,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const imagenes = [
   '/src/assets/images/imagen2.jpg',
   '/src/assets/images/avion.jpg',
-  '/src/assets/images/River_Travel.png'
+  '/src/assets/images/Imagen_Playa.jpg'
   // Agrega más imágenes aquí:
   // '/src/assets/images/imagen3.jpg',
   // '/src/assets/images/imagen4.jpg',
