@@ -1,3 +1,9 @@
+<script setup>
+import iataLogo from '../assets/images/IATA-Logo.png'
+import logoNegras from '../assets/images/Logo_letras_negras.png'
+import riverTravel from '../assets/images/River_Travel.png'
+</script>
+
 <template>
 
         <footer>
@@ -9,11 +15,11 @@
                         <p>Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=corpodg@outlook.com" target="_blank" rel="noopener">corpodg@outlook.com</a></p>
                     </div>
                     <div class="logo-superior">
-                        <img src="/src/assets/images/IATA-Logo.png" alt="Logo Superior" class="footer-logo-superior" width="200" height="100"/>
+                        <img :src="iataLogo" alt="Logo Superior" class="footer-logo-superior" width="200" height="100"/>
                     </div>
                     <div class="logos">
-                        <img src="/src/assets/images/Logo_letras_negras.png" alt="Logo 1" class="footer-logo" width="100" height="100"/>
-                        <img src="/src/assets/images/River_Travel.png" alt="Logo 2" class="footer-logo"/>
+                        <img :src="logoNegras" alt="Logo 1" class="footer-logo" width="100" height="100"/>
+                        <img :src="riverTravel" alt="Logo 2" class="footer-logo"/>
                     </div>
                 </div>
                 <div class="mapa-right">

@@ -194,14 +194,17 @@ h2 {
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import imagen2 from '../assets/images/imagen2.jpg'
+import avion from '../assets/images/avion.jpg'
+import imagenPlaya from '../assets/images/Imagen_Playa.jpg'
 
 // ==========================================
 // AGREGA O ELIMINA IMÁGENES AQUÍ
 // ==========================================
 const imagenes = [
-  '/src/assets/images/imagen2.jpg',
-  '/src/assets/images/avion.jpg',
-  '/src/assets/images/Imagen_Playa.jpg'
+  imagen2,
+  avion,
+  imagenPlaya
   // Agrega más imágenes aquí:
   // '/src/assets/images/imagen3.jpg',
   // '/src/assets/images/imagen4.jpg',
