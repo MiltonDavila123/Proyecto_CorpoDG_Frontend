@@ -211,7 +211,7 @@ const imagenes = [
 ]
 
 // ⏱️ Tiempo entre cambios en milisegundos 5000 = 5 segundos
-const tiempoEntreCambios = 6500
+const tiempoEntreCambios = 6000
 
 // ==========================================
 

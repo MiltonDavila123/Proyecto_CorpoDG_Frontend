@@ -51,7 +51,7 @@ const destinos = ref([
 
 <style scoped>
 .destinos-hero {
-  height: 50vh;
+  height: 85vh;
   background: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200') center/cover;
   position: relative;
   display: flex;
@@ -73,13 +73,16 @@ const destinos = ref([
 }
 
 .hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 .hero-content p {
-  font-size: 1.2rem;
-  opacity: 0.9;
+  font-size: 1.4rem;
+  opacity: 0.95;
+  font-weight: 300;
 }
 
 .destinos-grid {

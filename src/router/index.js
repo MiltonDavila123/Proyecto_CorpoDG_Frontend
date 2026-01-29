@@ -8,6 +8,21 @@ const routes = [
     component: Home
   },
   {
+    path: '/boletos',
+    name: 'Boletos',
+    component: () => import('../views/Boletos.vue')
+  },
+  {
+    path: '/hoteles',
+    name: 'Hoteles',
+    component: () => import('../views/Hoteles.vue')
+  },
+  {
+    path: '/renta_auto',
+    name: 'Renta Auto',
+    component: () => import('../views/Renta_Autos.vue')
+  },
+  {
     path: '/destinos',
     name: 'Destinos',
     component: () => import('../views/Destinos.vue')

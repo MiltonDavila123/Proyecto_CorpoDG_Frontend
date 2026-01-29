@@ -14,12 +14,12 @@ import riverTravel from '../assets/images/River_Travel.png'
                         <p>Teléfono: <a href="https://wa.me/593984235152" target="_blank" rel="noopener">098 423 5152</a></p>
                         <p>Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=corpodg@outlook.com" target="_blank" rel="noopener">corpodg@outlook.com</a></p>
                     </div>
-                    <div class="logo-superior">
-                        <img :src="iataLogo" alt="Logo Superior" class="footer-logo-superior" width="200" height="100"/>
-                    </div>
                     <div class="logos">
-                        <img :src="logoNegras" alt="Logo 1" class="footer-logo" width="100" height="100"/>
+                        <img :src="logoNegras" alt="Logo 1" class="footer-logo" width="100" height="120"/>
                         <img :src="riverTravel" alt="Logo 2" class="footer-logo"/>
+                    </div>
+                    <div class="logo-superior">
+                        <img :src="iataLogo" alt="Logo Superior" class="footer-logo-superior" width="150" height="75"/>
                     </div>
                 </div>
                 <div class="mapa-right">
@@ -80,11 +80,11 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 5rem;
+    margin-bottom: 1rem;
     margin-top: 2rem;
 }
 .footer-logo-superior {
-    height: 130px;
+    height: 85px;
     width: auto;
     object-fit: contain;
 }
@@ -104,17 +104,17 @@ footer {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 0rem;
+    margin-bottom: 1rem;
 }
 .logos {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-top: 2rem;
 }
 .footer-logo {
-    height: 85px;
+    height: 110px;
     width: auto;
     object-fit: contain;
 }
