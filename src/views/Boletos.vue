@@ -1,5 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+
+// ===== CONFIGURACIÓN DE LA API =====
+const API_BASE_URL = import.meta.env.VITE_API_URL
 
 // ===== ICONOS SVG PERSONALIZABLES =====
 // Puedes cambiar estos SVGs por los que prefieras
@@ -20,68 +23,55 @@ const fechaVuelta = ref('')
 const pasajeros = ref(1)
 const tipoViaje = ref('ida-vuelta')
 
-const vuelosDestacados = ref([
-  {
-    id: 1,
-    origen: 'Quito',
-    destino: 'Galápagos',
-    aerolinea: 'TAME',
-    precio: 280,
-    duracion: '1h 45m',
-    escalas: 'Directo',
-    imagen: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=400&fit=crop'
-  },
-  {
-    id: 2,
-    origen: 'Guayaquil',
-    destino: 'Cuenca',
-    aerolinea: 'LATAM',
-    precio: 120,
-    duracion: '45m',
-    escalas: 'Directo',
-    imagen: 'https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?w=800&h=400&fit=crop'
-  },
-  {
-    id: 3,
-    origen: 'Quito',
-    destino: 'Miami',
-    aerolinea: 'Copa Airlines',
-    precio: 450,
-    duracion: '4h 30m',
-    escalas: '1 escala',
-    imagen: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=400&fit=crop'
-  },
-  {
-    id: 4,
-    origen: 'Guayaquil',
-    destino: 'Madrid',
-    aerolinea: 'Iberia',
-    precio: 850,
-    duracion: '11h 20m',
-    escalas: 'Directo',
-    imagen: 'https://images.unsplash.com/photo-1488085061387-422e29b40080?w=800&h=400&fit=crop'
-  },
-  {
-    id: 5,
-    origen: 'Quito',
-    destino: 'Bogotá',
-    aerolinea: 'Avianca',
-    precio: 180,
-    duracion: '1h 30m',
-    escalas: 'Directo',
-    imagen: 'https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=800&h=400&fit=crop'
-  },
-  {
-    id: 6,
-    origen: 'Guayaquil',
-    destino: 'Lima',
-    aerolinea: 'LATAM',
-    precio: 210,
-    duracion: '2h 10m',
-    escalas: 'Directo',
-    imagen: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&h=400&fit=crop'
+// ===== DATOS DESDE LA API =====
+const vuelos = ref([])
+const loading = ref(true)
+const error = ref(null)
+
+// Imagen por defecto para vuelos sin imagen
+const imagenDefault = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=400&fit=crop'
+
+// Función para obtener los vuelos desde la API
+const fetchVuelos = async () => {
+  loading.value = true
+  error.value = null
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/vuelos/`)
+    
+    if (!response.ok) {
+      throw new Error('Error al cargar los vuelos')
+    }
+    
+    const data = await response.json()
+    vuelos.value = data
+  } catch (err) {
+    console.error('Error fetching vuelos:', err)
+    error.value = 'No se pudieron cargar los vuelos. Intenta más tarde.'
+  } finally {
+    loading.value = false
   }
-])
+}
+
+// Función para formatear el tipo de vuelo
+const formatTipoVuelo = (tipo) => {
+  const tipos = {
+    'directo': 'Directo',
+    'escala': '1 Escala',
+    'escalas': 'Con escalas'
+  }
+  return tipos[tipo] || tipo
+}
+
+// Obtener imagen del vuelo o usar la por defecto
+const getVueloImagen = (vuelo) => {
+  return vuelo.imagen_url || imagenDefault
+}
+
+// Cargar vuelos al montar el componente
+onMounted(() => {
+  fetchVuelos()
+})
 
 const buscarVuelos = () => {
   console.log('Buscando vuelos...', {
@@ -101,7 +91,7 @@ const buscarVuelos = () => {
     <section class="hero-section">
       <div class="hero-overlay"></div>
       <div class="hero-content">
-        <h1>Boletos Aéreos</h1>
+        <h1>Vuelos</h1>
         <p>Encuentra los mejores vuelos al mejor precio</p>
       </div>
     </section>
@@ -110,11 +100,25 @@ const buscarVuelos = () => {
     <section class="flights-section">
       <div class="container">
         <h2 class="section-title">Destinos Populares</h2>
-        <div class="flights-grid">
-          <div v-for="vuelo in vuelosDestacados" :key="vuelo.id" class="flight-card">
+        
+        <!-- Estado de carga -->
+        <div v-if="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Cargando vuelos...</p>
+        </div>
+        
+        <!-- Estado de error -->
+        <div v-else-if="error" class="error-state">
+          <p>{{ error }}</p>
+          <button @click="fetchVuelos" class="btn-retry">Reintentar</button>
+        </div>
+        
+        <!-- Lista de vuelos -->
+        <div v-else-if="vuelos.length > 0" class="flights-grid">
+          <div v-for="vuelo in vuelos" :key="vuelo.id" class="flight-card">
             <div class="flight-image">
-              <img :src="vuelo.imagen" :alt="`Vuelo a ${vuelo.destino}`" />
-              <div class="flight-badge">{{ vuelo.escalas }}</div>
+              <img :src="getVueloImagen(vuelo)" :alt="`Vuelo a ${vuelo.destino}`" />
+              <div class="flight-badge">{{ formatTipoVuelo(vuelo.tipo_vuelo) }}</div>
             </div>
             <div class="flight-info">
               <div class="flight-route">
@@ -144,12 +148,17 @@ const buscarVuelos = () => {
                 <div class="flight-price">
                   <span class="price-label">Desde</span>
                   <span class="price">${{ vuelo.precio }}</span>
-                  <span class="price-period">USD</span>
+                  <span class="price-period">{{ vuelo.moneda || 'USD' }}</span>
                 </div>
                 <button class="btn-book">Reservar</button>
               </div>
             </div>
           </div>
+        </div>
+        
+        <!-- Sin vuelos disponibles -->
+        <div v-else class="empty-state">
+          <p>No hay vuelos disponibles en este momento.</p>
         </div>
       </div>
     </section>
@@ -754,5 +763,63 @@ const buscarVuelos = () => {
     flex-direction: column;
     gap: 1rem;
   }
+}
+
+/* ===== ESTADOS DE CARGA, ERROR Y VACÍO ===== */
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.loading-state p,
+.error-state p,
+.empty-state p {
+  font-size: 1.2rem;
+  color: var(--color-text-medium);
+  font-family: var(--font-body);
+  margin-top: 1rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--color-border);
+  border-top: 4px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.btn-retry {
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: var(--color-primary-gradient);
+  color: var(--color-text-white);
+  border: none;
+  border-radius: var(--radius-button);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  font-family: var(--font-button);
+}
+
+.btn-retry:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button);
+}
+
+.error-state p {
+  color: #dc3545;
 }
 </style>

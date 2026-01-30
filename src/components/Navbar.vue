@@ -29,7 +29,7 @@
         <div class="nav-content">
           <nav>
             <router-link to="/">Inicio</router-link>
-            <router-link to="/boletos">Boletos aéreos</router-link>
+            <router-link to="/boletos">Vuelos</router-link>
             <router-link to="/hoteles">Hoteles</router-link>
             <router-link to="/renta_auto">Renta de autos</router-link>
             <router-link to="/destinos">Destinos</router-link>
