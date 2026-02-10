@@ -8,6 +8,17 @@ const routes = [
     component: Home
   },
   {
+    path: '/paquetes',
+    name: 'Paquetes',
+    component: () => import ('../views/Paquetes.vue')
+  },
+  {
+    path: '/paquetes/:id',
+    name: 'PaqueteDetalle',
+    component: () => import ('../views/Paquetes.vue'),
+    props: true
+  },
+  {
     path: '/boletos',
     name: 'Boletos',
     component: () => import('../views/Boletos.vue')
@@ -35,3 +46,4 @@ const router = createRouter({
 })
 
 export default router
+

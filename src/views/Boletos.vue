@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import ModalContacto from '../components/ModalContacto.vue'
+import ModalPdfViewer from '../components/ModalPdfViewer.vue'
 
 // ===== CONFIGURACIÓN DE LA API =====
 const API_BASE_URL = import.meta.env.VITE_API_URL
@@ -27,6 +29,13 @@ const tipoViaje = ref('ida-vuelta')
 const vuelos = ref([])
 const loading = ref(true)
 const error = ref(null)
+
+// ===== ESTADOS PARA LOS MODALES =====
+const mostrarModalContacto = ref(false)
+const mostrarModalPdf = ref(false)
+const mensajeReserva = ref('')
+const mensajeReadonly = ref(false)
+const vueloSeleccionado = ref(null)
 
 // Imagen por defecto para vuelos sin imagen
 const imagenDefault = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=400&fit=crop'
@@ -66,6 +75,46 @@ const formatTipoVuelo = (tipo) => {
 // Obtener imagen del vuelo o usar la por defecto
 const getVueloImagen = (vuelo) => {
   return vuelo.imagen_url || imagenDefault
+}
+
+// ===== FUNCIONES PARA RESERVA =====
+// Generar mensaje automático con la información del vuelo
+const generarMensajeVuelo = (vuelo) => {
+  const tipoVuelo = formatTipoVuelo(vuelo.tipo_vuelo);
+  const precio = `$${vuelo.precio} ${vuelo.moneda || 'USD'}`;
+
+  return `Quisiera hacer una reserva de vuelo en la aerolínea ${vuelo.aerolinea}, con origen en ${vuelo.origen} y destino a ${vuelo.destino}. La duración del viaje es de ${vuelo.duracion} en un vuelo ${tipoVuelo}, con un precio de ${precio}. Estoy interesado/a en reservar este vuelo; por favor, contáctenme para más información`;
+}
+
+
+// Obtener el mensaje de reserva (predefinido o generado)
+const obtenerMensajeReserva = (vuelo) => {
+  // Si existe mensaje_reserva y no está vacío, usarlo
+  if (vuelo.mensaje_reserva && vuelo.mensaje_reserva.trim() !== '') {
+    return vuelo.mensaje_reserva
+  }
+  // Si no, generar mensaje con la información del vuelo
+  return generarMensajeVuelo(vuelo)
+}
+
+// Manejar click en botón Reservar
+const handleReservar = (vuelo) => {
+  vueloSeleccionado.value = vuelo
+  mensajeReserva.value = obtenerMensajeReserva(vuelo)
+  mensajeReadonly.value = true // Siempre readonly para reservas
+  
+  // Si existe PDF, mostrar visor de PDF
+  if (vuelo.pdf_url && vuelo.pdf_url.trim() !== '') {
+    mostrarModalPdf.value = true
+  } else {
+    // Si no hay PDF, abrir directamente el modal de contacto
+    mostrarModalContacto.value = true
+  }
+}
+
+// Cuando se hace click en "Contactar para Reserva" desde el visor PDF
+const handleContactarDesdePdf = () => {
+  mostrarModalContacto.value = true
 }
 
 // Cargar vuelos al montar el componente
@@ -150,7 +199,7 @@ const buscarVuelos = () => {
                   <span class="price">${{ vuelo.precio }}</span>
                   <span class="price-period">{{ vuelo.moneda || 'USD' }}</span>
                 </div>
-                <button class="btn-book">Reservar</button>
+                <button class="btn-book" @click="handleReservar(vuelo)">Reservar</button>
               </div>
             </div>
           </div>
@@ -198,6 +247,22 @@ const buscarVuelos = () => {
         </div>
       </div>
     </section>
+
+    <!-- MODAL VISOR DE PDF -->
+    <ModalPdfViewer 
+      v-model:visible="mostrarModalPdf"
+      :pdfUrl="vueloSeleccionado?.pdf_url || ''"
+      :titulo="`Vuelo: ${vueloSeleccionado?.origen || ''} → ${vueloSeleccionado?.destino || ''}`"
+      :subtitulo="`${vueloSeleccionado?.aerolinea || ''} - ${formatTipoVuelo(vueloSeleccionado?.tipo_vuelo || '')}`"
+      @contactar="handleContactarDesdePdf"
+    />
+
+    <!-- MODAL DE CONTACTO -->
+    <ModalContacto 
+      v-model:visible="mostrarModalContacto"
+      :mensajePredefinido="mensajeReserva"
+      :mensajeReadonly="mensajeReadonly"
+    />
   </div>
 </template>
 
