@@ -2,9 +2,7 @@
 import { ref, onMounted } from 'vue'
 import ModalContacto from '../components/ModalContacto.vue'
 import ModalPdfViewer from '../components/ModalPdfViewer.vue'
-
-// ===== CONFIGURACIÓN DE LA API =====
-const API_BASE_URL = import.meta.env.VITE_API_URL
+import { getVuelos } from '../services/api.js'
 
 // ===== ICONOS SVG PERSONALIZABLES =====
 // Puedes cambiar estos SVGs por los que prefieras
@@ -46,13 +44,7 @@ const fetchVuelos = async () => {
   error.value = null
   
   try {
-    const response = await fetch(`${API_BASE_URL}/api/vuelos/`)
-    
-    if (!response.ok) {
-      throw new Error('Error al cargar los vuelos')
-    }
-    
-    const data = await response.json()
+    const data = await getVuelos()
     vuelos.value = data
   } catch (err) {
     console.error('Error fetching vuelos:', err)

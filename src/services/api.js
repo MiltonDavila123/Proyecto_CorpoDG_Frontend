@@ -1,26 +1,44 @@
-const API_BASE_URL = 'http://localhost:8000/api'
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api`
+const API_TOKEN = import.meta.env.VITE_TOKEN_APIS
 
 /**
  * Servicio para consumir la API del backend
  */
 
+// Helper para obtener headers con autenticación
+const getHeaders = (includeContentType = false) => {
+  const headers = {
+    'Authorization': `Token ${API_TOKEN}`
+  }
+  if (includeContentType) {
+    headers['Content-Type'] = 'application/json'
+  }
+  return headers
+}
+
 // =====================================================
 // REGIONES
 // =====================================================
 export async function getRegiones() {
-  const response = await fetch(`${API_BASE_URL}/regiones/`)
+  const response = await fetch(`${API_BASE_URL}/regiones/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener regiones')
   return response.json()
 }
 
 export async function getRegion(id) {
-  const response = await fetch(`${API_BASE_URL}/regiones/${id}/`)
+  const response = await fetch(`${API_BASE_URL}/regiones/${id}/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener región')
   return response.json()
 }
 
 export async function getPaisesByRegion(regionId) {
-  const response = await fetch(`${API_BASE_URL}/regiones/${regionId}/paises/`)
+  const response = await fetch(`${API_BASE_URL}/regiones/${regionId}/paises/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener países de la región')
   return response.json()
 }
@@ -33,13 +51,17 @@ export async function getPaises(regionId = null) {
   if (regionId) {
     url += `?region=${regionId}`
   }
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener países')
   return response.json()
 }
 
 export async function getPais(id) {
-  const response = await fetch(`${API_BASE_URL}/paises-region/${id}/`)
+  const response = await fetch(`${API_BASE_URL}/paises-region/${id}/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener país')
   return response.json()
 }
@@ -60,25 +82,33 @@ export async function getPaquetes(filtros = {}) {
   const queryString = params.toString()
   if (queryString) url += `?${queryString}`
   
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener paquetes')
   return response.json()
 }
 
 export async function getPaquete(id) {
-  const response = await fetch(`${API_BASE_URL}/paquetes/${id}/`)
+  const response = await fetch(`${API_BASE_URL}/paquetes/${id}/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener paquete')
   return response.json()
 }
 
 export async function getPaquetesDestacados() {
-  const response = await fetch(`${API_BASE_URL}/paquetes/destacados/`)
+  const response = await fetch(`${API_BASE_URL}/paquetes/destacados/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener paquetes destacados')
   return response.json()
 }
 
 export async function getPaquetesPorRegion() {
-  const response = await fetch(`${API_BASE_URL}/paquetes/por_region/`)
+  const response = await fetch(`${API_BASE_URL}/paquetes/por_region/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener paquetes por región')
   return response.json()
 }
@@ -87,7 +117,9 @@ export async function getPaquetesPorRegion() {
 // AEROLINEAS
 // =====================================================
 export async function getAerolineas() {
-  const response = await fetch(`${API_BASE_URL}/aerolineas/`)
+  const response = await fetch(`${API_BASE_URL}/aerolineas/`, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener aerolíneas')
   return response.json()
 }
@@ -105,7 +137,59 @@ export async function getCiudades(filtros = {}) {
   const queryString = params.toString()
   if (queryString) url += `?${queryString}`
   
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    headers: getHeaders()
+  })
   if (!response.ok) throw new Error('Error al obtener ciudades')
   return response.json()
+}
+
+// =====================================================
+// VUELOS
+// =====================================================
+export async function getVuelos(filtros = {}) {
+  let url = `${API_BASE_URL}/vuelos/`
+  const params = new URLSearchParams()
+  
+  if (filtros.origen) params.append('origen', filtros.origen)
+  if (filtros.destino) params.append('destino', filtros.destino)
+  if (filtros.fecha_ida) params.append('fecha_ida', filtros.fecha_ida)
+  if (filtros.fecha_vuelta) params.append('fecha_vuelta', filtros.fecha_vuelta)
+  if (filtros.aerolinea) params.append('aerolinea', filtros.aerolinea)
+  
+  const queryString = params.toString()
+  if (queryString) url += `?${queryString}`
+  
+  const response = await fetch(url, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener vuelos')
+  return response.json()
+}
+
+export async function getVuelo(id) {
+  const response = await fetch(`${API_BASE_URL}/vuelos/${id}/`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener vuelo')
+  return response.json()
+}
+
+// =====================================================
+// CONTACTO
+// =====================================================
+export async function enviarContacto(datos) {
+  const response = await fetch(`${API_BASE_URL}/contacto/`, {
+    method: 'POST',
+    headers: getHeaders(true),
+    body: JSON.stringify(datos)
+  })
+  
+  const data = await response.json()
+  
+  if (!response.ok) {
+    throw new Error(data.errors || 'Error al enviar contacto')
+  }
+  
+  return data
 }

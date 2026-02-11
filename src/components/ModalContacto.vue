@@ -88,6 +88,7 @@
 
 <script setup>
 import { ref, watch, computed } from 'vue'
+import { enviarContacto } from '../services/api.js'
 
 // Props para controlar el modal desde el componente padre
 const props = defineProps({
@@ -199,20 +200,12 @@ const enviarFormulario = async () => {
     document.body.style.overflow = 'hidden'
     
     // Enviar datos a la API
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contacto/`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(datosEnvio)
-    })
-    
-    const data = await response.json()
+    const data = await enviarContacto(datosEnvio)
     
     // Ocultar modal de cargando
     enviando.value = false
     
-    if (response.ok && data.success) {
+    if (data.success) {
       // Mostrar modal de éxito
       mostrarConfirmacion.value = true
       
