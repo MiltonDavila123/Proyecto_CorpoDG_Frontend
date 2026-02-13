@@ -1,32 +1,38 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import ModalContacto from '../components/ModalContacto.vue'
 import ModalPdfViewer from '../components/ModalPdfViewer.vue'
-import { getVuelos } from '../services/api.js'
+import CarruselVuelos from '../components/CarruselVuelos.vue'
+import { getVuelos, getRegiones, getPaisesByRegion, getCiudades } from '../services/api.js'
 
 // ===== ICONOS SVG PERSONALIZABLES =====
-// Puedes cambiar estos SVGs por los que prefieras
 const iconos = {
   avion: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>`,
   aerolinea: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>`,
   reloj: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`,
+  calendario: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>`,
   documento: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>`,
   checkin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`,
   equipaje: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z"/></svg>`
 }
-// ========================================
 
-const origen = ref('')
-const destino = ref('')
-const fechaIda = ref('')
-const fechaVuelta = ref('')
-const pasajeros = ref(1)
-const tipoViaje = ref('ida-vuelta')
-
-// ===== DATOS DESDE LA API =====
-const vuelos = ref([])
-const loading = ref(true)
+// ===== ESTADO DE NAVEGACIÓN =====
+const vistaActual = ref('regiones') // 'regiones' | 'paises' | 'ciudades' | 'vuelos'
+const loading = ref(false)
 const error = ref(null)
+
+// Datos de navegación
+const regiones = ref([])
+const paises = ref([])
+const ciudades = ref([])
+const vuelos = ref([])
+const vuelosRegion = ref([]) // Vuelos de la región para filtrar países/ciudades
+
+// Selecciones
+const regionSeleccionada = ref(null)
+const paisSeleccionado = ref(null)
+const ciudadSeleccionada = ref(null)
+const paisesDeRegion = ref([]) // Países que pertenecen a la región seleccionada
 
 // ===== ESTADOS PARA LOS MODALES =====
 const mostrarModalContacto = ref(false)
@@ -38,20 +44,172 @@ const vueloSeleccionado = ref(null)
 // Imagen por defecto para vuelos sin imagen
 const imagenDefault = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=400&fit=crop'
 
-// Función para obtener los vuelos desde la API
-const fetchVuelos = async () => {
+// Imágenes por defecto para regiones
+const imagenesRegiones = {
+  caribe: 'https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=800',
+  sudamerica: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=800',
+  centroamerica: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=800',
+  norteamerica: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=800',
+  europa: 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800',
+  medio_oriente: 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?w=800',
+  africa: 'https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=800',
+  asia: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800',
+  ecuador: 'https://media.istockphoto.com/id/481766414/es/foto/bandera-y-church-en-guayaquil.jpg?s=612x612&w=0&k=20&c=88OO2aWG6rnqRBpJyzhqsWEBX5YXxnbiJ2r-JlghsuA='
+}
+
+const getImagenRegion = (nombre) => {
+  return imagenesRegiones[nombre] || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800'
+}
+
+// Computed: países que tienen vuelos Y pertenecen a la región seleccionada
+const paisesConVuelos = computed(() => {
+  if (vuelosRegion.value.length === 0 || paisesDeRegion.value.length === 0) return []
+  
+  // Obtener nombres de países de la región que tienen vuelos
+  const paisesConVuelosNombres = new Set()
+  
+  vuelosRegion.value.forEach(vuelo => {
+    paisesConVuelosNombres.add(vuelo.destino_pais)
+  })
+  
+  // Filtrar países de la región que tienen vuelos (con todos sus datos incluyendo bandera)
+  return paisesDeRegion.value.filter(pais => paisesConVuelosNombres.has(pais.nombre))
+})
+
+// Computed: ciudades que tienen vuelos en el país seleccionado
+const ciudadesConVuelos = computed(() => {
+  if (!paisSeleccionado.value || vuelosRegion.value.length === 0) return []
+  
+  const ciudadesUnicas = []
+  const ciudadesVistas = new Set()
+  
+  vuelosRegion.value
+    .filter(v => v.destino_pais === paisSeleccionado.value.nombre)
+    .forEach(vuelo => {
+      if (!ciudadesVistas.has(vuelo.destino_nombre)) {
+        ciudadesVistas.add(vuelo.destino_nombre)
+        ciudadesUnicas.push({
+          nombre: vuelo.destino_nombre,
+          id: vuelo.destino
+        })
+      }
+    })
+  
+  return ciudadesUnicas
+})
+
+// Texto del botón de volver
+const textoBotonVolver = computed(() => {
+  if (vistaActual.value === 'vuelos' && ciudadSeleccionada.value) {
+    return `Volver a ${paisSeleccionado.value?.nombre || 'Ciudades'}`
+  }
+  if (vistaActual.value === 'ciudades') {
+    return `Volver a ${regionSeleccionada.value?.nombre_display || 'Países'}`
+  }
+  return 'Volver a Regiones'
+})
+
+// Cargar regiones al iniciar
+onMounted(async () => {
+  await cargarRegiones()
+})
+
+const cargarRegiones = async () => {
+  loading.value = true
+  try {
+    const regionesData = await getRegiones()
+    // Ordenar para que Ecuador esté primero
+    regiones.value = regionesData.sort((a, b) => {
+      if (a.nombre === 'ecuador') return -1
+      if (b.nombre === 'ecuador') return 1
+      return a.orden - b.orden
+    })
+  } catch (err) {
+    console.error('Error cargando regiones:', err)
+    error.value = 'No se pudieron cargar las regiones.'
+  } finally {
+    loading.value = false
+  }
+}
+
+const seleccionarRegion = async (region) => {
+  regionSeleccionada.value = region
   loading.value = true
   error.value = null
   
   try {
-    const data = await getVuelos()
-    vuelos.value = data
+    // Cargar países de la región y todos los vuelos en paralelo
+    const [paisesData, vuelosData] = await Promise.all([
+      getPaisesByRegion(region.id),
+      getVuelos()
+    ])
+    
+    paisesDeRegion.value = paisesData
+    vuelosRegion.value = vuelosData
+    
+    // Si es Ecuador, ir directo a vuelos con destino Ecuador
+    if (region.nombre === 'ecuador') {
+      vuelos.value = vuelosData.filter(v => v.destino_pais === 'Ecuador')
+      paisSeleccionado.value = { nombre: 'Ecuador', id: null }
+      vistaActual.value = 'vuelos'
+    } else {
+      // Mostrar países con vuelos disponibles
+      vistaActual.value = 'paises'
+    }
   } catch (err) {
-    console.error('Error fetching vuelos:', err)
-    error.value = 'No se pudieron cargar los vuelos. Intenta más tarde.'
+    console.error('Error cargando vuelos:', err)
+    error.value = 'No se pudieron cargar los vuelos.'
   } finally {
     loading.value = false
   }
+}
+
+const seleccionarPais = async (pais) => {
+  paisSeleccionado.value = pais
+  loading.value = true
+  vistaActual.value = 'ciudades'
+  loading.value = false
+}
+
+const seleccionarCiudad = async (ciudad) => {
+  ciudadSeleccionada.value = ciudad
+  loading.value = true
+  vistaActual.value = 'vuelos'
+  
+  // Filtrar vuelos por ciudad de destino
+  vuelos.value = vuelosRegion.value.filter(v => v.destino_nombre === ciudad.nombre)
+  loading.value = false
+}
+
+const volverARegiones = () => {
+  vistaActual.value = 'regiones'
+  regionSeleccionada.value = null
+  paisSeleccionado.value = null
+  ciudadSeleccionada.value = null
+  paisesDeRegion.value = []
+  paises.value = []
+  ciudades.value = []
+  vuelos.value = []
+  vuelosRegion.value = []
+}
+
+const volverAPaises = () => {
+  if (vistaActual.value === 'vuelos' && ciudadSeleccionada.value) {
+    vistaActual.value = 'ciudades'
+    ciudadSeleccionada.value = null
+    vuelos.value = []
+    return
+  }
+  
+  if (vistaActual.value === 'ciudades' || (vistaActual.value === 'vuelos' && regionSeleccionada.value?.nombre === 'ecuador')) {
+    volverARegiones()
+    return
+  }
+  
+  vistaActual.value = 'paises'
+  paisSeleccionado.value = null
+  ciudadSeleccionada.value = null
+  vuelos.value = []
 }
 
 // Función para formatear el tipo de vuelo
@@ -70,59 +228,34 @@ const getVueloImagen = (vuelo) => {
 }
 
 // ===== FUNCIONES PARA RESERVA =====
-// Generar mensaje automático con la información del vuelo
 const generarMensajeVuelo = (vuelo) => {
   const tipoVuelo = formatTipoVuelo(vuelo.tipo_vuelo);
   const precio = `$${vuelo.precio} ${vuelo.moneda || 'USD'}`;
 
-  return `Quisiera hacer una reserva de vuelo en la aerolínea ${vuelo.aerolinea}, con origen en ${vuelo.origen} y destino a ${vuelo.destino}. La duración del viaje es de ${vuelo.duracion} en un vuelo ${tipoVuelo}, con un precio de ${precio}. Estoy interesado/a en reservar este vuelo; por favor, contáctenme para más información`;
+  return `Quisiera hacer una reserva de vuelo en la aerolínea ${vuelo.aerolinea_nombre}, con origen en ${vuelo.origen_nombre} (${vuelo.origen_pais}) y destino a ${vuelo.destino_nombre} (${vuelo.destino_pais}). La duración del viaje es de ${vuelo.duracion} en un vuelo ${tipoVuelo}, con un precio de ${precio}. Estoy interesado/a en reservar este vuelo; por favor, contáctenme para más información`;
 }
 
-
-// Obtener el mensaje de reserva (predefinido o generado)
 const obtenerMensajeReserva = (vuelo) => {
-  // Si existe mensaje_reserva y no está vacío, usarlo
   if (vuelo.mensaje_reserva && vuelo.mensaje_reserva.trim() !== '') {
     return vuelo.mensaje_reserva
   }
-  // Si no, generar mensaje con la información del vuelo
   return generarMensajeVuelo(vuelo)
 }
 
-// Manejar click en botón Reservar
 const handleReservar = (vuelo) => {
   vueloSeleccionado.value = vuelo
   mensajeReserva.value = obtenerMensajeReserva(vuelo)
-  mensajeReadonly.value = true // Siempre readonly para reservas
+  mensajeReadonly.value = true
   
-  // Si existe PDF, mostrar visor de PDF
   if (vuelo.pdf_url && vuelo.pdf_url.trim() !== '') {
     mostrarModalPdf.value = true
   } else {
-    // Si no hay PDF, abrir directamente el modal de contacto
     mostrarModalContacto.value = true
   }
 }
 
-// Cuando se hace click en "Contactar para Reserva" desde el visor PDF
 const handleContactarDesdePdf = () => {
   mostrarModalContacto.value = true
-}
-
-// Cargar vuelos al montar el componente
-onMounted(() => {
-  fetchVuelos()
-})
-
-const buscarVuelos = () => {
-  console.log('Buscando vuelos...', {
-    origen: origen.value,
-    destino: destino.value,
-    fechaIda: fechaIda.value,
-    fechaVuelta: fechaVuelta.value,
-    pasajeros: pasajeros.value,
-    tipoViaje: tipoViaje.value
-  })
 }
 </script>
 
@@ -137,10 +270,132 @@ const buscarVuelos = () => {
       </div>
     </section>
 
-    <!-- Destinos Populares -->
-    <section class="flights-section">
+    <!-- VISTA DE REGIONES -->
+    <section v-if="vistaActual === 'regiones'" class="regiones-section">
+      <div class="section-header">
+        <h2>Selecciona una Región</h2>
+      </div>
+      
+      <div v-if="loading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Cargando regiones...</p>
+      </div>
+
+      <div v-else class="regiones-grid">
+        <div 
+          v-for="region in regiones" 
+          :key="region.id" 
+          class="region-card"
+          @click="seleccionarRegion(region)"
+        >
+          <div 
+            class="region-img" 
+            :style="{ backgroundImage: `url(${region.imagen_url || getImagenRegion(region.nombre)})` }"
+          >
+            <div class="region-overlay"></div>
+            <div class="region-info">
+              <h3>{{ region.nombre_display }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA DE PAÍSES -->
+    <section v-if="vistaActual === 'paises'" class="paises-section">
+      <div class="section-header">
+        <h2>{{ regionSeleccionada?.nombre_display }}</h2>
+      </div>
+
+      <div v-if="loading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Cargando países...</p>
+      </div>
+
+      <div v-else-if="paisesConVuelos.length === 0" class="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h3>No hay vuelos disponibles</h3>
+        <p>Actualmente no tenemos vuelos para esta región. ¡Vuelve pronto!</p>
+      </div>
+
+      <div v-else class="paises-grid">
+        <div 
+          v-for="pais in paisesConVuelos" 
+          :key="pais.id" 
+          class="pais-card"
+          @click="seleccionarPais(pais)"
+        >
+          <div class="pais-bandera">
+            <img 
+              v-if="pais.bandera_url" 
+              :src="pais.bandera_url" 
+              :alt="pais.nombre"
+            />
+            <div v-else class="pais-bandera-placeholder">
+              {{ pais.nombre.charAt(0) }}
+            </div>
+          </div>
+          <div class="pais-info">
+            <h3>{{ pais.nombre }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-back-floating" @click="volverARegiones">
+        <span class="arrow">←</span> Volver a Regiones
+      </button>
+    </section>
+
+    <!-- VISTA DE CIUDADES -->
+    <section v-if="vistaActual === 'ciudades'" class="ciudades-section">
+      <div class="section-header">
+        <h2>Ciudades en {{ paisSeleccionado?.nombre }}</h2>
+      </div>
+
+      <div v-if="loading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Cargando ciudades...</p>
+      </div>
+
+      <div v-else-if="ciudadesConVuelos.length === 0" class="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3>No hay ciudades con vuelos</h3>
+        <p>Actualmente no tenemos vuelos a ciudades en este país.</p>
+      </div>
+
+      <div v-else class="ciudades-grid">
+        <div 
+          v-for="ciudad in ciudadesConVuelos" 
+          :key="ciudad.id" 
+          class="ciudad-card"
+          @click="seleccionarCiudad(ciudad)"
+        >
+          <div class="ciudad-info">
+            <h3>{{ ciudad.nombre }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-back-floating" @click="volverAPaises">
+        <span class="arrow">←</span> {{ textoBotonVolver }}
+      </button>
+    </section>
+
+    <!-- VISTA DE VUELOS -->
+    <section v-if="vistaActual === 'vuelos'" class="flights-section">
       <div class="container">
-        <h2 class="section-title">Destinos Populares</h2>
+        <h2 class="section-title">Vuelos a {{ ciudadSeleccionada?.nombre || paisSeleccionado?.nombre }}</h2>
         
         <!-- Estado de carga -->
         <div v-if="loading" class="loading-state">
@@ -151,57 +406,27 @@ const buscarVuelos = () => {
         <!-- Estado de error -->
         <div v-else-if="error" class="error-state">
           <p>{{ error }}</p>
-          <button @click="fetchVuelos" class="btn-retry">Reintentar</button>
+          <button @click="cargarRegiones" class="btn-retry">Reintentar</button>
         </div>
         
-        <!-- Lista de vuelos -->
-        <div v-else-if="vuelos.length > 0" class="flights-grid">
-          <div v-for="vuelo in vuelos" :key="vuelo.id" class="flight-card">
-            <div class="flight-image">
-              <img :src="getVueloImagen(vuelo)" :alt="`Vuelo a ${vuelo.destino}`" />
-              <div class="flight-badge">{{ formatTipoVuelo(vuelo.tipo_vuelo) }}</div>
-            </div>
-            <div class="flight-info">
-              <div class="flight-route">
-                <div class="route-item">
-                  <span class="route-label">Desde</span>
-                  <h3>{{ vuelo.origen }}</h3>
-                </div>
-                <div class="route-arrow" v-html="iconos.avion"></div>
-                <div class="route-item">
-                  <span class="route-label">Hacia</span>
-                  <h3>{{ vuelo.destino }}</h3>
-                </div>
-              </div>
-              
-              <div class="flight-details">
-                <div class="detail-item">
-                  <span class="detail-icon" v-html="iconos.aerolinea"></span>
-                  <span>{{ vuelo.aerolinea }}</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-icon" v-html="iconos.reloj"></span>
-                  <span>{{ vuelo.duracion }}</span>
-                </div>
-              </div>
-
-              <div class="flight-footer">
-                <div class="flight-price">
-                  <span class="price-label">Desde</span>
-                  <span class="price">${{ vuelo.precio }}</span>
-                  <span class="price-period">{{ vuelo.moneda || 'USD' }}</span>
-                </div>
-                <button class="btn-book" @click="handleReservar(vuelo)">Reservar</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- CARRUSEL DE VUELOS -->
+        <CarruselVuelos 
+          v-else-if="vuelos.length > 0"
+          :vuelos="vuelos"
+          :items-per-slide="3"
+          :imagen-default="imagenDefault"
+          @reservar="handleReservar"
+        />
         
         <!-- Sin vuelos disponibles -->
         <div v-else class="empty-state">
           <p>No hay vuelos disponibles en este momento.</p>
         </div>
       </div>
+
+      <button class="btn-back-floating" @click="volverAPaises">
+        <span class="arrow">←</span> {{ textoBotonVolver }}
+      </button>
     </section>
 
     <!-- Información -->
@@ -244,8 +469,8 @@ const buscarVuelos = () => {
     <ModalPdfViewer 
       v-model:visible="mostrarModalPdf"
       :pdfUrl="vueloSeleccionado?.pdf_url || ''"
-      :titulo="`Vuelo: ${vueloSeleccionado?.origen || ''} → ${vueloSeleccionado?.destino || ''}`"
-      :subtitulo="`${vueloSeleccionado?.aerolinea || ''} - ${formatTipoVuelo(vueloSeleccionado?.tipo_vuelo || '')}`"
+      :titulo="`Vuelo: ${vueloSeleccionado?.origen_nombre || ''} → ${vueloSeleccionado?.destino_nombre || ''}`"
+      :subtitulo="`${vueloSeleccionado?.aerolinea_nombre || ''} - ${formatTipoVuelo(vueloSeleccionado?.tipo_vuelo || '')}`"
       @contactar="handleContactarDesdePdf"
     />
 
@@ -349,6 +574,257 @@ const buscarVuelos = () => {
   font-family: var(--font-body);
 }
 
+/* ===== SECCIONES DE NAVEGACIÓN ===== */
+.section-header {
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  font-family: var(--font-heading);
+}
+
+/* REGIONES */
+.regiones-section {
+  padding: 2rem;
+  min-height: 50vh;
+}
+
+.regiones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.region-card {
+  cursor: pointer;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.region-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.region-img {
+  position: relative;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+}
+
+.region-img .region-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+}
+
+.region-info {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.region-info h3 {
+  color: var(--color-text-white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* PAÍSES */
+.paises-section {
+  padding: 2rem;
+  min-height: 50vh;
+  position: relative;
+  padding-bottom: 100px;
+}
+
+.paises-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.pais-card {
+  background: white;
+  border-radius: var(--radius-card);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.pais-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-primary);
+}
+
+.pais-bandera {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 15px;
+  border: 3px solid var(--color-border);
+}
+
+.pais-bandera img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pais-bandera-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.pais-info h3 {
+  font-size: 1.2rem;
+  color: var(--color-text-dark);
+  margin-bottom: 5px;
+}
+
+/* CIUDADES */
+.ciudades-section {
+  padding: 2rem;
+  min-height: 50vh;
+  position: relative;
+  padding-bottom: 100px;
+}
+
+.ciudades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.ciudad-card {
+  background: var(--color-background-white);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-left: 4px solid var(--color-primary);
+}
+
+.ciudad-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.ciudad-info h3 {
+  font-size: 1.3rem;
+  color: var(--color-text-dark);
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+/* BOTÓN FLOTANTE DE VOLVER */
+.btn-back-floating {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-primary);
+  border: none;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(181, 147, 26, 0.4);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.btn-back-floating:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(181, 147, 26, 0.5);
+}
+
+.btn-back-floating .arrow {
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-back-floating:hover .arrow {
+  transform: translateX(-4px);
+}
+
+/* EMPTY STATE */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 80px;
+  height: 80px;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.empty-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
+}
+
+.empty-state p {
+  color: var(--color-text-medium);
+  font-family: var(--font-body);
+}
+/* ===================================== */
+
 /* Search Section */
 .search-section {
   padding: 3rem 2rem;
@@ -451,7 +927,9 @@ const buscarVuelos = () => {
 /* Flights Section */
 .flights-section {
   padding: 4rem 2rem;
+  padding-bottom: 100px;
   background: var(--color-background);
+  position: relative;
 }
 
 .container {

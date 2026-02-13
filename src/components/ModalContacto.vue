@@ -88,7 +88,7 @@
 
 <script setup>
 import { ref, watch, computed } from 'vue'
-import { enviarContacto } from '../services/api.js'
+  import { enviarContacto } from '../services/api.js'
 
 // Props para controlar el modal desde el componente padre
 const props = defineProps({
