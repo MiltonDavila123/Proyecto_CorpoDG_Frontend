@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/paquetes/:id',
     name: 'PaqueteDetalle',
-    component: () => import ('../views/Paquetes.vue'),
+    component: () => import('../views/DetallePaquete.vue'),
     props: true
   },
   {

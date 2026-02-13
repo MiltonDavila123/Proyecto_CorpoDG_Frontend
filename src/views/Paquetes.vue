@@ -1,11 +1,11 @@
 <template>
-  <section class="paquetes-hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Paquetes Turísticos</h1>
-      <p>Descubre los mejores destinos del mundo</p>
-    </div>
-  </section>
+    <section class="paquetes-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Paquetes Turísticos</h1>
+        <p>Descubre los mejores destinos del mundo</p>
+      </div>
+    </section>
 
   <!-- VISTA DE REGIONES -->
   <section v-if="vistaActual === 'regiones'" class="regiones-section">
@@ -13,9 +13,9 @@
       <h2>Selecciona una Región</h2>
     </div>
     
-    <div v-if="loading" class="loading">
+    <div v-if="loading || restaurandoEstado" class="loading">
       <div class="spinner"></div>
-      <p>Cargando regiones...</p>
+      <p>Cargando...</p>
     </div>
 
     <div v-else class="regiones-grid">
@@ -129,12 +129,18 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { getRegiones, getPaisesByRegion, getPaquetes } from '../services/api.js'
 import CarruselPaquetes from '../components/CarruselPaquetes.vue'
+
+// Router
+const router = useRouter()
+const route = useRoute()
 
 // Estado
 const vistaActual = ref('regiones') // 'regiones' | 'paises' | 'paquetes'
 const loading = ref(false)
+const restaurandoEstado = ref(false) // Flag para indicar que se está restaurando el estado desde query params
 
 // Datos
 const regiones = ref([])
@@ -186,7 +192,58 @@ const getImagenRegion = (nombre) => {
 
 // Cargar regiones al iniciar
 onMounted(async () => {
-  await cargarRegiones()
+  // Verificar si hay query params para restaurar estado
+  const regionId = route.query.region
+  const paisId = route.query.pais
+  
+  if (regionId) {
+    // Activar loading global de restauración
+    restaurandoEstado.value = true
+    
+    try {
+      await cargarRegiones()
+      
+      // Buscar la región por ID
+      const region = regiones.value.find(r => r.id == regionId)
+      if (region) {
+        regionSeleccionada.value = region
+        
+        if (paisId) {
+          // Cargar países de la región y paquetes del país
+          const [paisesData, paquetesData] = await Promise.all([
+            getPaisesByRegion(region.id),
+            getPaquetes({ region: region.id, pais: paisId })
+          ])
+          
+          paises.value = paisesData
+          paquetesRegion.value = paquetesData
+          
+          // Buscar y seleccionar el país
+          const pais = paisesData.find(p => p.id == paisId)
+          if (pais) {
+            paisSeleccionado.value = pais
+            paquetes.value = paquetesData
+            vistaActual.value = 'paquetes'
+          }
+        } else if (region.nombre === 'ecuador') {
+          // Si es Ecuador sin país específico
+          const paquetesData = await getPaquetes({ region: region.id })
+          paquetes.value = paquetesData
+          paisSeleccionado.value = { id: null, nombre: 'Ecuador' }
+          vistaActual.value = 'paquetes'
+        }
+      }
+    } catch (error) {
+      console.error('Error restaurando estado:', error)
+    } finally {
+      restaurandoEstado.value = false
+      // Limpiar los query params de la URL sin recargar
+      router.replace({ path: '/paquetes', query: {} })
+    }
+  } else {
+    // Flujo normal: solo cargar regiones
+    await cargarRegiones()
+  }
 })
 
 const cargarRegiones = async () => {
@@ -291,9 +348,8 @@ const volverAPaises = () => {
 }
 
 const verOferta = (paquete) => {
-  // Por ahora solo mostramos en consola, después se implementará la navegación
-  console.log('Ver oferta:', paquete)
-  alert(`Ver oferta: ${paquete.titulo}`)
+  // Navegar a la página de detalle del paquete
+  router.push({ name: 'PaqueteDetalle', params: { id: paquete.id } })
 }
 </script>
 

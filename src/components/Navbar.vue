@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar-wrapper" :class="{ 'navbar-scrolled': isScrolled }">
+  <div class="navbar-wrapper" :class="{ 'navbar-scrolled': tieneBackgroundOscuro }">
     <!-- Barra superior con teléfono -->
     <div class="top-bar">
       <div class="phone-info">
@@ -45,11 +45,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute } from 'vue-router'
 import logoUrl from '../assets/images/Logo_letras_blancas.png'
 import ModalContacto from './ModalContacto.vue'
 
+const route = useRoute()
 const isScrolled = ref(false)
+
+// Rutas donde siempre debe tener fondo oscuro (no transparente)
+const rutasConFondoOscuro = computed(() => {
+  return route.path.startsWith('/paquetes/') && route.params.id
+})
+
+// El navbar tiene fondo oscuro si: está scrolleado O está en una ruta que requiere fondo oscuro
+const tieneBackgroundOscuro = computed(() => {
+  return isScrolled.value || rutasConFondoOscuro.value
+})
 
 // ===== MODAL =====
 const mostrarModal = ref(false)
