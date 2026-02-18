@@ -1357,4 +1357,170 @@ const handleContactarDesdePdf = () => {
 .error-state p {
   color: #dc3545;
 }
+
+/* Responsive adicional para secciones de navegación */
+@media (max-width: 992px) {
+  .regiones-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 0 2rem;
+  }
+  
+  .paises-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    padding: 0 2rem;
+  }
+  
+  .ciudades-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    padding: 0 2rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .flights-section {
+    padding: 3rem 1.5rem;
+    padding-bottom: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    height: 70vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+  
+  .regiones-section,
+  .paises-section,
+  .ciudades-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .section-header {
+    padding: 2rem 1rem 1.5rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .regiones-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .region-img {
+    height: 160px;
+  }
+  
+  .region-info h3 {
+    font-size: 1.2rem;
+  }
+  
+  .paises-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 0 0.5rem;
+  }
+  
+  .pais-card {
+    padding: 20px 15px;
+  }
+  
+  .pais-bandera {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .pais-info h3 {
+    font-size: 1rem;
+  }
+  
+  .ciudades-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  .ciudad-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .ciudad-info h3 {
+    font-size: 1.1rem;
+  }
+  
+  .btn-back-floating {
+    bottom: 20px;
+    left: 15px;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+  }
+  
+  .btn-back-floating .arrow {
+    font-size: 1.1rem;
+  }
+  
+  .info-section {
+    padding: 2rem 1rem;
+  }
+  
+  .info-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .info-box {
+    padding: 1.5rem;
+  }
+  
+  .info-box h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .info-box ul li {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    padding-left: 1.2rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-section {
+    height: 60vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+  
+  .regiones-grid,
+  .paises-grid,
+  .ciudades-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn-back-floating {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    justify-content: center;
+    max-width: 280px;
+  }
+}
 </style>

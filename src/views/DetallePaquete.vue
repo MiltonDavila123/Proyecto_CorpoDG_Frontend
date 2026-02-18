@@ -8,7 +8,7 @@
 
     <!-- Error State -->
     <div v-else-if="error" class="error-container">
-      <div class="error-icon">⚠️</div>
+      <div class="error-icon"></div>
       <h2>Error al cargar el paquete</h2>
       <p>{{ error }}</p>
       <button class="btn-volver" @click="$router.back()">
@@ -80,7 +80,7 @@
 
           <!-- Como Reservar -->
           <div class="seccion-informacion">
-            <h3 class="seccion-titulo azul-oscuro">COMO RESERVAR?</h3>
+            <h3 class="seccion-titulo azul-oscuro">¿CÓMO RESERVAR?</h3>
             <div class="seccion-contenido" v-html="formatearContenido(paquete.como_reservar)"></div>
           </div>
 
@@ -155,11 +155,20 @@
           <!-- Destino -->
           <div class="panel-destino">
             <h3 class="panel-titulo verde">Destino</h3>
-            <p class="destino-completo">{{ paquete.destino_completo }}</p>
+            <p class="destino-completo">{{ paquete.pais_nombre }} - {{ paquete.ciudad_nombre }}</p>
             
             <div class="ubicacion">
               <span class="label">Ubicación:</span>
               <div class="mapa-container">
+                <!-- Mapa embebido -->
+                <iframe 
+                  v-if="mapaEmbedUrl"
+                  :src="mapaEmbedUrl"
+                  class="mapa-iframe"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
                 <a v-if="paquete.ubicacion_mapa_url" :href="paquete.ubicacion_mapa_url" target="_blank" class="ver-mapa">
                   <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
@@ -269,13 +278,31 @@
     <button class="btn-back-floating" @click="volver">
       <span class="arrow">←</span> Volver
     </button>
+
+    <!-- MODAL VISOR DE PDF -->
+    <ModalPdfViewer 
+      v-model:visible="mostrarModalPdf"
+      :pdfUrl="paquete?.pdf_url || ''"
+      :titulo="paquete?.titulo || 'Información del paquete'"
+      :subtitulo="`${paquete?.duracion_dias || ''} días / ${paquete?.duracion_noches || ''} noches - ${paquete?.pais_nombre || ''}`"
+      @contactar="handleContactarDesdePdf"
+    />
+
+    <!-- MODAL DE CONTACTO -->
+    <ModalContacto 
+      v-model:visible="mostrarModalContacto"
+      :mensajePredefinido="mensajeReserva"
+      :mensajeReadonly="true"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getPaquete } from '../services/api.js'
+import ModalPdfViewer from '../components/ModalPdfViewer.vue'
+import ModalContacto from '../components/ModalContacto.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -283,6 +310,11 @@ const router = useRouter()
 const paquete = ref(null)
 const loading = ref(true)
 const error = ref(null)
+
+// Estados para los modales
+const mostrarModalPdf = ref(false)
+const mostrarModalContacto = ref(false)
+const mensajeReserva = ref('')
 
 onMounted(async () => {
   const id = route.params.id
@@ -340,6 +372,52 @@ const formatearContenido = (texto) => {
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
 }
 
+// Computed para convertir URL de OpenStreetMap a formato embed
+const mapaEmbedUrl = computed(() => {
+  if (!paquete.value?.ubicacion_mapa_url) return null
+  
+  const url = paquete.value.ubicacion_mapa_url
+  
+  try {
+    // Si ya es una URL de embed, usarla directamente
+    if (url.includes('/export/embed.html')) {
+      return url
+    }
+    
+    // Si es una URL de OpenStreetMap normal: https://www.openstreetmap.org/?#map=12/-2.1703/-79.9506
+    // Extraer zoom, lat, lng del formato #map=zoom/lat/lng
+    const osmMatch = url.match(/#map=([\d]+)\/([\-\d.]+)\/([\-\d.]+)/)
+    if (osmMatch) {
+      const zoom = parseInt(osmMatch[1])
+      const lat = parseFloat(osmMatch[2])
+      const lng = parseFloat(osmMatch[3])
+      
+      // Calcular bounding box basado en el zoom
+      const offset = 0.05 / (zoom / 12) // Ajustar según el zoom
+      const minLng = lng - offset
+      const minLat = lat - offset
+      const maxLng = lng + offset
+      const maxLat = lat + offset
+      
+      return `https://www.openstreetmap.org/export/embed.html?bbox=${minLng},${minLat},${maxLng},${maxLat}&layer=mapnik&marker=${lat},${lng}`
+    }
+    
+    // Si es URL de Google Maps, extraer coordenadas
+    const coordMatch = url.match(/@([\-\d.]+),([\-\d.]+)/)
+    if (coordMatch) {
+      const lat = parseFloat(coordMatch[1])
+      const lng = parseFloat(coordMatch[2])
+      const offset = 0.05
+      return `https://www.openstreetmap.org/export/embed.html?bbox=${lng-offset},${lat-offset},${lng+offset},${lat+offset}&layer=mapnik&marker=${lat},${lng}`
+    }
+    
+    return null
+  } catch (e) {
+    console.error('Error procesando URL del mapa:', e)
+    return null
+  }
+})
+
 // Acciones
 const compartir = async () => {
   if (navigator.share) {
@@ -359,17 +437,27 @@ const compartir = async () => {
   }
 }
 
+// Generar mensaje predeterminado del paquete
+const generarMensajePaquete = () => {
+  if (!paquete.value) return ''
+  const p = paquete.value
+  return `Hola, estoy interesado en el paquete: ${p.titulo}\n\nDestino: ${p.pais_nombre} - ${p.ciudad_nombre || ''}\nDuración: ${p.duracion_dias} días / ${p.duracion_noches} noches\nTipo: ${p.tipo_paquete_display || p.tipo_viaje_display || ''}\nPrecio desde: $${p.precio} ${p.moneda || 'USD'}\n\nPor favor, contáctenme para más información sobre este paquete.`
+}
+
 const contactar = () => {
-  // Emitir evento o abrir modal de contacto
-  const mensaje = `Hola, estoy interesado en el paquete: ${paquete.value.titulo} - ${paquete.value.destino_completo}`
-  const whatsapp = `https://wa.me/?text=${encodeURIComponent(mensaje + ' ' + window.location.href)}`
-  window.open(whatsapp, '_blank')
+  mensajeReserva.value = generarMensajePaquete()
+  mostrarModalContacto.value = true
 }
 
 const verPdf = () => {
   if (paquete.value?.pdf_url) {
-    window.open(paquete.value.pdf_url, '_blank')
+    mensajeReserva.value = generarMensajePaquete()
+    mostrarModalPdf.value = true
   }
+}
+
+const handleContactarDesdePdf = () => {
+  mostrarModalContacto.value = true
 }
 
 // Volver a la pantalla de paquetes con el contexto correcto
@@ -391,17 +479,27 @@ const volver = () => {
 <style scoped>
 /* Variables */
 .detalle-paquete-page {
-  --color-primary: #b5931ae2;
-  --color-primary-dark: #8a7015;
-  --color-verde: #4CAF50;
-  --color-verde-oscuro: #2E7D32;
-  --color-azul: #2196F3;
-  --color-azul-oscuro: #1565C0;
-  --color-rojo: #e53935;
-  --color-naranja: #FF9800;
-  --color-gris: #666;
-  --color-gris-claro: #f5f5f5;
-  --color-texto: #333;
+  --color-primary: #c9a227;
+  --color-primary-dark: #a68419;
+  --color-primary-light: #e6c14a;
+  --color-verde: #27ae60;
+  --color-verde-oscuro: #1e8449;
+  --color-verde-light: #2ecc71;
+  --color-azul: #3498db;
+  --color-azul-oscuro: #2980b9;
+  --color-rojo: #e74c3c;
+  --color-rojo-oscuro: #c0392b;
+  --color-naranja: #f39c12;
+  --color-naranja-oscuro: #d68910;
+  --color-gris: #7f8c8d;
+  --color-gris-claro: #f8f9fa;
+  --color-texto: #2c3e50;
+  --color-texto-light: #34495e;
+  --gradient-gold: linear-gradient(135deg, #c9a227 0%, #e6c14a 50%, #c9a227 100%);
+  --gradient-verde: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  --gradient-rojo: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  --shadow-card: 0 4px 15px rgba(0,0,0,0.1);
+  --shadow-hover: 0 8px 25px rgba(0,0,0,0.15);
 }
 
 .detalle-paquete-page {
@@ -456,15 +554,16 @@ const volver = () => {
 
 .badge-destino {
   display: inline-block;
-  background: var(--color-primary);
-  color: #333;
-  padding: 6px 14px;
-  border-radius: 20px;
+  background: var(--gradient-gold);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 25px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   margin-bottom: 12px;
+  box-shadow: 0 3px 10px rgba(201, 162, 39, 0.3);
 }
 
 .titulo-principal {
@@ -492,20 +591,24 @@ const volver = () => {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
+  padding: 12px 20px;
   border: 2px solid var(--color-verde);
   background: transparent;
   color: var(--color-verde);
   border-radius: 25px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(39, 174, 96, 0.2);
 }
 
 .btn-compartir:hover {
-  background-color: var(--color-verde);
+  background: var(--gradient-verde);
+  border-color: transparent;
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4);
 }
 
 .btn-compartir svg {
@@ -529,9 +632,15 @@ const volver = () => {
 
 .imagen-principal {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s ease;
+}
+
+.imagen-principal:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
 }
 
 .imagen-principal img {
@@ -542,117 +651,202 @@ const volver = () => {
 
 /* Descripción */
 .seccion-descripcion {
-  padding: 20px;
-  background-color: var(--color-gris-claro);
-  border-radius: 8px;
+  padding: 30px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  border-left: 5px solid var(--color-primary);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.seccion-descripcion::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, transparent 70%);
+  border-radius: 0 16px 0 100%;
 }
 
 .titulo-destino {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--color-azul-oscuro);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-primary);
   margin: 0 0 15px 0;
+  letter-spacing: 1px;
+  position: relative;
 }
 
 .descripcion-extensa {
-  color: var(--color-texto);
-  line-height: 1.7;
+  color: var(--color-texto-light);
+  line-height: 1.8;
   margin: 0;
+  font-size: 1rem;
 }
 
 /* Tour Título */
 .tour-titulo {
   text-align: center;
-  padding: 20px;
+  padding: 35px 25px;
+  background: linear-gradient(135deg, #fff 0%, #fdf9e8 100%);
+  border-radius: 16px;
+  border: 2px solid rgba(201, 162, 39, 0.2);
+  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.1);
 }
 
 .dias-destino {
-  display: block;
-  font-size: 20px;
-  color: var(--color-verde);
-  margin-bottom: 10px;
+  display: inline-block;
+  font-size: 18px;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(201, 162, 39, 0.05) 100%);
+  padding: 8px 20px;
+  border-radius: 25px;
 }
 
 .dias-destino strong {
-  color: var(--color-verde-oscuro);
+  color: var(--color-primary-dark);
+  font-weight: 800;
 }
 
 .tour-titulo h3 {
-  font-size: 24px;
-  color: var(--color-azul-oscuro);
+  font-size: 28px;
+  color: var(--color-texto);
   margin: 0;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .tour-titulo .destacado {
-  color: var(--color-verde);
+  color: var(--color-primary);
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Salidas Info */
 .salidas-info {
   text-align: center;
-  padding: 20px;
-  background: linear-gradient(to bottom, #fff, var(--color-gris-claro));
-  border-radius: 8px;
+  padding: 30px 25px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 50%, #ecf0f1 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-card);
 }
 
 .salidas-info h4 {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 700;
   color: var(--color-texto);
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
+  letter-spacing: 1px;
 }
 
 .salidas-info .anio {
   color: var(--color-verde);
+  font-weight: 800;
+  font-size: 24px;
 }
 
 .fechas-salida {
-  color: var(--color-gris);
-  margin: 10px 0;
+  color: var(--color-texto-light);
+  margin: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .reserva-inmediata {
-  color: var(--color-rojo);
-  font-weight: 500;
-  margin: 10px 0;
+  display: block;
+  color: #e74c3c;
+  font-weight: 700;
+  margin: 15px 0;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .reserva-inmediata .stock {
-  color: var(--color-rojo);
-  font-weight: 700;
+  color: #c0392b;
+  font-weight: 800;
 }
 
 .oferta-aplica {
-  color: var(--color-azul-oscuro);
+  color: var(--color-texto-light);
   font-weight: 500;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: rgba(52, 152, 219, 0.08);
+  border-radius: 8px;
+  display: inline-block;
 }
 
 .oferta-aplica .viajar {
   color: var(--color-naranja);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* Secciones de Información */
 .seccion-informacion {
-  padding: 20px;
-  border-top: 1px solid #eee;
+  padding: 25px;
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+}
+
+.seccion-informacion:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
 }
 
 .seccion-titulo {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  margin: 0 0 15px 0;
+  margin: 0 0 18px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.seccion-titulo::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  border-radius: 2px;
 }
 
 .seccion-titulo.azul {
   color: var(--color-azul);
+  border-bottom-color: rgba(52, 152, 219, 0.2);
+}
+
+.seccion-titulo.azul::before {
+  background: var(--color-azul);
 }
 
 .seccion-titulo.azul-oscuro {
   color: var(--color-azul-oscuro);
+  border-bottom-color: rgba(41, 128, 185, 0.2);
+}
+
+.seccion-titulo.azul-oscuro::before {
+  background: var(--color-azul-oscuro);
 }
 
 .seccion-contenido {
-  color: var(--color-texto);
-  line-height: 1.8;
+  color: var(--color-texto-light);
+  line-height: 1.9;
+  font-size: 0.95rem;
 }
 
 .seccion-contenido :deep(strong) {
@@ -664,24 +858,36 @@ const volver = () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: sticky;
+  top: 180px;
+  height: fit-content;
 }
 
 /* Panel de Detalles */
 .panel-detalles,
 .panel-destino,
 .panel-info-adicional {
-  padding: 20px;
+  padding: 22px;
   background-color: #fff;
-  border: 1px solid #eee;
-  border-radius: 8px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s ease;
+}
+
+.panel-detalles:hover,
+.panel-destino:hover,
+.panel-info-adicional:hover {
+  box-shadow: var(--shadow-hover);
 }
 
 .panel-titulo {
   font-size: 18px;
   font-weight: 700;
   margin: 0 0 15px 0;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--color-primary);
+  color: var(--color-texto);
 }
 
 .panel-titulo.verde {
@@ -691,33 +897,54 @@ const volver = () => {
 
 .detalle-item,
 .info-item {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.detalle-item:last-child,
+.info-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .detalle-item .label,
 .info-item .label {
   display: block;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-texto);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
 }
 
 .detalle-item .valor,
 .info-item .valor {
-  color: var(--color-gris);
+  color: var(--color-texto-light);
+  font-size: 0.95rem;
 }
 
 .detalle-item .valor.link {
   color: var(--color-azul);
   cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.detalle-item .valor.link:hover {
+  color: var(--color-azul-oscuro);
 }
 
 .valor-multilinea {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  color: var(--color-rojo);
   font-size: 14px;
+  font-weight: 600;
+}
+
+.valor-multilinea span {
+  color: var(--color-naranja);
 }
 
 .aerolinea-info {
@@ -736,20 +963,49 @@ const volver = () => {
 }
 
 .ubicacion {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.mapa-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.mapa-iframe {
+  width: 100%;
+  height: 300px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.mapa-iframe:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .ver-mapa {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-azul);
+  color: var(--color-verde);
   text-decoration: none;
   font-size: 14px;
+  font-weight: 500;
+  align-self: flex-start;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .ver-mapa:hover {
-  text-decoration: underline;
+  background-color: rgba(76, 175, 80, 0.1);
+  color: var(--color-verde-oscuro);
+  text-decoration: none;
 }
 
 .bandera-pais {
@@ -791,19 +1047,28 @@ const volver = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 20px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-  border-radius: 8px;
+  gap: 12px;
+  padding: 25px;
+  background: var(--gradient-gold);
+  border-radius: 12px;
   color: white;
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.4);
+  transition: all 0.3s ease;
+}
+
+.panel-precio:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(201, 162, 39, 0.5);
 }
 
 .desde-badge {
-  background-color: rgba(255,255,255,0.2);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  background-color: rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .precio-valor {
@@ -818,29 +1083,44 @@ const volver = () => {
 
 /* Panel Incluye */
 .panel-incluye {
-  padding: 20px;
-  background-color: var(--color-gris-claro);
-  border-radius: 8px;
+  padding: 22px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ecf0f1 100%);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
 }
 
 .panel-incluye h4 {
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--color-texto);
-  margin: 0 0 15px 0;
+  margin: 0 0 18px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .incluye-icons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 12px;
 }
 
 .incluye-icons .icon-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  padding: 12px 8px;
+  background: white;
+  border-radius: 10px;
   color: var(--color-primary-dark);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.incluye-icons .icon-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 162, 39, 0.2);
+  color: var(--color-primary);
 }
 
 .incluye-icons .icon-item svg {
@@ -861,33 +1141,39 @@ const volver = () => {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 15px 20px;
+  padding: 16px 24px;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-reservar {
-  background-color: var(--color-verde);
+  background: var(--gradient-verde);
   color: white;
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
 }
 
 .btn-reservar:hover {
-  background-color: var(--color-verde-oscuro);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--color-verde-oscuro) 0%, var(--color-verde) 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.5);
 }
 
 .btn-ver-pdf {
-  background-color: var(--color-rojo);
+  background: var(--gradient-rojo);
   color: white;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
 }
 
 .btn-ver-pdf:hover {
-  background-color: #c62828;
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--color-rojo-oscuro) 0%, var(--color-rojo) 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
 }
 
 /* Botón Volver Flotante */
@@ -899,23 +1185,23 @@ const volver = () => {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--color-primary);
+  background: var(--gradient-gold);
   border: none;
   color: white;
-  padding: 14px 24px;
+  padding: 14px 28px;
   border-radius: 50px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 600;
-  box-shadow: 0 4px 20px rgba(181, 147, 26, 0.4);
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(201, 162, 39, 0.25);
   transition: all 0.3s ease;
   z-index: 100;
 }
 
 .btn-back-floating:hover {
-  background: var(--color-primary-dark);
-  transform: translateX(-50%) translateY(-3px);
-  box-shadow: 0 6px 25px rgba(181, 147, 26, 0.5);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  transform: translateX(-50%) translateY(-4px);
+  box-shadow: 0 6px 20px rgba(201, 162, 39, 0.35);
 }
 
 .btn-back-floating .arrow {
@@ -928,12 +1214,38 @@ const volver = () => {
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .detalle-paquete-page {
+    padding: 25px 30px;
+  }
+  
+  .main-grid {
+    grid-template-columns: 1fr 320px;
+    gap: 25px;
+  }
+}
+
 @media (max-width: 1024px) {
   .main-grid {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
 
+  /* En tablet/móvil, mantener el orden natural: imagen primero */
+  .columna-izquierda {
+    order: 1;
+  }
+  
   .columna-derecha {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: static;
+  }
+  
+  /* Mover imagen al principio de todo */
+  .imagen-principal {
     order: -1;
   }
 }
@@ -967,7 +1279,148 @@ const volver = () => {
   }
 
   .incluye-icons {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .seccion-descripcion,
+  .seccion-informacion {
+    padding: 18px;
+  }
+  
+  .titulo-destino {
+    font-size: 18px;
+  }
+  
+  .tour-titulo h3 {
+    font-size: 20px;
+  }
+  
+  .dias-destino {
+    font-size: 16px;
+  }
+  
+  .mapa-iframe {
+    height: 220px;
+  }
+  
+  .btn-back-floating {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .precio-valor {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 576px) {
+  .detalle-paquete-page {
+    padding: 15px 12px;
+    margin-top: 120px;
+  }
+  
+  .header-paquete {
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .badge-destino {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  .titulo-principal {
+    font-size: 20px;
+  }
+  
+  .subtitulo {
+    font-size: 12px;
+  }
+  
+  .panel-detalles,
+  .panel-destino,
+  .panel-info-adicional,
+  .panel-incluye {
+    padding: 15px;
+  }
+  
+  .panel-titulo {
+    font-size: 16px;
+  }
+  
+  .detalle-item .label,
+  .info-item .label {
+    font-size: 0.85rem;
+  }
+  
+  .precio-valor {
+    font-size: 26px;
+  }
+  
+  .incluye-icons {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  
+  .incluye-icons .icon-item svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .incluye-icons .icon-item span {
+    font-size: 10px;
+  }
+  
+  .btn-reservar,
+  .btn-ver-pdf {
+    padding: 14px 18px;
+    font-size: 13px;
+  }
+  
+  .mapa-iframe {
+    height: 180px;
+  }
+  
+  .btn-back-floating {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    bottom: 20px;
+  }
+  
+  .seccion-titulo {
+    font-size: 16px;
+  }
+  
+  .seccion-contenido {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 400px) {
+  .detalle-paquete-page {
+    padding: 12px 10px;
+    margin-top: 110px;
+  }
+  
+  .titulo-principal {
+    font-size: 18px;
+  }
+  
+  .precio-valor {
+    font-size: 24px;
+  }
+  
+  .btn-back-floating {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 260px;
+    justify-content: center;
+  }
+  
+  .btn-back-floating:hover {
+    transform: translateX(-50%) translateY(-3px);
   }
 }
 </style>

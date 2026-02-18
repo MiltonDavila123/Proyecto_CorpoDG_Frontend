@@ -4,6 +4,42 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Mejoras para imágenes responsive */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Mejoras para iframes responsive */
+iframe {
+    max-width: 100%;
+}
+
+/* Mejoras para inputs en móviles */
+input, textarea, select, button {
+    font-size: 16px; /* Evita zoom en iOS */
+}
+
+/* Utilidades responsive */
+@media (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
 }

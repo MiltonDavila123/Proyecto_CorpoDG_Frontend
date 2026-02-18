@@ -190,6 +190,121 @@ h2 {
   display: block;
   margin-top: 10px;
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .content-section {
+    padding: 60px 60px;
+  }
+  
+  .content-wrapper {
+    gap: 50px;
+  }
+}
+
+@media (max-width: 992px) {
+  h2 {
+    font-size: 2.5rem;
+  }
+  
+  .content-section {
+    padding: 50px 40px;
+    gap: 50px;
+  }
+  
+  .content-wrapper {
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .card {
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .adventure-text h2 {
+    font-size: 2.5rem;
+  }
+  
+  .adventure-text .bold {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 90vh;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    padding: 0 15px;
+  }
+  
+  .content-section {
+    padding: 40px 25px;
+    gap: 40px;
+    margin-top: -30px;
+  }
+  
+  .card {
+    padding: 30px 25px;
+  }
+  
+  .card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .adventure-text h2 {
+    font-size: 2rem;
+  }
+  
+  .adventure-text .bold {
+    font-size: 2.5rem;
+  }
+  
+  .adventure-text {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 85vh;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+    line-height: 1.4;
+  }
+  
+  .content-section {
+    padding: 30px 20px;
+    gap: 30px;
+    margin-top: -20px;
+  }
+  
+  .card {
+    padding: 25px 20px;
+  }
+  
+  .card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .card p {
+    font-size: 0.95rem;
+  }
+  
+  .adventure-text h2 {
+    font-size: 1.6rem;
+  }
+  
+  .adventure-text .bold {
+    font-size: 2rem;
+  }
+}
 </style>
 
 <script setup>

@@ -179,4 +179,118 @@ footer {
     font-size: 0.95rem;
     color: #888;
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .footer-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem 1.5rem;
+    }
+    
+    .mapa-right {
+        margin-left: 0;
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .mapa-right iframe {
+        width: 100%;
+        max-width: 470px;
+    }
+    
+    .logos-contacto {
+        min-width: auto;
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-flex {
+        padding: 1.5rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .mapa-right iframe {
+        height: 250px;
+    }
+    
+    .logos {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .footer-logo {
+        height: 90px;
+    }
+    
+    .info-extra h3 {
+        font-size: 1.1rem;
+    }
+    
+    .info-extra {
+        font-size: 0.95rem;
+    }
+    
+    .mapa-info h3 {
+        font-size: 1.1rem;
+    }
+    
+    .mapa-info p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    footer {
+        padding: 0.1rem 0 0.3rem 0;
+    }
+    
+    .footer-flex {
+        padding: 1rem 0.75rem;
+        gap: 1.2rem;
+    }
+    
+    .mapa-right iframe {
+        height: 200px;
+    }
+    
+    .footer-logo {
+        height: 80px;
+    }
+    
+    .footer-logo-superior {
+        height: 65px;
+    }
+    
+    .logo-superior {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .copyright {
+        margin-top: 1rem;
+        font-size: 0.85rem;
+        padding: 0 1rem;
+    }
+    
+    .info-extra h3 {
+        font-size: 1rem;
+    }
+    
+    .info-extra {
+        font-size: 0.9rem;
+    }
+    
+    .mapa-info h3 {
+        font-size: 1rem;
+    }
+    
+    .mapa-info p {
+        font-size: 0.9rem;
+    }
+}
 </style>

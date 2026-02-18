@@ -488,5 +488,78 @@ defineExpose({
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .modal-contenido {
+    padding: 30px 20px;
+    width: 95%;
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+  
+  .modal-titulo {
+    font-size: 1.5rem;
+  }
+  
+  .modal-subtitulo {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  
+  .modal-form {
+    gap: 14px;
+  }
+  
+  .form-grupo input,
+  .form-grupo textarea {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+  
+  .btn-enviar {
+    padding: 12px 25px;
+    font-size: 0.95rem;
+  }
+  
+  .modal-confirmacion,
+  .modal-loading {
+    max-width: 90%;
+  }
+  
+  .confirmacion-icono {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+  
+  .confirmacion-titulo {
+    font-size: 1.3rem;
+  }
+  
+  .confirmacion-texto {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .modal-contenido {
+    padding: 25px 15px;
+  }
+  
+  .modal-titulo {
+    font-size: 1.3rem;
+  }
+  
+  .form-grupo label {
+    font-size: 0.85rem;
+  }
+  
+  .form-grupo input,
+  .form-grupo textarea {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
 /* ============================= */
 </style>

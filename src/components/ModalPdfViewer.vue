@@ -27,7 +27,7 @@
 
       <div class="pdf-footer">
         <a 
-          :href="pdfUrl" 
+          :href="pdfUrlView" 
           target="_blank" 
           download 
           class="btn-descargar"
@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 const props = defineProps({
   visible: {
@@ -67,6 +67,13 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:visible', 'contactar'])
+
+// Convertir URL de preview a view para descarga
+const pdfUrlView = computed(() => {
+  if (!props.pdfUrl) return ''
+  // Si la URL contiene /preview, reemplazarlo con /view
+  return props.pdfUrl.replace('/preview', '/view')
+})
 
 const cerrar = () => {
   emit('update:visible', false)

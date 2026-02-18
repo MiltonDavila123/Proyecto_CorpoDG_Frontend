@@ -111,7 +111,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 
 // Props
 const props = defineProps({
@@ -135,14 +135,32 @@ defineEmits(['reservar'])
 
 // Estado del carrusel
 const currentSlide = ref(0)
-const slideWidth = computed(() => 100)
+const itemsPerView = ref(3)
 
-const totalPages = computed(() => {
-  if (props.vuelos.length <= props.itemsPerSlide) return 1
-  return Math.ceil(props.vuelos.length / props.itemsPerSlide)
+// Determinar items por vista según el ancho de pantalla
+const updateItemsPerView = () => {
+  const width = window.innerWidth
+  if (width <= 768) {
+    itemsPerView.value = 1
+  } else if (width <= 1200) {
+    itemsPerView.value = 2
+  } else {
+    itemsPerView.value = 3
+  }
+}
+
+const slideWidth = computed(() => {
+  return 100 / itemsPerView.value
 })
 
-const maxSlide = computed(() => Math.max(0, totalPages.value - 1))
+const totalPages = computed(() => {
+  if (props.vuelos.length <= itemsPerView.value) return 1
+  return Math.ceil(props.vuelos.length / itemsPerView.value)
+})
+
+const maxSlide = computed(() => {
+  return Math.ceil(props.vuelos.length / itemsPerView.value) - 1
+})
 
 // Métodos de navegación
 const prevSlide = () => {
@@ -165,6 +183,24 @@ const goToSlide = (index) => {
 watch(() => props.vuelos, () => {
   currentSlide.value = 0
 })
+
+// Lifecycle hooks
+onMounted(() => {
+  updateItemsPerView()
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+const handleResize = () => {
+  updateItemsPerView()
+  // Ajustar slide actual si es necesario
+  if (currentSlide.value > maxSlide.value) {
+    currentSlide.value = maxSlide.value
+  }
+}
 
 // Utilidades de formato
 const formatTipoVuelo = (tipo) => {
@@ -519,11 +555,15 @@ const getVueloImagen = (vuelo) => {
     flex: 0 0 calc(50% - 20px);
     min-width: calc(50% - 20px);
   }
+  
+  .vuelos-carousel-container {
+    padding: 0 55px;
+  }
 }
 
 @media (max-width: 768px) {
   .vuelos-carousel-container {
-    padding: 0 50px;
+    padding: 0 45px;
   }
 
   .vuelos-carousel .vuelo-card {
@@ -536,9 +576,22 @@ const getVueloImagen = (vuelo) => {
     height: 40px;
   }
   
+  .carousel-arrow-left {
+    left: 5px;
+  }
+  
+  .carousel-arrow-right {
+    right: 5px;
+  }
+  
   .carousel-arrow svg {
     width: 20px;
     height: 20px;
+  }
+  
+  /* Ajustes de tarjeta */
+  .vuelo-card {
+    max-width: 100%;
   }
 
   .route-item h3 {
@@ -558,10 +611,24 @@ const getVueloImagen = (vuelo) => {
 
   .btn-book {
     width: 100%;
+    padding: 12px;
+  }
+  
+  .price {
+    font-size: 2rem;
   }
 }
 
 @media (max-width: 480px) {
+  .vuelos-carousel-container {
+    padding: 0 40px;
+  }
+  
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
+  }
+  
   .vuelo-route {
     flex-direction: column;
     gap: 1rem;
@@ -576,7 +643,20 @@ const getVueloImagen = (vuelo) => {
   }
 
   .price {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
+  }
+  
+  .btn-book {
+    font-size: 0.9rem;
+  }
+  
+  .carousel-indicators {
+    gap: 6px;
+  }
+  
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
   }
 }
 </style>

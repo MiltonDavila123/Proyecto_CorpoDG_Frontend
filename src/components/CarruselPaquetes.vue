@@ -143,7 +143,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 
 // Props
 const props = defineProps({
@@ -163,14 +163,32 @@ defineEmits(['ver-oferta'])
 
 // Estado del carrusel
 const currentSlide = ref(0)
-const slideWidth = computed(() => 100)
+const itemsPerView = ref(3)
 
-const totalPages = computed(() => {
-  if (props.paquetes.length <= props.itemsPerSlide) return 1
-  return Math.ceil(props.paquetes.length / props.itemsPerSlide)
+// Determinar items por vista según el ancho de pantalla
+const updateItemsPerView = () => {
+  const width = window.innerWidth
+  if (width <= 768) {
+    itemsPerView.value = 1
+  } else if (width <= 1200) {
+    itemsPerView.value = 2
+  } else {
+    itemsPerView.value = 3
+  }
+}
+
+const slideWidth = computed(() => {
+  return 100 / itemsPerView.value
 })
 
-const maxSlide = computed(() => Math.max(0, totalPages.value - 1))
+const totalPages = computed(() => {
+  if (props.paquetes.length <= itemsPerView.value) return 1
+  return Math.ceil(props.paquetes.length / itemsPerView.value)
+})
+
+const maxSlide = computed(() => {
+  return Math.ceil(props.paquetes.length / itemsPerView.value) - 1
+})
 
 // Métodos de navegación
 const prevSlide = () => {
@@ -193,6 +211,24 @@ const goToSlide = (index) => {
 watch(() => props.paquetes, () => {
   currentSlide.value = 0
 })
+
+// Lifecycle hooks
+onMounted(() => {
+  updateItemsPerView()
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+const handleResize = () => {
+  updateItemsPerView()
+  // Ajustar slide actual si es necesario
+  if (currentSlide.value > maxSlide.value) {
+    currentSlide.value = maxSlide.value
+  }
+}
 
 // Utilidades de formato
 const obtenerAnioSalida = (paquete) => {
@@ -658,12 +694,16 @@ const formatearPrecio = (precio) => {
     flex: 0 0 calc(50% - 20px);
     min-width: calc(50% - 20px);
   }
+  
+  .paquetes-carousel-container {
+    padding: 0 55px;
+  }
 }
 
 @media (max-width: 768px) {
   /* Carrusel en móvil */
   .paquetes-carousel-container {
-    padding: 0 50px;
+    padding: 0 45px;
   }
 
   .paquetes-carousel .paquete-card {
@@ -676,9 +716,27 @@ const formatearPrecio = (precio) => {
     height: 40px;
   }
   
+  .carousel-arrow-left {
+    left: 5px;
+  }
+  
+  .carousel-arrow-right {
+    right: 5px;
+  }
+  
   .carousel-arrow svg {
     width: 20px;
     height: 20px;
+  }
+  
+  /* Ajustes de tarjeta */
+  .paquete-card {
+    max-width: 100%;
+  }
+  
+  .paquete-titulo h3 {
+    font-size: 1.3rem;
+    line-height: 1.4;
   }
   
   .paquete-tipo-duracion,
@@ -687,19 +745,66 @@ const formatearPrecio = (precio) => {
     gap: 10px;
   }
   
+  .detalle-item {
+    width: 100%;
+  }
+  
   .detalle-item.aerolinea {
     align-items: flex-start;
+  }
+  
+  .paquete-precio .precio-valor {
+    font-size: 2rem;
+  }
+  
+  .incluye-icons {
+    gap: 12px;
+  }
+  
+  .icon-item svg {
+    width: 28px;
+    height: 28px;
   }
 }
 
 @media (max-width: 480px) {
+  .paquetes-carousel-container {
+    padding: 0 40px;
+  }
+  
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
+  }
+  
   .paquete-header {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    align-items: flex-start;
   }
   
   .paquete-precio {
     text-align: left;
+    width: 100%;
+  }
+  
+  .paquete-titulo h3 {
+    font-size: 1.2rem;
+  }
+  
+  .btn-ver-oferta {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+  
+  .carousel-indicators {
+    gap: 6px;
+  }
+  
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
   }
 }
 </style>

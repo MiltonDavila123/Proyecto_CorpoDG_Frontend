@@ -126,4 +126,86 @@ const destinos = ref([
   color: #666;
   font-size: 0.95rem;
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .destinos-grid {
+    padding: 40px;
+    gap: 25px;
+  }
+  
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .destinos-hero {
+    height: 70vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+  
+  .destinos-grid {
+    padding: 30px 20px;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .destino-img {
+    height: 180px;
+  }
+  
+  .destino-info {
+    padding: 15px;
+  }
+  
+  .destino-info h3 {
+    font-size: 1.2rem;
+  }
+  
+  .destino-info p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .destinos-hero {
+    height: 60vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+    padding: 0 15px;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+    padding: 0 15px;
+  }
+  
+  .destinos-grid {
+    padding: 25px 15px;
+    gap: 15px;
+    grid-template-columns: 1fr;
+  }
+  
+  .destino-card {
+    border-radius: 10px;
+  }
+  
+  .destino-img {
+    height: 160px;
+  }
+}
 </style>

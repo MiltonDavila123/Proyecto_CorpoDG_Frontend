@@ -670,7 +670,38 @@ const verOferta = (paquete) => {
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .hero-content h1 {
+    font-size: 2.8rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+  
+  .regiones-section,
+  .paises-section {
+    padding: 40px 30px;
+  }
+  
+  .paquetes-section {
+    padding: 40px 30px;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .regiones-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
+  .paquetes-hero {
+    height: 70vh;
+  }
+  
   .hero-content h1 {
     font-size: 2.5rem;
   }
@@ -695,6 +726,23 @@ const verOferta = (paquete) => {
     gap: 15px;
   }
   
+  .region-img {
+    height: 170px;
+  }
+  
+  .region-info h3 {
+    font-size: 1.3rem;
+  }
+  
+  .pais-card {
+    padding: 20px;
+  }
+  
+  .pais-bandera {
+    width: 65px;
+    height: 65px;
+  }
+  
   .btn-back-floating {
     bottom: 20px;
     left: 20px;
@@ -712,6 +760,63 @@ const verOferta = (paquete) => {
     font-size: 2rem;
   }
   
+  .hero-content p {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+  
+  .regiones-section,
+  .paises-section,
+  .paquetes-section {
+    padding: 30px 15px;
+    padding-bottom: 100px;
+  }
+  
+  .section-header {
+    padding: 2rem 1rem 1.5rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .regiones-grid {
+    grid-template-columns: 1fr;
+    padding: 0 0.5rem;
+  }
+  
+  .paises-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    padding: 0 0.5rem;
+    gap: 12px;
+  }
+  
+  .region-img {
+    height: 150px;
+  }
+  
+  .region-info {
+    padding: 1rem;
+  }
+  
+  .region-info h3 {
+    font-size: 1.2rem;
+  }
+  
+  .pais-card {
+    padding: 15px;
+  }
+  
+  .pais-bandera {
+    width: 55px;
+    height: 55px;
+    margin-bottom: 10px;
+  }
+  
+  .pais-info h3 {
+    font-size: 1rem;
+  }
+  
   .btn-back-floating {
     bottom: 15px;
     left: 15px;
@@ -721,6 +826,43 @@ const verOferta = (paquete) => {
   
   .btn-back-floating .arrow {
     font-size: 1.1rem;
+  }
+  
+  .no-paquetes {
+    padding: 50px 15px;
+  }
+  
+  .no-paquetes-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .no-paquetes h3 {
+    font-size: 1.1rem;
+  }
+  
+  .no-paquetes p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .paises-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .pais-card {
+    padding: 12px;
+  }
+  
+  .pais-bandera {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .pais-info h3 {
+    font-size: 0.9rem;
   }
 }
 </style>
