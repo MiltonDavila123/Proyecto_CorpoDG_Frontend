@@ -595,12 +595,12 @@ const verOferta = (paquete) => {
 }
 
 .pais-bandera {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  width: 100px;
+  height: 60px;
+  border-radius: 0;
   overflow: hidden;
   margin-bottom: 15px;
-  border: 3px solid var(--color-border);
+  border: 2px solid var(--color-border);
 }
 
 .pais-bandera img {
@@ -739,8 +739,8 @@ const verOferta = (paquete) => {
   }
   
   .pais-bandera {
-    width: 65px;
-    height: 65px;
+    width: 80px;
+    height: 48px;
   }
   
   .btn-back-floating {
@@ -808,8 +808,8 @@ const verOferta = (paquete) => {
   }
   
   .pais-bandera {
-    width: 55px;
-    height: 55px;
+    width: 70px;
+    height: 42px;
     margin-bottom: 10px;
   }
   
@@ -857,8 +857,8 @@ const verOferta = (paquete) => {
   }
   
   .pais-bandera {
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 36px;
   }
   
   .pais-info h3 {
