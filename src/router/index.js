@@ -24,11 +24,6 @@ const routes = [
     component: () => import('../views/Boletos.vue')
   },
   {
-    path: '/hoteles',
-    name: 'Hoteles',
-    component: () => import('../views/Hoteles.vue')
-  },
-  {
     path: '/renta_auto',
     name: 'Renta Auto',
     component: () => import('../views/Renta_Autos.vue')
@@ -37,6 +32,11 @@ const routes = [
     path: '/destinos',
     name: 'Destinos',
     component: () => import('../views/Destinos.vue')
+  },
+  {
+    path: '/vuelos/resultados',
+    name: 'ResultadosVuelos',
+    component: () => import('../views/ResultadosVuelos.vue')
   }
 ]
 

@@ -32,8 +32,21 @@
       
       <transition name="slide">
         <div class="form-content" v-show="isExpanded">
+          <div class="form-notice">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>
+              <strong>Verifica tus datos antes de buscar.</strong>
+              Por seguridad del navegador, el formulario puede mostrar información de una búsqueda anterior.
+              Asegúrate de actualizar el lugar de recogida y las fechas antes de presionar <em>Buscar</em>.
+            </span>
+          </div>
           <iframe 
-            src="https://subsite.agentcars.com/es/site/form-iframe?agency=trip593-" 
+            :src="iframeSrc"
+            :key="iframeKey"
             class="rental-iframe"
             frameborder="0"
             title="Formulario de Renta de Autos"
@@ -51,16 +64,37 @@ export default {
   name: 'RentaAutos',
   data() {
     return {
-      isExpanded: false
+      isExpanded: false,
+      iframeSrc: '',
+      iframeKey: 0
     }
   },
   methods: {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
+    },
+    resetIframe() {
+      const base = 'https://subsite.agentcars.com/es/site/form-iframe?agency=trip593-';
+      this.iframeSrc = '';
+      this.$nextTick(() => {
+        this.iframeKey = Date.now();
+        this.iframeSrc = `${base}&_t=${Date.now()}`;
+      });
     }
   },
   mounted() {
+    this.isExpanded = false;
+    this.resetIframe();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+  activated() {
+    this.isExpanded = false;
+    this.resetIframe();
+  },
+  beforeRouteLeave(to, from, next) {
+    this.isExpanded = false;
+    this.iframeSrc = '';
+    next();
   }
 }
 </script>
@@ -284,8 +318,39 @@ export default {
 
 /* Form Content */
 .form-content {
-  padding: 30px;
+  padding: 0;
   background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #f8f9fa 100%);
+  overflow: hidden;
+}
+
+.form-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff8e1;
+  border-left: 4px solid #d4af37;
+  padding: 14px 24px;
+  font-size: 0.92rem;
+  color: #5a4500;
+  line-height: 1.5;
+}
+
+.form-notice svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  stroke: #b5931a;
+}
+
+.form-notice strong {
+  color: #3d2f00;
+}
+
+.form-notice em {
+  font-style: normal;
+  font-weight: 600;
+  color: #b5931a;
 }
 
 /* Slide Transition */

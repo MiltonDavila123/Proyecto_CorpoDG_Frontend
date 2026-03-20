@@ -33,11 +33,11 @@
             :placeholder="mensajePredefinido ? '' : '¿En qué podemos ayudarte?'" 
             rows="4" 
             required 
-            maxlength="500"
+            :maxlength="maxMensajeLength"
             :readonly="mensajeReadonly"
             :class="{ 'mensaje-readonly': mensajeReadonly }"
           ></textarea>
-          <span class="contador" v-if="!mensajeReadonly">{{ formulario.mensaje.length }}/500</span>
+          <span class="contador" v-if="!mensajeReadonly">{{ formulario.mensaje.length }}/{{ maxMensajeLength }}</span>
           <span class="mensaje-info" v-if="mensajeReadonly">
             <span class="info-icon"></span> Mensaje de reserva predefinido
           </span>
@@ -100,11 +100,45 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  mensajeInterno: {
+    type: String,
+    default: ''
+  },
   mensajeReadonly: {
     type: Boolean,
     default: false
   }
 })
+
+const LIMITE_MENSAJE_BACKEND = 500
+const maxMensajeLength = computed(() => (props.mensajeReadonly ? 2500 : 500))
+
+const truncarConElipsis = (texto, limite) => {
+  const valor = String(texto || '')
+  if (valor.length <= limite) return valor
+  if (limite <= 3) return valor.slice(0, limite)
+  return `${valor.slice(0, limite - 3).trimEnd()}...`
+}
+
+const construirMensajeParaEnvio = () => {
+  const mensajeVisible = String(formulario.value.mensaje || '').trim()
+  const mensajeInterno = String(props.mensajeInterno || '').trim()
+
+  if (!mensajeInterno) {
+    return truncarConElipsis(mensajeVisible, LIMITE_MENSAJE_BACKEND)
+  }
+
+  const separador = '\n\n'
+  const espacioInterno = mensajeInterno.length + separador.length
+  const espacioVisible = LIMITE_MENSAJE_BACKEND - espacioInterno
+
+  if (espacioVisible <= 0) {
+    return truncarConElipsis(mensajeInterno, LIMITE_MENSAJE_BACKEND)
+  }
+
+  const mensajeVisibleAjustado = truncarConElipsis(mensajeVisible, espacioVisible)
+  return `${mensajeVisibleAjustado}${separador}${mensajeInterno}`
+}
 
 // Emits para comunicar eventos al componente padre
 const emit = defineEmits(['update:visible', 'enviado', 'error'])
@@ -186,12 +220,14 @@ const soloNumeros = () => {
 
 const enviarFormulario = async () => {
   try {
+    const mensajeFinal = construirMensajeParaEnvio()
+
     // Guardar los datos antes de cerrar el modal
     const datosEnvio = {
       nombre_completo: formulario.value.nombre,
       email: formulario.value.email,
       telefono: formulario.value.telefono,
-      mensaje: formulario.value.mensaje
+      mensaje: mensajeFinal
     }
     
     // Mostrar modal de cargando

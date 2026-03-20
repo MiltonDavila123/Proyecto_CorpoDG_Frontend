@@ -1,9 +1,13 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import ModalContacto from '../components/ModalContacto.vue'
 import ModalPdfViewer from '../components/ModalPdfViewer.vue'
 import CarruselVuelos from '../components/CarruselVuelos.vue'
+import BuscadorVuelos from '../components/BuscadorVuelos.vue'
 import { getVuelos, getRegiones, getPaisesByRegion, getCiudades } from '../services/api.js'
+
+const router = useRouter()
 
 // ===== ICONOS SVG PERSONALIZABLES =====
 const iconos = {
@@ -257,6 +261,47 @@ const handleReservar = (vuelo) => {
 const handleContactarDesdePdf = () => {
   mostrarModalContacto.value = true
 }
+
+// ===== DATOS DE BÚSQUEDA DE VUELOS =====
+const datosBusqueda = ref(null)
+
+const handleBuscarVuelos = (datos) => {
+  // Guardar todos los datos de búsqueda para uso posterior
+  datosBusqueda.value = {
+    origen: datos.origen,
+    destino: datos.destino,
+    origenLabel: datos.origenLabel,
+    destinoLabel: datos.destinoLabel,
+    tipoViaje: datos.tipoViaje,
+    fechaIda: datos.fechaIda,
+    fechaVuelta: datos.fechaVuelta,
+    adultos: datos.adultos,
+    ninos: datos.ninos,
+    infantes: datos.infantes,
+    clase: datos.clase,
+    limite: datos.limite || 50,
+    totalPasajeros: datos.adultos + datos.ninos + datos.infantes
+  }
+
+  // Navegar a la página de resultados con los datos como query params
+  router.push({
+    name: 'ResultadosVuelos',
+    query: {
+      origin: datos.origen,
+      destination: datos.destino,
+      date: datos.fechaIda,
+      return_date: datos.tipoViaje === 'idaVuelta' ? datos.fechaVuelta : '',
+      adults: datos.adultos,
+      children: datos.ninos,
+      infants: datos.infantes,
+      cabin_class: datos.clase,
+      limit: datos.limite || 50,
+      origenLabel: datos.origenLabel,
+      destinoLabel: datos.destinoLabel,
+      tipoViaje: datos.tipoViaje
+    }
+  })
+}
 </script>
 
 <template>
@@ -269,6 +314,9 @@ const handleContactarDesdePdf = () => {
         <p>Encuentra los mejores vuelos al mejor precio</p>
       </div>
     </section>
+
+    <!-- BUSCADOR DE VUELOS -->
+    <BuscadorVuelos @buscar="handleBuscarVuelos" />
 
     <!-- VISTA DE REGIONES -->
     <section v-if="vistaActual === 'regiones'" class="regiones-section">

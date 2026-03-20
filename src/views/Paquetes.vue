@@ -209,21 +209,20 @@ onMounted(async () => {
         regionSeleccionada.value = region
         
         if (paisId) {
-          // Cargar países de la región, paquetes de la región completa, y paquetes del país específico
-          const [paisesData, paquetesRegionData, paquetesPaisData] = await Promise.all([
+          // Cargar países de la región y paquetes del país
+          const [paisesData, paquetesData] = await Promise.all([
             getPaisesByRegion(region.id),
-            getPaquetes({ region: region.id }),
             getPaquetes({ region: region.id, pais: paisId })
           ])
           
           paises.value = paisesData
-          paquetesRegion.value = paquetesRegionData // Guardar TODOS los paquetes de la región
+          paquetesRegion.value = paquetesData
           
           // Buscar y seleccionar el país
           const pais = paisesData.find(p => p.id == paisId)
           if (pais) {
             paisSeleccionado.value = pais
-            paquetes.value = paquetesPaisData // Solo los paquetes del país seleccionado
+            paquetes.value = paquetesData
             vistaActual.value = 'paquetes'
           }
         } else if (region.nombre === 'ecuador') {
@@ -335,7 +334,7 @@ const volverARegiones = () => {
   paquetes.value = []
 }
 
-const volverAPaises = async () => {
+const volverAPaises = () => {
   // Si es Ecuador, volver directo a regiones (no hay vista de países)
   if (regionSeleccionada.value?.nombre === 'ecuador') {
     volverARegiones()
@@ -346,23 +345,6 @@ const volverAPaises = async () => {
   vistaActual.value = 'paises'
   paisSeleccionado.value = null
   paquetes.value = []
-  
-  // Si no hay paquetes de la región cargados o están filtrados, recargarlos
-  if (paquetesRegion.value.length === 0 || paisesConPaquetes.value.length <= 1) {
-    loading.value = true
-    try {
-      const [paisesData, paquetesData] = await Promise.all([
-        getPaisesByRegion(regionSeleccionada.value.id),
-        getPaquetes({ region: regionSeleccionada.value.id })
-      ])
-      paises.value = paisesData
-      paquetesRegion.value = paquetesData
-    } catch (error) {
-      console.error('Error recargando países:', error)
-    } finally {
-      loading.value = false
-    }
-  }
 }
 
 const verOferta = (paquete) => {

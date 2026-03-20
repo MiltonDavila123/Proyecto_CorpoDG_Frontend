@@ -1,0 +1,4658 @@
+[
+    {
+        "id": 1,
+        "precio_total": 2242.46,
+        "precio_base": 1438.0,
+        "impuestos": 804.46,
+        "moneda": "USD",
+        "aerolinea_validadora": "AV",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:20:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "22:30:00-04:00"
+                },
+                "duracion_total": "17h 10m",
+                "duracion_minutos": 1030,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV124",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:20:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "06:00:00-05:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 40m",
+                        "duracion_minutos": 100,
+                        "millas": 448,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV204",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "15:05:00-05:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "22:30:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "6h 25m",
+                        "duracion_minutos": 385,
+                        "millas": 2704,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "BOG",
+                        "ciudad": "BOG",
+                        "pais": "CO",
+                        "hora_llegada": "06:00:00-05:00",
+                        "hora_salida": "15:05:00-05:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "23:50:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "17:05:00-05:00"
+                },
+                "duracion_total": "18h 15m",
+                "duracion_minutos": 1095,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV205",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "23:50:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "05:00:00-05:00",
+                            "terminal": "1",
+                            "dia_siguiente": true
+                        },
+                        "duracion": "6h 10m",
+                        "duracion_minutos": 370,
+                        "millas": 2704,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV8373",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA ECUADOR S.A.",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "15:25:00-05:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "17:05:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 40m",
+                        "duracion_minutos": 100,
+                        "millas": 448,
+                        "avion": "320",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "BOG",
+                        "ciudad": "BOG",
+                        "pais": "CO",
+                        "hora_llegada": "05:00:00-05:00",
+                        "hora_salida": "15:25:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AV"
+            ],
+            "aerolineas_vuelta": [
+                "AV"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 2,
+        "precio_total": 2248.46,
+        "precio_base": 1438.0,
+        "impuestos": 810.46,
+        "moneda": "USD",
+        "aerolinea_validadora": "AV",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:05:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "15:15:00-04:00"
+                },
+                "duracion_total": "10h 10m",
+                "duracion_minutos": 610,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV456",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "05:55:00-06:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 50m",
+                        "duracion_minutos": 170,
+                        "millas": 1198,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV324",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "08:15:00-06:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "15:15:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 0m",
+                        "duracion_minutos": 300,
+                        "millas": 2141,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "SAL",
+                        "ciudad": "SAL",
+                        "pais": "SV",
+                        "hora_llegada": "05:55:00-06:00",
+                        "hora_salida": "08:15:00-06:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "23:50:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "17:05:00-05:00"
+                },
+                "duracion_total": "18h 15m",
+                "duracion_minutos": 1095,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV205",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "23:50:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "05:00:00-05:00",
+                            "terminal": "1",
+                            "dia_siguiente": true
+                        },
+                        "duracion": "6h 10m",
+                        "duracion_minutos": 370,
+                        "millas": 2704,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV8373",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA ECUADOR S.A.",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "15:25:00-05:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "17:05:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 40m",
+                        "duracion_minutos": 100,
+                        "millas": 448,
+                        "avion": "320",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "BOG",
+                        "ciudad": "BOG",
+                        "pais": "CO",
+                        "hora_llegada": "05:00:00-05:00",
+                        "hora_salida": "15:25:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AV"
+            ],
+            "aerolineas_vuelta": [
+                "AV"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 3,
+        "precio_total": 2359.76,
+        "precio_base": 1474.0,
+        "impuestos": 885.76,
+        "moneda": "USD",
+        "aerolinea_validadora": "AV",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:05:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "15:15:00-04:00"
+                },
+                "duracion_total": "10h 10m",
+                "duracion_minutos": 610,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV456",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "05:55:00-06:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 50m",
+                        "duracion_minutos": 170,
+                        "millas": 1198,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV324",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "08:15:00-06:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "15:15:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 0m",
+                        "duracion_minutos": 300,
+                        "millas": 2141,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "SAL",
+                        "ciudad": "SAL",
+                        "pais": "SV",
+                        "hora_llegada": "05:55:00-06:00",
+                        "hora_salida": "08:15:00-06:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "23:50:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "14:40:00-05:00"
+                },
+                "duracion_total": "15h 50m",
+                "duracion_minutos": 950,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV205",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "23:50:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "05:00:00-05:00",
+                            "terminal": "1",
+                            "dia_siguiente": true
+                        },
+                        "duracion": "6h 10m",
+                        "duracion_minutos": 370,
+                        "millas": 2704,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV91",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "08:00:00-05:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "GYE",
+                            "ciudad": "GYE",
+                            "pais": "EC",
+                            "hora": "09:55:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 55m",
+                        "duracion_minutos": 115,
+                        "millas": 616,
+                        "avion": "320",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "AV1615",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA ECUADOR S.A.",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "GYE",
+                            "ciudad": "GYE",
+                            "pais": "EC",
+                            "hora": "13:45:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "14:40:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "0h 55m",
+                        "duracion_minutos": 55,
+                        "millas": 169,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "BOG",
+                        "ciudad": "BOG",
+                        "pais": "CO",
+                        "hora_llegada": "05:00:00-05:00",
+                        "hora_salida": "08:00:00-05:00"
+                    },
+                    {
+                        "aeropuerto": "GYE",
+                        "ciudad": "GYE",
+                        "pais": "EC",
+                        "hora_llegada": "09:55:00-05:00",
+                        "hora_salida": "13:45:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AV"
+            ],
+            "aerolineas_vuelta": [
+                "AV"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 4,
+        "precio_total": 2359.76,
+        "precio_base": 1474.0,
+        "impuestos": 885.76,
+        "moneda": "USD",
+        "aerolinea_validadora": "AV",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:05:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "15:15:00-04:00"
+                },
+                "duracion_total": "10h 10m",
+                "duracion_minutos": 610,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV456",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "05:55:00-06:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 50m",
+                        "duracion_minutos": 170,
+                        "millas": 1198,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV324",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "08:15:00-06:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "15:15:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 0m",
+                        "duracion_minutos": 300,
+                        "millas": 2141,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "SAL",
+                        "ciudad": "SAL",
+                        "pais": "SV",
+                        "hora_llegada": "05:55:00-06:00",
+                        "hora_salida": "08:15:00-06:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "23:50:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "16:15:00-05:00"
+                },
+                "duracion_total": "17h 25m",
+                "duracion_minutos": 1045,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV205",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "23:50:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "05:00:00-05:00",
+                            "terminal": "1",
+                            "dia_siguiente": true
+                        },
+                        "duracion": "6h 10m",
+                        "duracion_minutos": 370,
+                        "millas": 2704,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV77",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "11:50:00-05:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "GYE",
+                            "ciudad": "GYE",
+                            "pais": "EC",
+                            "hora": "13:40:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 50m",
+                        "duracion_minutos": 110,
+                        "millas": 616,
+                        "avion": "320",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "AV1633",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA ECUADOR S.A.",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "GYE",
+                            "ciudad": "GYE",
+                            "pais": "EC",
+                            "hora": "15:20:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "16:15:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "0h 55m",
+                        "duracion_minutos": 55,
+                        "millas": 169,
+                        "avion": "320",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "BOG",
+                        "ciudad": "BOG",
+                        "pais": "CO",
+                        "hora_llegada": "05:00:00-05:00",
+                        "hora_salida": "11:50:00-05:00"
+                    },
+                    {
+                        "aeropuerto": "GYE",
+                        "ciudad": "GYE",
+                        "pais": "EC",
+                        "hora_llegada": "13:40:00-05:00",
+                        "hora_salida": "15:20:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AV"
+            ],
+            "aerolineas_vuelta": [
+                "AV"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 5,
+        "precio_total": 2517.45,
+        "precio_base": 1497.0,
+        "impuestos": 1020.45,
+        "moneda": "USD",
+        "aerolinea_validadora": "DL",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:50:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "16h 27m",
+                "duracion_minutos": 987,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL6047",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:50:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "00:15:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": true
+                        },
+                        "duracion": "4h 25m",
+                        "duracion_minutos": 265,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL1211",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "07:00:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "09:04:00-04:00",
+                            "terminal": "S",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 4m",
+                        "duracion_minutos": 124,
+                        "millas": 595,
+                        "avion": "757",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL2883",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "00:15:00-04:00",
+                        "hora_salida": "07:00:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "09:04:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "15:59:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:43:00-05:00"
+                },
+                "duracion_total": "13h 44m",
+                "duracion_minutos": 824,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL4881",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "/ENDEAVOR AIR DBA DELTA CONNECTION",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "15:59:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "DTW",
+                            "ciudad": "DTT",
+                            "pais": "US",
+                            "hora": "17:29:00-04:00",
+                            "terminal": "M",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 30m",
+                        "duracion_minutos": 90,
+                        "millas": 214,
+                        "avion": "CR9",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL2548",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "DTW",
+                            "ciudad": "DTT",
+                            "pais": "US",
+                            "hora": "18:30:00-04:00",
+                            "terminal": "M"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "21:38:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 8m",
+                        "duracion_minutos": 188,
+                        "millas": 1146,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL6045",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "01:25:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:43:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 18m",
+                        "duracion_minutos": 258,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "DTW",
+                        "ciudad": "DTT",
+                        "pais": "US",
+                        "hora_llegada": "17:29:00-04:00",
+                        "hora_salida": "18:30:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "21:38:00-04:00",
+                        "hora_salida": "01:25:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "DL"
+            ],
+            "aerolineas_vuelta": [
+                "DL"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 6,
+        "precio_total": 2517.45,
+        "precio_base": 1497.0,
+        "impuestos": 1020.45,
+        "moneda": "USD",
+        "aerolinea_validadora": "DL",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:50:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "16h 27m",
+                "duracion_minutos": 987,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL6047",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:50:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "00:15:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": true
+                        },
+                        "duracion": "4h 25m",
+                        "duracion_minutos": 265,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL1211",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "07:00:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "09:04:00-04:00",
+                            "terminal": "S",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 4m",
+                        "duracion_minutos": 124,
+                        "millas": 595,
+                        "avion": "757",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL2883",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "00:15:00-04:00",
+                        "hora_salida": "07:00:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "09:04:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "14:10:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:43:00-05:00"
+                },
+                "duracion_total": "15h 33m",
+                "duracion_minutos": 933,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL5166",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "/ENDEAVOR AIR DBA DELTA CONNECTION",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "14:10:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "LGA",
+                            "ciudad": "NYC",
+                            "pais": "US",
+                            "hora": "15:54:00-04:00",
+                            "terminal": "C",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 44m",
+                        "duracion_minutos": 104,
+                        "millas": 356,
+                        "avion": "CR9",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL2382",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "LGA",
+                            "ciudad": "NYC",
+                            "pais": "US",
+                            "hora": "19:30:00-04:00",
+                            "terminal": "C"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "22:47:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 17m",
+                        "duracion_minutos": 197,
+                        "millas": 1097,
+                        "avion": "321",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL6045",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "01:25:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:43:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 18m",
+                        "duracion_minutos": 258,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "LGA",
+                        "ciudad": "NYC",
+                        "pais": "US",
+                        "hora_llegada": "15:54:00-04:00",
+                        "hora_salida": "19:30:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "22:47:00-04:00",
+                        "hora_salida": "01:25:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "DL"
+            ],
+            "aerolineas_vuelta": [
+                "DL"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 7,
+        "precio_total": 2517.45,
+        "precio_base": 1497.0,
+        "impuestos": 1020.45,
+        "moneda": "USD",
+        "aerolinea_validadora": "DL",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:50:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "16h 27m",
+                "duracion_minutos": 987,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL6047",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:50:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "00:15:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": true
+                        },
+                        "duracion": "4h 25m",
+                        "duracion_minutos": 265,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL1211",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "07:00:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "09:04:00-04:00",
+                            "terminal": "S",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 4m",
+                        "duracion_minutos": 124,
+                        "millas": 595,
+                        "avion": "757",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL2883",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "00:15:00-04:00",
+                        "hora_salida": "07:00:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "09:04:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "14:10:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:43:00-05:00"
+                },
+                "duracion_total": "15h 33m",
+                "duracion_minutos": 933,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL5166",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "/ENDEAVOR AIR DBA DELTA CONNECTION",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "14:10:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "LGA",
+                            "ciudad": "NYC",
+                            "pais": "US",
+                            "hora": "15:54:00-04:00",
+                            "terminal": "C",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 44m",
+                        "duracion_minutos": 104,
+                        "millas": 356,
+                        "avion": "CR9",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL1620",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "LGA",
+                            "ciudad": "NYC",
+                            "pais": "US",
+                            "hora": "17:15:00-04:00",
+                            "terminal": "C"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "20:35:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 20m",
+                        "duracion_minutos": 200,
+                        "millas": 1097,
+                        "avion": "321",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL6045",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "01:25:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:43:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 18m",
+                        "duracion_minutos": 258,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "LGA",
+                        "ciudad": "NYC",
+                        "pais": "US",
+                        "hora_llegada": "15:54:00-04:00",
+                        "hora_salida": "17:15:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "20:35:00-04:00",
+                        "hora_salida": "01:25:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "DL"
+            ],
+            "aerolineas_vuelta": [
+                "DL"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 8,
+        "precio_total": 2517.45,
+        "precio_base": 1497.0,
+        "impuestos": 1020.45,
+        "moneda": "USD",
+        "aerolinea_validadora": "DL",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:50:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "16h 27m",
+                "duracion_minutos": 987,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL6047",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:50:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "00:15:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": true
+                        },
+                        "duracion": "4h 25m",
+                        "duracion_minutos": 265,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL1211",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "07:00:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "09:04:00-04:00",
+                            "terminal": "S",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 4m",
+                        "duracion_minutos": 124,
+                        "millas": 595,
+                        "avion": "757",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL2883",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "00:15:00-04:00",
+                        "hora_salida": "07:00:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "09:04:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "13:30:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:43:00-05:00"
+                },
+                "duracion_total": "16h 13m",
+                "duracion_minutos": 973,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL2710",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "13:30:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "15:58:00-04:00",
+                            "terminal": "I",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 28m",
+                        "duracion_minutos": 148,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL1588",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "19:00:00-04:00",
+                            "terminal": "S"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "20:54:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 54m",
+                        "duracion_minutos": 114,
+                        "millas": 595,
+                        "avion": "757",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL6045",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "01:25:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:43:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 18m",
+                        "duracion_minutos": 258,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "15:58:00-04:00",
+                        "hora_salida": "19:00:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "20:54:00-04:00",
+                        "hora_salida": "01:25:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "DL"
+            ],
+            "aerolineas_vuelta": [
+                "DL"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 9,
+        "precio_total": 2546.41,
+        "precio_base": 1539.0,
+        "impuestos": 1007.41,
+        "moneda": "USD",
+        "aerolinea_validadora": "CM",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "14:31:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "01:13:00-04:00"
+                },
+                "duracion_total": "9h 42m",
+                "duracion_minutos": 582,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "CM828",
+                        "aerolinea": {
+                            "codigo": "CM",
+                            "operada_por": "CM",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "14:31:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "PTY",
+                            "ciudad": "PTY",
+                            "pais": "PA",
+                            "hora": "16:27:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 56m",
+                        "duracion_minutos": 116,
+                        "millas": 636,
+                        "avion": "738",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "CM470",
+                        "aerolinea": {
+                            "codigo": "CM",
+                            "operada_por": "CM",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "PTY",
+                            "ciudad": "PTY",
+                            "pais": "PA",
+                            "hora": "18:40:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "01:13:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": true
+                        },
+                        "duracion": "5h 33m",
+                        "duracion_minutos": 333,
+                        "millas": 2383,
+                        "avion": "738",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "PTY",
+                        "ciudad": "PTY",
+                        "pais": "PA",
+                        "hora_llegada": "16:27:00-05:00",
+                        "hora_salida": "18:40:00-05:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "08:30:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "00:32:00-05:00"
+                },
+                "duracion_total": "17h 2m",
+                "duracion_minutos": 1022,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "CM471",
+                        "aerolinea": {
+                            "codigo": "CM",
+                            "operada_por": "CM",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "08:30:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "PTY",
+                            "ciudad": "PTY",
+                            "pais": "PA",
+                            "hora": "13:02:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 32m",
+                        "duracion_minutos": 332,
+                        "millas": 2383,
+                        "avion": "738",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "CM211",
+                        "aerolinea": {
+                            "codigo": "CM",
+                            "operada_por": "CM",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "PTY",
+                            "ciudad": "PTY",
+                            "pais": "PA",
+                            "hora": "22:31:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "00:32:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": true
+                        },
+                        "duracion": "2h 1m",
+                        "duracion_minutos": 121,
+                        "millas": 636,
+                        "avion": "73G",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "PTY",
+                        "ciudad": "PTY",
+                        "pais": "PA",
+                        "hora_llegada": "13:02:00-05:00",
+                        "hora_salida": "22:31:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "CM"
+            ],
+            "aerolineas_vuelta": [
+                "CM"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 10,
+        "precio_total": 2629.8,
+        "precio_base": 1497.0,
+        "impuestos": 1132.8,
+        "moneda": "USD",
+        "aerolinea_validadora": "LA",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:50:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "15:51:00-04:00"
+                },
+                "duracion_total": "20h 1m",
+                "duracion_minutos": 1201,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "LA1451",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "LA",
+                            "nombre_compartido": "LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:50:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "00:15:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": true
+                        },
+                        "duracion": "4h 25m",
+                        "duracion_minutos": 265,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AC1645",
+                        "aerolinea": {
+                            "codigo": "AC",
+                            "operada_por": "AC",
+                            "nombre_compartido": "/AIR CANADA ROUGE",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "12:30:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "15:51:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 21m",
+                        "duracion_minutos": 201,
+                        "millas": 1233,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "00:15:00-04:00",
+                        "hora_salida": "12:30:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "17:20:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:43:00-05:00"
+                },
+                "duracion_total": "12h 23m",
+                "duracion_minutos": 743,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AC1646",
+                        "aerolinea": {
+                            "codigo": "AC",
+                            "operada_por": "AC",
+                            "nombre_compartido": "/AIR CANADA ROUGE",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "17:20:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "20:36:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 16m",
+                        "duracion_minutos": 196,
+                        "millas": 1233,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "LA1452",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "LA",
+                            "nombre_compartido": "LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "01:25:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:43:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 18m",
+                        "duracion_minutos": 258,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "20:36:00-04:00",
+                        "hora_salida": "01:25:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "LA",
+                "AC"
+            ],
+            "aerolineas_vuelta": [
+                "AC",
+                "LA"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 11,
+        "precio_total": 2650.18,
+        "precio_base": 1682.0,
+        "impuestos": 968.18,
+        "moneda": "USD",
+        "aerolinea_validadora": "AV",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:05:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "15:15:00-04:00"
+                },
+                "duracion_total": "10h 10m",
+                "duracion_minutos": 610,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV456",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "05:55:00-06:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 50m",
+                        "duracion_minutos": 170,
+                        "millas": 1198,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV324",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/TACA INTERNATIONAL AIRLINES - TACA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "SAL",
+                            "ciudad": "SAL",
+                            "pais": "SV",
+                            "hora": "08:15:00-06:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "15:15:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 0m",
+                        "duracion_minutos": 300,
+                        "millas": 2141,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "SAL",
+                        "ciudad": "SAL",
+                        "pais": "SV",
+                        "hora_llegada": "05:55:00-06:00",
+                        "hora_salida": "08:15:00-06:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "09:44:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "22:25:00-05:00"
+                },
+                "duracion_total": "13h 41m",
+                "duracion_minutos": 821,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AV2169",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "UA",
+                            "nombre_compartido": "/REPUBLIC AIRWAYS FOR UNITED EXPRESS FOR UNITED AIRLINES",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "09:44:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "IAD",
+                            "ciudad": "WAS",
+                            "pais": "US",
+                            "hora": "11:23:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 39m",
+                        "duracion_minutos": 99,
+                        "millas": 346,
+                        "avion": "E7W",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AV247",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "IAD",
+                            "ciudad": "WAS",
+                            "pais": "US",
+                            "hora": "15:25:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "19:50:00-05:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 25m",
+                        "duracion_minutos": 325,
+                        "millas": 2365,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "AV125",
+                        "aerolinea": {
+                            "codigo": "AV",
+                            "operada_por": "AV",
+                            "nombre_compartido": "/AVIANCA",
+                            "alianza": "*A"
+                        },
+                        "salida": {
+                            "aeropuerto": "BOG",
+                            "ciudad": "BOG",
+                            "pais": "CO",
+                            "hora": "20:50:00-05:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "22:25:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 35m",
+                        "duracion_minutos": 95,
+                        "millas": 448,
+                        "avion": "32N",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "IAD",
+                        "ciudad": "WAS",
+                        "pais": "US",
+                        "hora_llegada": "11:23:00-04:00",
+                        "hora_salida": "15:25:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "BOG",
+                        "ciudad": "BOG",
+                        "pais": "CO",
+                        "hora_llegada": "19:50:00-05:00",
+                        "hora_salida": "20:50:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AV"
+            ],
+            "aerolineas_vuelta": [
+                "AV"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 12,
+        "precio_total": 2728.68,
+        "precio_base": 1497.0,
+        "impuestos": 1231.68,
+        "moneda": "USD",
+        "aerolinea_validadora": "LA",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "20:20:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "14h 57m",
+                "duracion_minutos": 897,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "LA1437",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "LA",
+                            "nombre_compartido": "LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "20:20:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "LIM",
+                            "ciudad": "LIM",
+                            "pais": "PE",
+                            "hora": "22:35:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 15m",
+                        "duracion_minutos": 135,
+                        "millas": 822,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "LA6356",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "DL",
+                            "nombre_compartido": "DELTA AIR LINES FOR LATAM AIRLINES GROUP",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "LIM",
+                            "ciudad": "LIM",
+                            "pais": "PE",
+                            "hora": "00:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "08:10:00-04:00",
+                            "terminal": "I",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "7h 5m",
+                        "duracion_minutos": 425,
+                        "millas": 3177,
+                        "avion": "333",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "LA6343",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "DL",
+                            "nombre_compartido": "DELTA AIR LINES FOR LATAM AIRLINES GROUP",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "LIM",
+                        "ciudad": "LIM",
+                        "pais": "PE",
+                        "hora_llegada": "22:35:00-05:00",
+                        "hora_salida": "00:05:00-05:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "08:10:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "17:20:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "04:43:00-05:00"
+                },
+                "duracion_total": "12h 23m",
+                "duracion_minutos": 743,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AC1646",
+                        "aerolinea": {
+                            "codigo": "AC",
+                            "operada_por": "AC",
+                            "nombre_compartido": "/AIR CANADA ROUGE",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "17:20:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "20:36:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 16m",
+                        "duracion_minutos": 196,
+                        "millas": 1233,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "LA1452",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "LA",
+                            "nombre_compartido": "LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "01:25:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "04:43:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 18m",
+                        "duracion_minutos": 258,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "20:36:00-04:00",
+                        "hora_salida": "01:25:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "LA"
+            ],
+            "aerolineas_vuelta": [
+                "AC",
+                "LA"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 13,
+        "precio_total": 2736.9,
+        "precio_base": 1680.0,
+        "impuestos": 1056.9,
+        "moneda": "USD",
+        "aerolinea_validadora": "UA",
+        "ultima_fecha_compra": "2026-03-06",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "00:35:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "14:10:00-04:00"
+                },
+                "duracion_total": "12h 35m",
+                "duracion_minutos": 755,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "UA2083",
+                        "aerolinea": {
+                            "codigo": "UA",
+                            "operada_por": "UA",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "00:35:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "05:50:00-05:00",
+                            "terminal": "E",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 15m",
+                        "duracion_minutos": 315,
+                        "millas": 2350,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "UA2606",
+                        "aerolinea": {
+                            "codigo": "UA",
+                            "operada_por": "UA",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "10:00:00-05:00",
+                            "terminal": "C"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "14:10:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 10m",
+                        "duracion_minutos": 190,
+                        "millas": 1280,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "IAH",
+                        "ciudad": "HOU",
+                        "pais": "US",
+                        "hora_llegada": "05:50:00-05:00",
+                        "hora_salida": "10:00:00-05:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "06:10:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "23:25:00-05:00"
+                },
+                "duracion_total": "18h 15m",
+                "duracion_minutos": 1095,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "UA1345",
+                        "aerolinea": {
+                            "codigo": "UA",
+                            "operada_por": "UA",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "06:10:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "09:05:00-05:00",
+                            "terminal": "C",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 55m",
+                        "duracion_minutos": 235,
+                        "millas": 1280,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "UA1002",
+                        "aerolinea": {
+                            "codigo": "UA",
+                            "operada_por": "UA",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "18:05:00-05:00",
+                            "terminal": "E"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "23:25:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 20m",
+                        "duracion_minutos": 320,
+                        "millas": 2350,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "IAH",
+                        "ciudad": "HOU",
+                        "pais": "US",
+                        "hora_llegada": "09:05:00-05:00",
+                        "hora_salida": "18:05:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "UA"
+            ],
+            "aerolineas_vuelta": [
+                "UA"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 14,
+        "precio_total": 2756.3,
+        "precio_base": 1696.0,
+        "impuestos": 1060.3,
+        "moneda": "USD",
+        "aerolinea_validadora": "DL",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:50:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "16h 27m",
+                "duracion_minutos": 987,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL6047",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "LA",
+                            "nombre_compartido": "/LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:50:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "00:15:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": true
+                        },
+                        "duracion": "4h 25m",
+                        "duracion_minutos": 265,
+                        "millas": 1787,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL1211",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "07:00:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "09:04:00-04:00",
+                            "terminal": "S",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 4m",
+                        "duracion_minutos": 124,
+                        "millas": 595,
+                        "avion": "757",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL2883",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "00:15:00-04:00",
+                        "hora_salida": "07:00:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "09:04:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "07:45:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:59:00-05:00"
+                },
+                "duracion_total": "12h 14m",
+                "duracion_minutos": 734,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL2988",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "07:45:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:18:00-04:00",
+                            "terminal": "I",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 33m",
+                        "duracion_minutos": 153,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL633",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "14:45:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:59:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 14m",
+                        "duracion_minutos": 314,
+                        "millas": 2355,
+                        "avion": "76W",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "10:18:00-04:00",
+                        "hora_salida": "14:45:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "DL"
+            ],
+            "aerolineas_vuelta": [
+                "DL"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 15,
+        "precio_total": 2762.25,
+        "precio_base": 1701.0,
+        "impuestos": 1061.25,
+        "moneda": "USD",
+        "aerolinea_validadora": "AA",
+        "ultima_fecha_compra": "2026-03-06",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "06:40:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "23:00:00-04:00"
+                },
+                "duracion_total": "15h 20m",
+                "duracion_minutos": 920,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AA932",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "06:40:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "12:00:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 20m",
+                        "duracion_minutos": 260,
+                        "millas": 1787,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AA1246",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "19:45:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "23:00:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 15m",
+                        "duracion_minutos": 195,
+                        "millas": 1233,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "12:00:00-04:00",
+                        "hora_salida": "19:45:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "07:20:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "20:40:00-05:00"
+                },
+                "duracion_total": "14h 20m",
+                "duracion_minutos": 860,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AA2589",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "07:20:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "10:55:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 35m",
+                        "duracion_minutos": 215,
+                        "millas": 1233,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AA833",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "17:35:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "20:40:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 5m",
+                        "duracion_minutos": 245,
+                        "millas": 1787,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "10:55:00-04:00",
+                        "hora_salida": "17:35:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AA"
+            ],
+            "aerolineas_vuelta": [
+                "AA"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 16,
+        "precio_total": 2762.25,
+        "precio_base": 1701.0,
+        "impuestos": 1061.25,
+        "moneda": "USD",
+        "aerolinea_validadora": "AA",
+        "ultima_fecha_compra": "2026-03-06",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "06:40:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "23:00:00-04:00"
+                },
+                "duracion_total": "15h 20m",
+                "duracion_minutos": 920,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AA932",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "06:40:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "12:00:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 20m",
+                        "duracion_minutos": 260,
+                        "millas": 1787,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AA1246",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "19:45:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "23:00:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 15m",
+                        "duracion_minutos": 195,
+                        "millas": 1233,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "12:00:00-04:00",
+                        "hora_salida": "19:45:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "11:30:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "20:40:00-05:00"
+                },
+                "duracion_total": "10h 10m",
+                "duracion_minutos": 610,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AA5020",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "PSA AIRLINES AS AMERICAN EAGLE",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "11:30:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "CLT",
+                            "ciudad": "CLT",
+                            "pais": "US",
+                            "hora": "13:40:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 10m",
+                        "duracion_minutos": 130,
+                        "millas": 588,
+                        "avion": "CR9",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AA1198",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "CLT",
+                            "ciudad": "CLT",
+                            "pais": "US",
+                            "hora": "14:41:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "16:49:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 8m",
+                        "duracion_minutos": 128,
+                        "millas": 651,
+                        "avion": "738",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "AA833",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "17:35:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "20:40:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 5m",
+                        "duracion_minutos": 245,
+                        "millas": 1787,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "CLT",
+                        "ciudad": "CLT",
+                        "pais": "US",
+                        "hora_llegada": "13:40:00-04:00",
+                        "hora_salida": "14:41:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "16:49:00-04:00",
+                        "hora_salida": "17:35:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AA"
+            ],
+            "aerolineas_vuelta": [
+                "AA"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 17,
+        "precio_total": 2762.25,
+        "precio_base": 1701.0,
+        "impuestos": 1061.25,
+        "moneda": "USD",
+        "aerolinea_validadora": "AA",
+        "ultima_fecha_compra": "2026-03-06",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "06:40:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "23:00:00-04:00"
+                },
+                "duracion_total": "15h 20m",
+                "duracion_minutos": 920,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AA932",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "06:40:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "12:00:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 20m",
+                        "duracion_minutos": 260,
+                        "millas": 1787,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AA1246",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "19:45:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "23:00:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 15m",
+                        "duracion_minutos": 195,
+                        "millas": 1233,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "12:00:00-04:00",
+                        "hora_salida": "19:45:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "11:00:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "20:40:00-05:00"
+                },
+                "duracion_total": "10h 40m",
+                "duracion_minutos": 640,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AA5668",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "PSA AIRLINES AS AMERICAN EAGLE",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "11:00:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "DCA",
+                            "ciudad": "WAS",
+                            "pais": "US",
+                            "hora": "12:40:00-04:00",
+                            "terminal": "2",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "1h 40m",
+                        "duracion_minutos": 100,
+                        "millas": 359,
+                        "avion": "CR7",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AA1612",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "DCA",
+                            "ciudad": "WAS",
+                            "pais": "US",
+                            "hora": "13:36:00-04:00",
+                            "terminal": "2"
+                        },
+                        "llegada": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "16:16:00-04:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 40m",
+                        "duracion_minutos": 160,
+                        "millas": 920,
+                        "avion": "738",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "AA833",
+                        "aerolinea": {
+                            "codigo": "AA",
+                            "operada_por": "AA",
+                            "nombre_compartido": "",
+                            "alianza": "OW"
+                        },
+                        "salida": {
+                            "aeropuerto": "MIA",
+                            "ciudad": "FIA",
+                            "pais": "US",
+                            "hora": "17:35:00-04:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "20:40:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "4h 5m",
+                        "duracion_minutos": 245,
+                        "millas": 1787,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "DCA",
+                        "ciudad": "WAS",
+                        "pais": "US",
+                        "hora_llegada": "12:40:00-04:00",
+                        "hora_salida": "13:36:00-04:00"
+                    },
+                    {
+                        "aeropuerto": "MIA",
+                        "ciudad": "FIA",
+                        "pais": "US",
+                        "hora_llegada": "16:16:00-04:00",
+                        "hora_salida": "17:35:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AA"
+            ],
+            "aerolineas_vuelta": [
+                "AA"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 18,
+        "precio_total": 2805.71,
+        "precio_base": 1696.0,
+        "impuestos": 1109.71,
+        "moneda": "USD",
+        "aerolinea_validadora": "DL",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "20:20:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "14h 57m",
+                "duracion_minutos": 897,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "LA1437",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "LA",
+                            "nombre_compartido": "LATAM AIRLINES ECUADOR",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "20:20:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "LIM",
+                            "ciudad": "LIM",
+                            "pais": "PE",
+                            "hora": "22:35:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 15m",
+                        "duracion_minutos": 135,
+                        "millas": 822,
+                        "avion": "319",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL150",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "LIM",
+                            "ciudad": "LIM",
+                            "pais": "PE",
+                            "hora": "00:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "08:10:00-04:00",
+                            "terminal": "I",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "7h 5m",
+                        "duracion_minutos": 425,
+                        "millas": 3177,
+                        "avion": "333",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL2883",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "LIM",
+                        "ciudad": "LIM",
+                        "pais": "PE",
+                        "hora_llegada": "22:35:00-05:00",
+                        "hora_salida": "00:05:00-05:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "08:10:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "07:45:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:59:00-05:00"
+                },
+                "duracion_total": "12h 14m",
+                "duracion_minutos": 734,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL2988",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "07:45:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:18:00-04:00",
+                            "terminal": "I",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 33m",
+                        "duracion_minutos": 153,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL633",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "14:45:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:59:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 14m",
+                        "duracion_minutos": 314,
+                        "millas": 2355,
+                        "avion": "76W",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "10:18:00-04:00",
+                        "hora_salida": "14:45:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "LA",
+                "DL"
+            ],
+            "aerolineas_vuelta": [
+                "DL"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 19,
+        "precio_total": 2805.71,
+        "precio_base": 1696.0,
+        "impuestos": 1109.71,
+        "moneda": "USD",
+        "aerolinea_validadora": "DL",
+        "ultima_fecha_compra": "2026-03-04",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "20:05:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "12:17:00-04:00"
+                },
+                "duracion_total": "15h 12m",
+                "duracion_minutos": 912,
+                "tiene_escalas": true,
+                "numero_escalas": 2,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "LA7630",
+                        "aerolinea": {
+                            "codigo": "LA",
+                            "operada_por": "LA",
+                            "nombre_compartido": "LATAM ACADEMY",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "20:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "LIM",
+                            "ciudad": "LIM",
+                            "pais": "PE",
+                            "hora": "22:20:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 15m",
+                        "duracion_minutos": 135,
+                        "millas": 822,
+                        "avion": "320",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL150",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "LIM",
+                            "ciudad": "LIM",
+                            "pais": "PE",
+                            "hora": "00:05:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "08:10:00-04:00",
+                            "terminal": "I",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "7h 5m",
+                        "duracion_minutos": 425,
+                        "millas": 3177,
+                        "avion": "333",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 3,
+                        "vuelo": "DL2883",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:00:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "12:17:00-04:00",
+                            "terminal": "3",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 17m",
+                        "duracion_minutos": 137,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "LIM",
+                        "ciudad": "LIM",
+                        "pais": "PE",
+                        "hora_llegada": "22:20:00-05:00",
+                        "hora_salida": "00:05:00-05:00"
+                    },
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "08:10:00-04:00",
+                        "hora_salida": "10:00:00-04:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "07:45:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "18:59:00-05:00"
+                },
+                "duracion_total": "12h 14m",
+                "duracion_minutos": 734,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "DL2988",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "07:45:00-04:00",
+                            "terminal": "3"
+                        },
+                        "llegada": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "10:18:00-04:00",
+                            "terminal": "I",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "2h 33m",
+                        "duracion_minutos": 153,
+                        "millas": 739,
+                        "avion": "739",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "DL633",
+                        "aerolinea": {
+                            "codigo": "DL",
+                            "operada_por": "DL",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "ATL",
+                            "ciudad": "ATL",
+                            "pais": "US",
+                            "hora": "14:45:00-04:00",
+                            "terminal": "I"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "18:59:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 14m",
+                        "duracion_minutos": 314,
+                        "millas": 2355,
+                        "avion": "76W",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "ATL",
+                        "ciudad": "ATL",
+                        "pais": "US",
+                        "hora_llegada": "10:18:00-04:00",
+                        "hora_salida": "14:45:00-04:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "LA",
+                "DL"
+            ],
+            "aerolineas_vuelta": [
+                "DL"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    },
+    {
+        "id": 20,
+        "precio_total": 2905.1,
+        "precio_base": 1820.0,
+        "impuestos": 1085.1,
+        "moneda": "USD",
+        "aerolinea_validadora": "UA",
+        "ultima_fecha_compra": "2026-03-06",
+        "tramos": [
+            {
+                "tipo": "ida",
+                "origen": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "00:35:00-05:00"
+                },
+                "destino": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "11:34:00-04:00"
+                },
+                "duracion_total": "9h 59m",
+                "duracion_minutos": 599,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "UA2083",
+                        "aerolinea": {
+                            "codigo": "UA",
+                            "operada_por": "UA",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "00:35:00-05:00",
+                            "terminal": null
+                        },
+                        "llegada": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "05:50:00-05:00",
+                            "terminal": "E",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 15m",
+                        "duracion_minutos": 315,
+                        "millas": 2350,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "AC590",
+                        "aerolinea": {
+                            "codigo": "AC",
+                            "operada_por": "AC",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "07:20:00-05:00",
+                            "terminal": "A"
+                        },
+                        "llegada": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "11:34:00-04:00",
+                            "terminal": "1",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 14m",
+                        "duracion_minutos": 194,
+                        "millas": 1280,
+                        "avion": "223",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "IAH",
+                        "ciudad": "HOU",
+                        "pais": "US",
+                        "hora_llegada": "05:50:00-05:00",
+                        "hora_salida": "07:20:00-05:00"
+                    }
+                ]
+            },
+            {
+                "tipo": "vuelta",
+                "origen": {
+                    "aeropuerto": "YYZ",
+                    "ciudad": "YTO",
+                    "pais": "CA",
+                    "hora": "08:45:00-04:00"
+                },
+                "destino": {
+                    "aeropuerto": "UIO",
+                    "ciudad": "UIO",
+                    "pais": "EC",
+                    "hora": "23:25:00-05:00"
+                },
+                "duracion_total": "15h 40m",
+                "duracion_minutos": 940,
+                "tiene_escalas": true,
+                "numero_escalas": 1,
+                "segmentos": [
+                    {
+                        "numero_segmento": 1,
+                        "vuelo": "AC591",
+                        "aerolinea": {
+                            "codigo": "AC",
+                            "operada_por": "AC",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "YYZ",
+                            "ciudad": "YTO",
+                            "pais": "CA",
+                            "hora": "08:45:00-04:00",
+                            "terminal": "1"
+                        },
+                        "llegada": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "11:15:00-05:00",
+                            "terminal": "A",
+                            "dia_siguiente": false
+                        },
+                        "duracion": "3h 30m",
+                        "duracion_minutos": 210,
+                        "millas": 1280,
+                        "avion": "223",
+                        "paradas_intermedias": 0
+                    },
+                    {
+                        "numero_segmento": 2,
+                        "vuelo": "UA1002",
+                        "aerolinea": {
+                            "codigo": "UA",
+                            "operada_por": "UA",
+                            "nombre_compartido": "",
+                            "alianza": null
+                        },
+                        "salida": {
+                            "aeropuerto": "IAH",
+                            "ciudad": "HOU",
+                            "pais": "US",
+                            "hora": "18:05:00-05:00",
+                            "terminal": "E"
+                        },
+                        "llegada": {
+                            "aeropuerto": "UIO",
+                            "ciudad": "UIO",
+                            "pais": "EC",
+                            "hora": "23:25:00-05:00",
+                            "terminal": null,
+                            "dia_siguiente": false
+                        },
+                        "duracion": "5h 20m",
+                        "duracion_minutos": 320,
+                        "millas": 2350,
+                        "avion": "7M8",
+                        "paradas_intermedias": 0
+                    }
+                ],
+                "escalas": [
+                    {
+                        "aeropuerto": "IAH",
+                        "ciudad": "HOU",
+                        "pais": "US",
+                        "hora_llegada": "11:15:00-05:00",
+                        "hora_salida": "18:05:00-05:00"
+                    }
+                ]
+            }
+        ],
+        "resumen": {
+            "aerolineas_ida": [
+                "AC",
+                "UA"
+            ],
+            "aerolineas_vuelta": [
+                "AC",
+                "UA"
+            ],
+            "es_vuelo_directo_ida": false,
+            "es_vuelo_directo_vuelta": false
+        }
+    }
+]

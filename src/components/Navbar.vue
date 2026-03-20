@@ -36,7 +36,6 @@
             <router-link to="/" @click="cerrarMenu">Inicio</router-link>
             <router-link to="/paquetes" @click="cerrarMenu">Paquetes</router-link>
             <router-link to="/boletos" @click="cerrarMenu">Vuelos</router-link>
-            <router-link to="/hoteles" @click="cerrarMenu">Hoteles</router-link>
             <router-link to="/renta_auto" @click="cerrarMenu">Renta de autos</router-link>
             <router-link to="/destinos" @click="cerrarMenu">Destinos</router-link>
           </nav>
@@ -63,7 +62,7 @@ const menuAbierto = ref(false)
 
 // Rutas donde siempre debe tener fondo oscuro (no transparente)
 const rutasConFondoOscuro = computed(() => {
-  return route.path.startsWith('/paquetes/') && route.params.id
+  return (route.path.startsWith('/paquetes/') && route.params.id) || route.path.startsWith('/vuelos/resultados')
 })
 
 // El navbar tiene fondo oscuro si: está scrolleado O está en una ruta que requiere fondo oscuro

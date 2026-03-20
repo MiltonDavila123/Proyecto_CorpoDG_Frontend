@@ -176,6 +176,51 @@ export async function getVuelo(id) {
 }
 
 // =====================================================
+// AEROPUERTOS - AUTOCOMPLETE
+// =====================================================
+export async function buscarAeropuertos(query) {
+  if (!query || query.length < 2) return { results: [], count: 0 }
+  
+  const response = await fetch(`${API_BASE_URL}/aeropuertos/autocomplete/?q=${encodeURIComponent(query)}`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al buscar aeropuertos')
+  return response.json()
+}
+
+// =====================================================
+// BUSQUEDA DE VUELOS EN VIVO (SABRE)
+// =====================================================
+export async function buscarVuelosLive(datos) {
+  // Incluir limit si viene en los datos (default 20, max 200)
+  const payload = { ...datos }
+  if (payload.limit) {
+    payload.limit = Math.min(parseInt(payload.limit), 200)
+  }
+  const response = await fetch(`${API_BASE_URL}/buscar-vuelos-live/`, {
+    method: 'POST',
+    headers: getHeaders(true),
+    body: JSON.stringify(payload)
+  })
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}))
+    throw new Error(errorData.error || 'Error al buscar vuelos')
+  }
+  return response.json()
+}
+
+// =====================================================
+// AEROLINEAS POR IATA
+// =====================================================
+export async function buscarAerolineaIATA(codigo) {
+  const response = await fetch(`${API_BASE_URL}/aerolineas/buscar_iata/?codigo=${encodeURIComponent(codigo)}`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) return null
+  return response.json()
+}
+
+// =====================================================
 // CONTACTO
 // =====================================================
 export async function enviarContacto(datos) {
