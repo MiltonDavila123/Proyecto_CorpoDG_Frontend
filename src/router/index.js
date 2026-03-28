@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/paquetes',
     name: 'Paquetes',
-    component: () => import ('../views/Paquetes.vue')
+    component: () => import ('../views/PaquetesLayout.vue')
   },
   {
     path: '/paquetes/:id',

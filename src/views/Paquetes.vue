@@ -1,12 +1,4 @@
 <template>
-    <section class="paquetes-hero">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1>Paquetes Turísticos</h1>
-        <p>Descubre los mejores destinos del mundo</p>
-      </div>
-    </section>
-
   <!-- VISTA DE REGIONES -->
   <section v-if="vistaActual === 'regiones'" class="regiones-section">
     <div class="section-header">
@@ -355,7 +347,6 @@ const verOferta = (paquete) => {
 
 <style scoped>
 /* ===== VARIABLES ===== */
-.paquetes-hero,
 .regiones-section,
 .paises-section,
 .paquetes-section {
@@ -378,67 +369,6 @@ const verOferta = (paquete) => {
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-}
-
-/* ===== HERO ===== */
-.paquetes-hero {
-  min-height: 100vh;
-  background: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1400') center/cover;
-  background-attachment: fixed;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.65) 0%,
-    rgba(0, 0, 0, 0.45) 50%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: white;
-  padding: 0 2rem;
-  animation: fadeInDown 0.8s ease-out;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-content h1 {
-  font-size: 3.8rem;
-  margin-bottom: 1.2rem;
-  font-weight: 800;
-  letter-spacing: -1px;
-  text-shadow: 
-    2px 2px 10px rgba(0,0,0,0.6),
-    0 0 30px rgba(181, 147, 26, 0.3);
-}
-
-.hero-content p {
-  font-size: 1.5rem;
-  opacity: 0.95;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
 }
 
 /* ===== SECTION HEADER ===== */
@@ -695,19 +625,6 @@ const verOferta = (paquete) => {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
-  .paquetes-hero {
-    min-height: auto;
-    padding: 120px 15px 50px;
-  }
-
-  .hero-content h1 {
-    font-size: 3rem;
-  }
-  
-  .hero-content p {
-    font-size: 1.3rem;
-  }
-  
   .regiones-section,
   .paises-section {
     padding: 40px 30px;
@@ -727,19 +644,6 @@ const verOferta = (paquete) => {
 }
 
 @media (max-width: 768px) {
-  .paquetes-hero {
-    background-attachment: scroll;
-    padding: 110px 12px 40px;
-  }
-  
-  .hero-content h1 {
-    font-size: 2.5rem;
-  }
-  
-  .hero-content p {
-    font-size: 1.15rem;
-  }
-  
   .regiones-section,
   .paises-section,
   .paquetes-section {
@@ -782,19 +686,6 @@ const verOferta = (paquete) => {
 }
 
 @media (max-width: 480px) {
-  .paquetes-hero {
-    height: 60vh;
-  }
-  
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-  
-  .hero-content p {
-    font-size: 1rem;
-    padding: 0 10px;
-  }
-  
   .regiones-section,
   .paises-section,
   .paquetes-section {

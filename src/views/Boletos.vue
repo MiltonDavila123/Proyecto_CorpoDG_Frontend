@@ -364,6 +364,12 @@ const handleBuscarVuelos = (datos) => {
           </div>
         </transition>
       </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator" @click="$event.target.closest('.hero-section')?.nextElementSibling?.scrollIntoView({ behavior: 'smooth' })">
+        <span>Explorar</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
     </section>
 
     <!-- VISTA DE REGIONES -->
@@ -648,10 +654,20 @@ const handleBuscarVuelos = (datos) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 220px 20px 60px;
+  justify-content: center;
+  padding: 100px 20px 80px;
   color: var(--color-text-white);
   text-align: center;
+}
+
+/* When form is expanded: grow downward, don't push title up */
+.hero-section:has(.floating-form-card.expanded) {
+  justify-content: flex-start;
+  padding-top: 140px;
+}
+
+.hero-section:has(.floating-form-card.expanded) .scroll-indicator {
+  display: none;
 }
 
 .hero-overlay {
@@ -668,8 +684,8 @@ const handleBuscarVuelos = (datos) => {
 .hero-content {
   position: relative;
   z-index: 1;
-  padding-top: 40px;
-  margin-bottom: 60px;
+  padding-top: 0;
+  margin-bottom: 40px;
   animation: fadeInDown 0.8s ease-out;
 }
 
@@ -895,15 +911,59 @@ const handleBuscarVuelos = (datos) => {
   opacity: 0;
 }
 
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: bounceDown 2s ease-in-out infinite;
+}
+
+.scroll-indicator span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.scroll-indicator svg {
+  width: 28px;
+  height: 28px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.3s;
+}
+
+.scroll-indicator:hover svg,
+.scroll-indicator:hover span {
+  color: white;
+}
+
+@keyframes bounceDown {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(10px); }
+  60% { transform: translateX(-50%) translateY(5px); }
+}
+
 /* Responsive floating card & hero */
 @media (max-width: 992px) {
   .hero-section {
-    padding: 120px 15px 50px;
+    padding: 100px 20px 80px;
+  }
+
+  .hero-section:has(.floating-form-card.expanded) {
+    padding-top: 130px;
   }
 
   .hero-content {
-    padding-top: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
   }
 
   .form-header {
@@ -918,12 +978,15 @@ const handleBuscarVuelos = (datos) => {
 @media (max-width: 768px) {
   .hero-section {
     background-attachment: scroll;
-    padding: 110px 12px 40px;
+    padding: 90px 15px 70px;
+  }
+
+  .hero-section:has(.floating-form-card.expanded) {
+    padding-top: 120px;
   }
 
   .hero-content {
-    padding-top: 20px;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
   }
 
   .floating-form-card {
@@ -965,6 +1028,74 @@ const handleBuscarVuelos = (datos) => {
 
   .expand-btn svg {
     width: 21px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 80px 12px 60px;
+  }
+
+  .hero-section:has(.floating-form-card.expanded) {
+    padding-top: 100px;
+  }
+
+  .hero-content {
+    margin-bottom: 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .floating-form-card {
+    border-radius: 14px;
+  }
+
+  .form-header {
+    padding: 18px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .header-left {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .header-icon {
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
+  }
+
+  .header-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-text h2 {
+    font-size: 1.15rem;
+  }
+
+  .header-text p {
+    font-size: 0.85rem;
+  }
+
+  .expand-btn {
+    width: 42px;
+    height: 42px;
+    border-width: 2px;
+  }
+
+  .expand-btn svg {
+    width: 20px;
     height: 20px;
   }
 }

@@ -56,6 +56,11 @@
         </div>
       </transition>
     </div>
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" @click="$event.target.closest('.renta-autos-hero')?.nextElementSibling?.scrollIntoView({ behavior: 'smooth' })">
+      <span>Explorar</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
   </section>
 </template>
 
@@ -109,8 +114,18 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 100px 20px 80px;
+}
+
+/* When form is expanded: grow downward, don't push title up */
+.renta-autos-hero:has(.floating-form-card.expanded) {
   justify-content: flex-start;
-  padding: 220px 20px 60px;
+  padding-top: 140px;
+}
+
+.renta-autos-hero:has(.floating-form-card.expanded) .scroll-indicator {
+  display: none;
 }
 
 .hero-overlay {
@@ -129,8 +144,8 @@ export default {
   z-index: 1;
   text-align: center;
   color: white;
-  padding-top: 40px;
-  margin-bottom: 60px;
+  padding-top: 0;
+  margin-bottom: 40px;
   animation: fadeInDown 0.8s ease-out;
 }
 
@@ -391,15 +406,59 @@ export default {
     inset 0 0 0 1px rgba(181, 147, 26, 0.15);
 }
 
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: bounceDown 2s ease-in-out infinite;
+}
+
+.scroll-indicator span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.scroll-indicator svg {
+  width: 28px;
+  height: 28px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.3s;
+}
+
+.scroll-indicator:hover svg,
+.scroll-indicator:hover span {
+  color: white;
+}
+
+@keyframes bounceDown {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(10px); }
+  60% { transform: translateX(-50%) translateY(5px); }
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .renta-autos-hero {
-    padding: 120px 15px 50px;
+    padding: 100px 20px 80px;
+  }
+
+  .renta-autos-hero:has(.floating-form-card.expanded) {
+    padding-top: 130px;
   }
 
   .hero-content {
-    padding-top: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
   }
 
   .hero-content h1 {
@@ -430,12 +489,15 @@ export default {
 @media (max-width: 768px) {
   .renta-autos-hero {
     background-attachment: scroll;
-    padding: 110px 12px 40px;
+    padding: 90px 15px 70px;
+  }
+
+  .renta-autos-hero:has(.floating-form-card.expanded) {
+    padding-top: 120px;
   }
 
   .hero-content {
-    padding-top: 20px;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
   }
 
   .hero-content h1 {
@@ -500,20 +562,23 @@ export default {
 
 @media (max-width: 480px) {
   .renta-autos-hero {
-    padding: 100px 10px 30px;
+    padding: 80px 12px 60px;
+  }
+
+  .renta-autos-hero:has(.floating-form-card.expanded) {
+    padding-top: 100px;
   }
 
   .hero-content {
-    padding-top: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   .hero-content h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 
   .hero-content p {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   .floating-form-card {

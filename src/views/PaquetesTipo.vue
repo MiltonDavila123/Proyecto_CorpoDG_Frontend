@@ -1,0 +1,426 @@
+<template>
+  <!-- VISTA DE TIPOS DE PAQUETE -->
+  <section v-if="vistaActual === 'tipos'" class="tipos-section">
+    <div class="section-header">
+      <h2>Selecciona un Tipo de Paquete</h2>
+    </div>
+
+    <div v-if="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando...</p>
+    </div>
+
+    <div v-else class="tipos-grid">
+      <div 
+        v-for="tipo in tipos" 
+        :key="tipo.id" 
+        class="tipo-card"
+        @click="seleccionarTipo(tipo)"
+      >
+        <div 
+          class="tipo-img" 
+          :style="{ backgroundImage: `url(${getImagenTipo(tipo.nombre)})` }"
+        >
+          <div class="tipo-overlay"></div>
+          <div class="tipo-info">
+            <h3>{{ tipo.nombre }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISTA DE PAQUETES FILTRADOS POR TIPO -->
+  <section v-if="vistaActual === 'paquetes'" class="paquetes-section">
+    <div class="section-header">
+      <h2>Paquetes: {{ tipoSeleccionado?.nombre }}</h2>
+    </div>
+
+    <div v-if="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando paquetes...</p>
+    </div>
+
+    <div v-else-if="paquetes.length === 0" class="no-paquetes">
+      <div class="no-paquetes-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+          <line x1="12" y1="22.08" x2="12" y2="12"/>
+        </svg>
+      </div>
+      <h3>No hay paquetes disponibles</h3>
+      <p>Actualmente no tenemos paquetes de este tipo. ¡Vuelve pronto!</p>
+    </div>
+
+    <CarruselPaquetes 
+      v-else
+      :paquetes="paquetes"
+      :items-per-slide="3"
+      @ver-oferta="verOferta"
+    />
+
+    <button class="btn-back-floating" @click="volverATipos">
+      <span class="arrow">←</span> Volver a Tipos
+    </button>
+  </section>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { getTiposPaquete, getPaquetes } from '../services/api.js'
+import CarruselPaquetes from '../components/CarruselPaquetes.vue'
+
+const router = useRouter()
+
+const vistaActual = ref('tipos')
+const loading = ref(false)
+const tipos = ref([])
+const paquetes = ref([])
+const tipoSeleccionado = ref(null)
+
+const imagenesTipos = {
+  'todo incluido': 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800',
+  'vacaciones': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800',
+  'aventura': 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=800',
+  'cultural': 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800',
+  'luna de miel': 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800',
+  'familiar': 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800',
+  'crucero': 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=800',
+  'ecoturismo': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800'
+}
+
+const getImagenTipo = (nombre) => {
+  const key = nombre.toLowerCase()
+  return imagenesTipos[key] || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800'
+}
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    tipos.value = await getTiposPaquete()
+  } catch (error) {
+    console.error('Error cargando tipos de paquete:', error)
+  } finally {
+    loading.value = false
+  }
+})
+
+const seleccionarTipo = async (tipo) => {
+  tipoSeleccionado.value = tipo
+  loading.value = true
+  vistaActual.value = 'paquetes'
+
+  try {
+    paquetes.value = await getPaquetes({ tipo: tipo.nombre })
+  } catch (error) {
+    console.error('Error cargando paquetes por tipo:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+const volverATipos = () => {
+  vistaActual.value = 'tipos'
+  tipoSeleccionado.value = null
+  paquetes.value = []
+}
+
+const verOferta = (paquete) => {
+  router.push({ name: 'PaqueteDetalle', params: { id: paquete.id } })
+}
+</script>
+
+<style scoped>
+.tipos-section,
+.paquetes-section {
+  --color-primary: #b5931ae2;
+  --color-primary-dark: #8a7015;
+  --color-primary-light: #d4b82c;
+  --color-dark: #23221e;
+  --color-text: #333;
+  --color-text-light: #666;
+  --color-background: #f5f5f5;
+  --color-white: #fff;
+  --color-border: #e0e0e0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.2);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+.section-header {
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 10px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  color: var(--color-text-light);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.tipos-section {
+  padding: 2rem;
+  min-height: 50vh;
+}
+
+.tipos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.tipo-card {
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tipo-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.tipo-img {
+  position: relative;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+}
+
+.tipo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+}
+
+.tipo-info {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.tipo-info h3 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.paquetes-section {
+  padding: 60px;
+  background: var(--color-background);
+}
+
+.no-paquetes {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: var(--radius-lg);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.no-paquetes-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+.no-paquetes-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.no-paquetes h3 {
+  color: var(--color-dark);
+  margin-bottom: 10px;
+}
+
+.no-paquetes p {
+  color: var(--color-text-light);
+}
+
+.btn-back-floating {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-primary);
+  border: none;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(181, 147, 26, 0.4);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.btn-back-floating:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(181, 147, 26, 0.5);
+}
+
+.btn-back-floating .arrow {
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-back-floating:hover .arrow {
+  transform: translateX(-4px);
+}
+
+@media (max-width: 992px) {
+  .tipos-section {
+    padding: 40px 30px;
+  }
+
+  .paquetes-section {
+    padding: 40px 30px;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .tipos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .tipos-section,
+  .paquetes-section {
+    padding: 40px 20px;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .tipos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+
+  .tipo-img {
+    height: 170px;
+  }
+
+  .tipo-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .btn-back-floating {
+    bottom: 20px;
+    left: 20px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tipos-section,
+  .paquetes-section {
+    padding: 30px 15px;
+    padding-bottom: 100px;
+  }
+
+  .section-header {
+    padding: 2rem 1rem 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .tipos-grid {
+    grid-template-columns: 1fr;
+    padding: 0 0.5rem;
+  }
+
+  .tipo-img {
+    height: 150px;
+  }
+
+  .tipo-info {
+    padding: 1rem;
+  }
+
+  .tipo-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .btn-back-floating {
+    bottom: 15px;
+    left: 15px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .btn-back-floating .arrow {
+    font-size: 1.1rem;
+  }
+
+  .no-paquetes {
+    padding: 50px 15px;
+  }
+
+  .no-paquetes-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .no-paquetes h3 {
+    font-size: 1.1rem;
+  }
+
+  .no-paquetes p {
+    font-size: 0.9rem;
+  }
+}
+</style>

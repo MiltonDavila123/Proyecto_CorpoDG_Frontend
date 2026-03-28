@@ -114,6 +114,65 @@ export async function getPaquetesPorRegion() {
 }
 
 // =====================================================
+// TIPOS DE PAQUETE
+// =====================================================
+export async function getTiposPaquete() {
+  const response = await fetch(`${API_BASE_URL}/tipos-paquete/`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener tipos de paquete')
+  return response.json()
+}
+
+// =====================================================
+// TEMPORADAS
+// =====================================================
+export async function getTemporadas() {
+  const response = await fetch(`${API_BASE_URL}/temporadas/`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener temporadas')
+  return response.json()
+}
+
+// =====================================================
+// DESTINOS
+// =====================================================
+export async function getDestinos(filtros = {}) {
+  let url = `${API_BASE_URL}/destinos/`
+  const params = new URLSearchParams()
+  
+  if (filtros.pais) params.append('pais', filtros.pais)
+  if (filtros.ciudad) params.append('ciudad', filtros.ciudad)
+  if (filtros.destacado) params.append('destacado', 'true')
+  
+  const queryString = params.toString()
+  if (queryString) url += `?${queryString}`
+  
+  const response = await fetch(url, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener destinos')
+  return response.json()
+}
+
+export async function getDestino(id) {
+  const response = await fetch(`${API_BASE_URL}/destinos/${id}/`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener destino')
+  return response.json()
+}
+
+export async function getDestinosDestacados() {
+  const response = await fetch(`${API_BASE_URL}/destinos/destacados/`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener destinos destacados')
+  return response.json()
+}
+
+// =====================================================
 // AEROLINEAS
 // =====================================================
 export async function getAerolineas() {
