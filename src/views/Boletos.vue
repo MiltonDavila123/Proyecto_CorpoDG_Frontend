@@ -5,6 +5,7 @@ import ModalContacto from '../components/ModalContacto.vue'
 import ModalPdfViewer from '../components/ModalPdfViewer.vue'
 import CarruselVuelos from '../components/CarruselVuelos.vue'
 import BuscadorVuelos from '../components/BuscadorVuelos.vue'
+import ModalReservaVuelo from '../components/ModalReservaVuelo.vue'
 import { getVuelos, getRegiones, getPaisesByRegion, getCiudades } from '../services/api.js'
 
 const router = useRouter()
@@ -41,6 +42,7 @@ const paisesDeRegion = ref([]) // Países que pertenecen a la región selecciona
 // ===== ESTADOS PARA LOS MODALES =====
 const mostrarModalContacto = ref(false)
 const mostrarModalPdf = ref(false)
+const mostrarModalReserva = ref(false)
 const mensajeReserva = ref('')
 const mensajeReadonly = ref(false)
 const vueloSeleccionado = ref(null)
@@ -248,14 +250,29 @@ const obtenerMensajeReserva = (vuelo) => {
 
 const handleReservar = (vuelo) => {
   vueloSeleccionado.value = vuelo
-  mensajeReserva.value = obtenerMensajeReserva(vuelo)
-  mensajeReadonly.value = true
+  mostrarModalReserva.value = true
+}
+
+const handleBuscarDesdeModal = (datos) => {
+  mostrarModalReserva.value = false
   
-  if (vuelo.pdf_url && vuelo.pdf_url.trim() !== '') {
-    mostrarModalPdf.value = true
-  } else {
-    mostrarModalContacto.value = true
-  }
+  router.push({
+    name: 'ResultadosVuelos',
+    query: {
+      origin: datos.origen,
+      destination: datos.destino,
+      date: datos.fechaIda,
+      return_date: datos.tipoViaje === 'idaVuelta' ? datos.fechaVuelta : '',
+      adults: datos.adultos,
+      children: datos.ninos,
+      infants: datos.infantes,
+      cabin_class: datos.clase,
+      limit: datos.limite || 50,
+      origenLabel: datos.origenLabel,
+      destinoLabel: datos.destinoLabel,
+      tipoViaje: datos.tipoViaje
+    }
+  })
 }
 
 const handleContactarDesdePdf = () => {
@@ -263,6 +280,12 @@ const handleContactarDesdePdf = () => {
 }
 
 // ===== DATOS DE BÚSQUEDA DE VUELOS =====
+const isExpanded = ref(false)
+
+const toggleExpand = () => {
+  isExpanded.value = !isExpanded.value
+}
+
 const datosBusqueda = ref(null)
 
 const handleBuscarVuelos = (datos) => {
@@ -306,17 +329,42 @@ const handleBuscarVuelos = (datos) => {
 
 <template>
   <div class="boletos-page">
-    <!-- Hero Section -->
+    <!-- Hero Section with Integrated Form -->
     <section class="hero-section">
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <h1>Vuelos</h1>
         <p>Encuentra los mejores vuelos al mejor precio</p>
       </div>
-    </section>
 
-    <!-- BUSCADOR DE VUELOS -->
-    <BuscadorVuelos @buscar="handleBuscarVuelos" />
+      <!-- BUSCADOR DE VUELOS -->
+      <div class="floating-form-card" :class="{ expanded: isExpanded }">
+        <div class="form-header" @click="toggleExpand">
+          <div class="header-left">
+            <div class="header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+              </svg>
+            </div>
+            <div class="header-text">
+              <h2>Busca tu Vuelo</h2>
+              <p>Completa el formulario y encuentra las mejores opciones</p>
+            </div>
+          </div>
+          <button class="expand-btn" :title="isExpanded ? 'Contraer' : 'Expandir'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :class="{ rotated: isExpanded }">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+        </div>
+
+        <transition name="slide">
+          <div class="form-content" v-show="isExpanded">
+            <BuscadorVuelos @buscar="handleBuscarVuelos" />
+          </div>
+        </transition>
+      </div>
+    </section>
 
     <!-- VISTA DE REGIONES -->
     <section v-if="vistaActual === 'regiones'" class="regiones-section">
@@ -528,6 +576,14 @@ const handleBuscarVuelos = (datos) => {
       :mensajePredefinido="mensajeReserva"
       :mensajeReadonly="mensajeReadonly"
     />
+
+    <!-- MODAL DE RESERVA DE VUELO -->
+    <ModalReservaVuelo
+      :visible="mostrarModalReserva"
+      :vuelo="vueloSeleccionado || {}"
+      @cerrar="mostrarModalReserva = false"
+      @buscar="handleBuscarDesdeModal"
+    />
   </div>
 </template>
 
@@ -582,44 +638,335 @@ const handleBuscarVuelos = (datos) => {
 
 /* Hero Section */
 .hero-section {
-  position: relative;
-  height: 85vh;
+  min-height: 100vh;
   background: var(--color-primary-gradient);
   background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&h=900&fit=crop');
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 220px 20px 60px;
   color: var(--color-text-white);
   text-align: center;
-  margin-top: 0;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: var(--color-overlay);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
-  padding: 0 2rem;
+  padding-top: 40px;
+  margin-bottom: 60px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-content h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: 3.8rem;
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  letter-spacing: -1px;
+  text-shadow: 
+    2px 2px 10px rgba(0,0,0,0.6),
+    0 0 30px rgba(181, 147, 26, 0.3);
   font-family: var(--font-heading);
 }
 
 .hero-content p {
   font-size: 1.5rem;
   font-weight: 300;
+  opacity: 0.95;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
   font-family: var(--font-body);
+}
+
+/* ===== FLOATING FORM CARD (Buscador de Vuelos) ===== */
+.floating-form-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 20px;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.9s ease-out 0.3s both;
+}
+
+.floating-form-card.expanded {
+  overflow: visible;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.floating-form-card:hover {
+  box-shadow: 
+    0 30px 70px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Form Header */
+.form-header {
+  background: linear-gradient(135deg, #b5931a 0%, #d4af37 50%, #b5931a 100%);
+  padding: 25px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.form-header:hover::before {
+  left: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-header:hover .header-icon {
+  transform: scale(1.08) rotate(5deg);
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.header-icon svg {
+  width: 30px;
+  height: 30px;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.header-text h2 {
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 5px;
+  text-shadow: 
+    2px 2px 4px rgba(0,0,0,0.2),
+    0 0 10px rgba(0,0,0,0.1);
+  letter-spacing: -0.5px;
+}
+
+.header-text p {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 400;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Expand Button */
+.expand-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.expand-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.12) rotate(5deg);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.expand-btn svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.expand-btn svg.rotated {
+  transform: rotate(180deg);
+}
+
+/* Form Content */
+.form-content {
+  padding: 0;
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #f8f9fa 100%);
+  overflow: visible;
+}
+
+.form-content :deep(.buscador-section) {
+  margin-top: 0;
+  padding-top: 1rem;
+}
+
+.form-content :deep(.buscador-card) {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Slide Transition */
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 800px;
+  overflow: hidden;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+}
+
+/* Responsive floating card & hero */
+@media (max-width: 992px) {
+  .hero-section {
+    padding: 120px 15px 50px;
+  }
+
+  .hero-content {
+    padding-top: 30px;
+    margin-bottom: 40px;
+  }
+
+  .form-header {
+    padding: 22px 30px;
+  }
+
+  .header-text h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    background-attachment: scroll;
+    padding: 110px 12px 40px;
+  }
+
+  .hero-content {
+    padding-top: 20px;
+    margin-bottom: 35px;
+  }
+
+  .floating-form-card {
+    border-radius: 16px;
+  }
+
+  .form-header {
+    padding: 20px 22px;
+  }
+
+  .header-left {
+    gap: 15px;
+  }
+
+  .header-icon {
+    width: 52px;
+    height: 52px;
+    border-width: 2px;
+  }
+
+  .header-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .header-text h2 {
+    font-size: 1.3rem;
+  }
+
+  .header-text p {
+    font-size: 0.9rem;
+  }
+
+  .expand-btn {
+    width: 44px;
+    height: 44px;
+    border-width: 2px;
+  }
+
+  .expand-btn svg {
+    width: 21px;
+    height: 20px;
+  }
 }
 
 /* ===== SECCIONES DE NAVEGACIÓN ===== */

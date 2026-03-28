@@ -51,10 +51,12 @@ const destinos = ref([
 
 <style scoped>
 .destinos-hero {
-  height: 85vh;
+  min-height: 100vh;
   background: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200') center/cover;
+  background-attachment: fixed;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -62,7 +64,12 @@ const destinos = ref([
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
 }
 
 .hero-content {
@@ -70,19 +77,36 @@ const destinos = ref([
   z-index: 1;
   text-align: center;
   color: white;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-content h1 {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: 3.8rem;
+  margin-bottom: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-shadow: 
+    2px 2px 10px rgba(0,0,0,0.6),
+    0 0 30px rgba(181, 147, 26, 0.3);
 }
 
 .hero-content p {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   opacity: 0.95;
   font-weight: 300;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
 }
 
 .destinos-grid {
@@ -129,6 +153,11 @@ const destinos = ref([
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
+  .destinos-hero {
+    min-height: auto;
+    padding: 120px 15px 50px;
+  }
+
   .destinos-grid {
     padding: 40px;
     gap: 25px;
@@ -139,13 +168,14 @@ const destinos = ref([
   }
   
   .hero-content p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 }
 
 @media (max-width: 768px) {
   .destinos-hero {
-    height: 70vh;
+    background-attachment: scroll;
+    padding: 110px 12px 40px;
   }
   
   .hero-content h1 {
@@ -153,7 +183,7 @@ const destinos = ref([
   }
   
   .hero-content p {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
   
   .destinos-grid {
@@ -181,7 +211,7 @@ const destinos = ref([
 
 @media (max-width: 480px) {
   .destinos-hero {
-    height: 60vh;
+    padding: 100px 10px 30px;
   }
   
   .hero-content h1 {

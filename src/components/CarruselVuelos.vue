@@ -25,7 +25,7 @@
           <!-- Imagen del vuelo -->
           <div class="vuelo-image">
             <img :src="getVueloImagen(vuelo)" :alt="`Vuelo a ${vuelo.destino_nombre}`" />
-            <div class="vuelo-badge">{{ formatTipoVuelo(vuelo.tipo_vuelo) }}</div>
+            <div class="vuelo-badge">{{ vuelo.destino_pais }}</div>
           </div>
 
           <!-- Información del vuelo -->
@@ -34,8 +34,8 @@
             <div class="vuelo-route">
               <div class="route-item">
                 <span class="route-label">Desde</span>
-                <h3>{{ vuelo.origen_nombre }}</h3>
-                <span class="route-pais">{{ vuelo.origen_pais }}</span>
+                <h3>{{ vuelo.origen_ciudad || vuelo.origen_nombre }}</h3>
+                <span class="route-code" v-if="vuelo.origen_codigo_iata">{{ vuelo.origen_codigo_iata }}</span>
               </div>
               <div class="route-arrow">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -44,8 +44,8 @@
               </div>
               <div class="route-item">
                 <span class="route-label">Hacia</span>
-                <h3>{{ vuelo.destino_nombre }}</h3>
-                <span class="route-pais">{{ vuelo.destino_pais }}</span>
+                <h3>{{ vuelo.destino_ciudad || vuelo.destino_nombre }}</h3>
+                <span class="route-code" v-if="vuelo.destino_codigo_iata">{{ vuelo.destino_codigo_iata }}</span>
               </div>
             </div>
             
@@ -419,6 +419,18 @@ const getVueloImagen = (vuelo) => {
   font-size: 0.85rem;
   color: var(--color-text-medium);
   display: block;
+  margin-top: 0.2rem;
+}
+
+.route-code {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: rgba(181, 147, 26, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  letter-spacing: 1px;
   margin-top: 0.2rem;
 }
 

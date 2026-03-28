@@ -17,7 +17,7 @@ const iconos = {
   nino: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>`,
   bebe: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-1.12.23-2.18.65-3.15C5.56 9.69 6.72 10.5 8 10.5c1.63 0 3.04-1.04 3.58-2.5h.84c.54 1.46 1.95 2.5 3.58 2.5 1.28 0 2.44-.81 3.35-1.65.42.97.65 2.03.65 3.15 0 4.41-3.59 8-8 8z"/></svg>`,
   clase: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 7H5v2h4V7zm10 0h-8v2h8V7zM5 11h4v2H5v-2zm8 0h6v2h-6v-2z"/></svg>`,
-  idaVuelta: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74c-3.6-.76-3.54-.75-3.67-.75-.31 0-.59.13-.79.35-.24.27-.24.66-.04.96l2.08 3.13c.33.5.89.82 1.48.82h7.85c.75 0 1.4-.49 1.62-1.2l1.19-3.55c.17-.47.05-.95-.28-1.34-.32-.37-.79-.5-1.6-.34z"/></svg>`,
+  idaVuelta: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>`,
   soloIda: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>`,
   menos: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>`,
   mas: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>`,
@@ -489,7 +489,7 @@ const intercambiar = () => {
                   <div class="pasajero-info">
                     <span class="pasajero-icon" v-html="iconos.nino"></span>
                     <div>
-                      <strong>Ninos</strong>
+                      <strong>Niños</strong>
                       <small>(2-11 anos)</small>
                     </div>
                   </div>
@@ -896,6 +896,7 @@ const intercambiar = () => {
   cursor: pointer;
   border-bottom: 1px solid #f0f0f0;
   transition: background 0.15s;
+  color: #333;
 }
 .dropdown li:last-child { border-bottom: none; }
 .dropdown li:hover { background: var(--bg); }
@@ -923,6 +924,7 @@ const intercambiar = () => {
 /* Dropdown clases */
 .dropdown-clases li {
   gap: 10px;
+  color: var(--text);
 }
 .dropdown-clases li.selected {
   background: rgba(181,147,26,0.1);
@@ -954,6 +956,7 @@ const intercambiar = () => {
   box-shadow: 0 6px 20px rgba(0,0,0,0.12);
   z-index: 100;
   padding: 12px;
+  color: #333;
 }
 
 .pasajero-row {
