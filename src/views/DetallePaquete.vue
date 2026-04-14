@@ -479,9 +479,9 @@ const volver = () => {
 <style scoped>
 /* Variables */
 .detalle-paquete-page {
-  --color-primary: #c9a227;
-  --color-primary-dark: #a68419;
-  --color-primary-light: #e6c14a;
+  --color-primary: #b5931a;
+  --color-primary-dark: #8a6f14;
+  --color-primary-light: #d4af37;
   --color-verde: #27ae60;
   --color-verde-oscuro: #1e8449;
   --color-verde-light: #2ecc71;
@@ -495,7 +495,7 @@ const volver = () => {
   --color-gris-claro: #f8f9fa;
   --color-texto: #2c3e50;
   --color-texto-light: #34495e;
-  --gradient-gold: linear-gradient(135deg, #c9a227 0%, #e6c14a 50%, #c9a227 100%);
+  --gradient-gold: linear-gradient(135deg, #b5931a 0%, #d4af37 50%, #b5931a 100%);
   --gradient-verde: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
   --gradient-rojo: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   --shadow-card: 0 4px 15px rgba(0,0,0,0.1);

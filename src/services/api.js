@@ -234,6 +234,14 @@ export async function getVuelo(id) {
   return response.json()
 }
 
+export async function getVuelosDestacados() {
+  const response = await fetch(`${API_BASE_URL}/vuelos/destacados/`, {
+    headers: getHeaders()
+  })
+  if (!response.ok) throw new Error('Error al obtener vuelos destacados')
+  return response.json()
+}
+
 // =====================================================
 // AEROPUERTOS - AUTOCOMPLETE
 // =====================================================

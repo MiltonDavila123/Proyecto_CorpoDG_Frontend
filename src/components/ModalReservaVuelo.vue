@@ -123,9 +123,13 @@
                     </div>
                   </div>
                   <div class="pasajero-counter">
-                    <button class="counter-btn" @click="decrementar('adultos')" :disabled="adultos <= 1">−</button>
+                    <button class="counter-btn counter-btn-minus" @click="decrementar('adultos')" :disabled="adultos <= 1">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+                    </button>
                     <span class="counter-value">{{ adultos }}</span>
-                    <button class="counter-btn" @click="incrementar('adultos')" :disabled="adultos >= 9">+</button>
+                    <button class="counter-btn counter-btn-plus" @click="incrementar('adultos')" :disabled="adultos >= 9">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
                   </div>
                 </div>
                 <!-- Niños -->
@@ -138,9 +142,13 @@
                     </div>
                   </div>
                   <div class="pasajero-counter">
-                    <button class="counter-btn" @click="decrementar('ninos')" :disabled="ninos <= 0">−</button>
+                    <button class="counter-btn counter-btn-minus" @click="decrementar('ninos')" :disabled="ninos <= 0">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+                    </button>
                     <span class="counter-value">{{ ninos }}</span>
-                    <button class="counter-btn" @click="incrementar('ninos')" :disabled="ninos >= 9">+</button>
+                    <button class="counter-btn counter-btn-plus" @click="incrementar('ninos')" :disabled="ninos >= 9">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
                   </div>
                 </div>
                 <!-- Infantes -->
@@ -153,12 +161,22 @@
                     </div>
                   </div>
                   <div class="pasajero-counter">
-                    <button class="counter-btn" @click="decrementar('infantes')" :disabled="infantes <= 0">−</button>
+                    <button class="counter-btn counter-btn-minus" @click="decrementar('infantes')" :disabled="infantes <= 0">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+                    </button>
                     <span class="counter-value">{{ infantes }}</span>
-                    <button class="counter-btn" @click="incrementar('infantes')" :disabled="infantes >= adultos">+</button>
+                    <button class="counter-btn counter-btn-plus" @click="incrementar('infantes')" :disabled="infantes >= 4">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
                   </div>
                 </div>
               </div>
+              <!-- Mensaje advertencia pasajeros -->
+              <transition name="modal-fade">
+                <div v-if="mensajePasajeros" class="mensaje-pasajeros">
+                  {{ mensajePasajeros }}
+                </div>
+              </transition>
             </div>
 
             <!-- Clase -->
@@ -253,17 +271,44 @@ watch(() => props.visible, (val) => {
   }
 })
 
+// Mensaje de advertencia para pasajeros
+const mensajePasajeros = ref('')
+let timeoutPasajeros = null
+
+const mostrarMensajePasajeros = (msg) => {
+  mensajePasajeros.value = msg
+  if (timeoutPasajeros) clearTimeout(timeoutPasajeros)
+  timeoutPasajeros = setTimeout(() => { mensajePasajeros.value = '' }, 3500)
+}
+
 // Pasajeros
 const incrementar = (tipo) => {
-  if (tipo === 'adultos' && adultos.value < 9) adultos.value++
-  if (tipo === 'ninos' && ninos.value < 9) ninos.value++
-  if (tipo === 'infantes' && infantes.value < adultos.value) infantes.value++
+  if (tipo === 'adultos') {
+    if (adultos.value < 9) adultos.value++
+    else mostrarMensajePasajeros('Máximo 9 adultos por reserva.')
+  }
+  if (tipo === 'ninos') {
+    if (ninos.value < 9) ninos.value++
+    else mostrarMensajePasajeros('Máximo 9 niños por reserva.')
+  }
+  if (tipo === 'infantes') {
+    if (infantes.value < 4) {
+      infantes.value++
+      if (infantes.value > adultos.value) {
+      mostrarMensajePasajeros('Se recomienda al menos 1 adulto por cada infante.')
+      }
+    } else {
+      mostrarMensajePasajeros('Máximo 4 infantes por reserva.')
+    }
+  }
 }
 
 const decrementar = (tipo) => {
   if (tipo === 'adultos' && adultos.value > 1) {
     adultos.value--
-    if (infantes.value > adultos.value) infantes.value = adultos.value
+    if (infantes.value > adultos.value && infantes.value > 0) {
+      mostrarMensajePasajeros('Se recomienda al menos 1 adulto por cada infante.')
+    }
   }
   if (tipo === 'ninos' && ninos.value > 0) ninos.value--
   if (tipo === 'infantes' && infantes.value > 0) infantes.value--
@@ -678,24 +723,44 @@ const handleBuscar = () => {
 }
 
 .counter-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   border: 2px solid #e0e0e0;
   background: white;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #333;
+  color: #555;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
 }
 
-.counter-btn:hover:not(:disabled) {
-  border-color: #b5931a;
-  color: #b5931a;
+.counter-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.counter-btn-minus:hover:not(:disabled),
+.counter-btn-minus:active:not(:disabled) {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+.counter-btn-minus:active:not(:disabled) {
+  transform: scale(0.9);
+  background: #fca5a5;
+}
+
+.counter-btn-plus:hover:not(:disabled),
+.counter-btn-plus:active:not(:disabled) {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #16a34a;
+}
+.counter-btn-plus:active:not(:disabled) {
+  transform: scale(0.9);
+  background: #86efac;
 }
 
 .counter-btn:disabled {
@@ -709,6 +774,23 @@ const handleBuscar = () => {
   color: #333;
   min-width: 24px;
   text-align: center;
+}
+
+.mensaje-pasajeros {
+  padding: 8px 12px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #92400e;
+  text-align: center;
+  margin-top: 6px;
+  animation: pasajerosFadeIn 0.3s ease;
+}
+
+@keyframes pasajerosFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Clase select */

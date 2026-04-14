@@ -214,16 +214,43 @@ const cerrarClases = () => {
 }
 
 // ===== PASAJEROS =====
+// Mensaje de advertencia para pasajeros
+const mensajePasajeros = ref('')
+let timeoutPasajeros = null
+
+const mostrarMensajePasajeros = (msg) => {
+  mensajePasajeros.value = msg
+  if (timeoutPasajeros) clearTimeout(timeoutPasajeros)
+  timeoutPasajeros = setTimeout(() => { mensajePasajeros.value = '' }, 3500)
+}
+
 const incrementar = (tipo) => {
-  if (tipo === 'adultos' && adultos.value < 9) adultos.value++
-  if (tipo === 'ninos' && ninos.value < 9) ninos.value++
-  if (tipo === 'infantes' && infantes.value < adultos.value) infantes.value++
+  if (tipo === 'adultos') {
+    if (adultos.value < 9) adultos.value++
+    else mostrarMensajePasajeros('Máximo 9 adultos por reserva.')
+  }
+  if (tipo === 'ninos') {
+    if (ninos.value < 9) ninos.value++
+    else mostrarMensajePasajeros('Máximo 9 niños por reserva.')
+  }
+  if (tipo === 'infantes') {
+    if (infantes.value < 4) {
+      infantes.value++
+      if (infantes.value > adultos.value) {
+        mostrarMensajePasajeros('Se recomienda al menos 1 adulto por cada infante.')
+      }
+    } else {
+      mostrarMensajePasajeros('Máximo 4 infantes por reserva.')
+    }
+  }
 }
 
 const decrementar = (tipo) => {
   if (tipo === 'adultos' && adultos.value > 1) {
     adultos.value--
-    if (infantes.value > adultos.value) infantes.value = adultos.value
+    if (infantes.value > adultos.value && infantes.value > 0) {
+      mostrarMensajePasajeros('Se recomienda al menos 1 adulto por cada infante.')
+    }
   }
   if (tipo === 'ninos' && ninos.value > 0) ninos.value--
   if (tipo === 'infantes' && infantes.value > 0) infantes.value--
@@ -475,12 +502,12 @@ const intercambiar = () => {
                     </div>
                   </div>
                   <div class="pasajero-controles">
-                    <button type="button" class="ctrl-btn" @mousedown.prevent="decrementar('adultos')" :disabled="adultos <= 1">
-                      <span v-html="iconos.menos"></span>
+                    <button type="button" class="ctrl-btn ctrl-btn-minus" @mousedown.prevent="decrementar('adultos')" :disabled="adultos <= 1">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
                     </button>
                     <span class="cantidad">{{ adultos }}</span>
-                    <button type="button" class="ctrl-btn" @mousedown.prevent="incrementar('adultos')" :disabled="adultos >= 9">
-                      <span v-html="iconos.mas"></span>
+                    <button type="button" class="ctrl-btn ctrl-btn-plus" @mousedown.prevent="incrementar('adultos')" :disabled="adultos >= 9">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     </button>
                   </div>
                 </div>
@@ -494,12 +521,12 @@ const intercambiar = () => {
                     </div>
                   </div>
                   <div class="pasajero-controles">
-                    <button type="button" class="ctrl-btn" @mousedown.prevent="decrementar('ninos')" :disabled="ninos <= 0">
-                      <span v-html="iconos.menos"></span>
+                    <button type="button" class="ctrl-btn ctrl-btn-minus" @mousedown.prevent="decrementar('ninos')" :disabled="ninos <= 0">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
                     </button>
                     <span class="cantidad">{{ ninos }}</span>
-                    <button type="button" class="ctrl-btn" @mousedown.prevent="incrementar('ninos')" :disabled="ninos >= 9">
-                      <span v-html="iconos.mas"></span>
+                    <button type="button" class="ctrl-btn ctrl-btn-plus" @mousedown.prevent="incrementar('ninos')" :disabled="ninos >= 9">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     </button>
                   </div>
                 </div>
@@ -513,16 +540,22 @@ const intercambiar = () => {
                     </div>
                   </div>
                   <div class="pasajero-controles">
-                    <button type="button" class="ctrl-btn" @mousedown.prevent="decrementar('infantes')" :disabled="infantes <= 0">
-                      <span v-html="iconos.menos"></span>
+                    <button type="button" class="ctrl-btn ctrl-btn-minus" @mousedown.prevent="decrementar('infantes')" :disabled="infantes <= 0">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
                     </button>
                     <span class="cantidad">{{ infantes }}</span>
-                    <button type="button" class="ctrl-btn" @mousedown.prevent="incrementar('infantes')" :disabled="infantes >= adultos">
-                      <span v-html="iconos.mas"></span>
+                    <button type="button" class="ctrl-btn ctrl-btn-plus" @mousedown.prevent="incrementar('infantes')" :disabled="infantes >= 4">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                     </button>
                   </div>
                 </div>
               </div>
+              <!-- Mensaje advertencia pasajeros -->
+              <transition name="fade">
+                <div v-if="mensajePasajeros" class="mensaje-pasajeros">
+                  {{ mensajePasajeros }}
+                </div>
+              </transition>
             </div>
           </div>
 
@@ -995,21 +1028,43 @@ const intercambiar = () => {
 }
 
 .ctrl-btn {
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 6px;
-  background: var(--text);
-  color: #fff;
+  width: 34px;
+  height: 34px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fff;
+  color: #555;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, opacity 0.2s;
+  transition: all 0.25s ease;
 }
-.ctrl-btn:hover:not(:disabled) { background: var(--primary); }
-.ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.ctrl-btn svg { width: 18px; height: 18px; }
+.ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.ctrl-btn span { display: flex; align-items: center; justify-content: center; }
+.ctrl-btn span svg, .ctrl-btn svg { width: 18px; height: 18px; }
+
+.ctrl-btn-minus:hover:not(:disabled),
+.ctrl-btn-minus:active:not(:disabled) {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+.ctrl-btn-minus:active:not(:disabled) {
+  transform: scale(0.9);
+  background: #fca5a5;
+}
+
+.ctrl-btn-plus:hover:not(:disabled),
+.ctrl-btn-plus:active:not(:disabled) {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #16a34a;
+}
+.ctrl-btn-plus:active:not(:disabled) {
+  transform: scale(0.9);
+  background: #86efac;
+}
 
 .cantidad {
   min-width: 24px;
@@ -1017,6 +1072,23 @@ const intercambiar = () => {
   font-weight: 600;
   font-size: 1rem;
   color: var(--text);
+}
+
+.mensaje-pasajeros {
+  padding: 8px 12px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #92400e;
+  text-align: center;
+  margin-top: 6px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Swap button */
