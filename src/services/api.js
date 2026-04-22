@@ -305,3 +305,29 @@ export async function enviarContacto(datos) {
   
   return data
 }
+
+// =====================================================
+// CHATBOT
+// =====================================================
+
+/**
+ * Envía un mensaje al chatbot y retorna la respuesta del asistente.
+ * @param {string} mensaje - Texto del usuario
+ * @param {Array} historial - Historial previo [{ role, content }, ...]
+ * @returns {{ respuesta: string, historial: Array }}
+ */
+export async function enviarMensajeChatbot(mensaje, historial = []) {
+  const response = await fetch(`${API_BASE_URL}/chatbot/`, {
+    method: 'POST',
+    headers: getHeaders(true),
+    body: JSON.stringify({ mensaje, historial })
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Error al comunicarse con el chatbot')
+  }
+
+  return data
+}
