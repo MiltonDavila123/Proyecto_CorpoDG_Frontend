@@ -13,6 +13,16 @@ const routes = [
     component: () => import ('../views/PaquetesLayout.vue')
   },
   {
+    path: '/paquetes/reserva/confirmada',
+    name: 'ReservaPaqueteConfirmada',
+    component: () => import('../views/ReservaPaqueteConfirmada.vue')
+  },
+  {
+    path: '/paquetes/reserva/cancelada',
+    name: 'ReservaPaqueteCancelada',
+    component: () => import('../views/ReservaPaqueteCancelada.vue')
+  },
+  {
     path: '/paquetes/:id',
     name: 'PaqueteDetalle',
     component: () => import('../views/DetallePaquete.vue'),
@@ -37,6 +47,16 @@ const routes = [
     path: '/vuelos/resultados',
     name: 'ResultadosVuelos',
     component: () => import('../views/ResultadosVuelos.vue')
+  },
+  {
+    path: '/reserva/confirmada',
+    name: 'ReservaConfirmada',
+    component: () => import('../views/ReservaConfirmada.vue')
+  },
+  {
+    path: '/reserva/cancelada',
+    name: 'ReservaCancelada',
+    component: () => import('../views/ReservaCancelada.vue')
   }
 ]
 

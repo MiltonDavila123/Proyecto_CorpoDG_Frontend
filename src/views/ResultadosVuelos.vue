@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { buscarVuelosLive, buscarAerolineaIATA } from '../services/api.js'
+import { buscarVuelosLive, buscarAerolineaIATA, revalidarVuelo } from '../services/api.js'
 import Navbar from '../components/Navbar.vue'
 import Footer_Info from '../components/Footer_Info.vue'
 import ModalContacto from '../components/ModalContacto.vue'
+import ModalCheckoutVuelo from '../components/ModalCheckoutVuelo.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -40,6 +41,27 @@ const filtroAerolinea = ref('todas')
 const mostrarModalContacto = ref(false)
 const mensajeReserva = ref('')
 const mensajeReservaInterno = ref('')
+
+// Checkout (pasajeros + asientos + resumen)
+const mostrarCheckout = ref(false)
+const vueloCheckout = ref(null)
+const revalidacionCheckout = ref(null)
+
+// Revalidación
+const revalidandoId = ref(null) // id del vuelo que se está revalidando
+const notificacion = ref(null)  // { tipo: 'error'|'success'|'warning', texto: string }
+let notificacionTimeoutId = null
+const mostrarNotificacion = (tipo, texto, duracionMs = 5000) => {
+  notificacion.value = { tipo, texto }
+  if (notificacionTimeoutId) clearTimeout(notificacionTimeoutId)
+  if (duracionMs > 0) {
+    notificacionTimeoutId = setTimeout(() => { notificacion.value = null }, duracionMs)
+  }
+}
+const cerrarNotificacion = () => {
+  notificacion.value = null
+  if (notificacionTimeoutId) clearTimeout(notificacionTimeoutId)
+}
 
 // Clases
 const clases = {
@@ -275,8 +297,75 @@ const construirResumenTramosParaAgente = (tramos = []) => {
   }).join('\n')
 }
 
-// -- Reservar vuelo --
-const handleReservar = (vuelo) => {
+// -- Reservar vuelo (revalida primero contra el backend) --
+const handleReservar = async (vuelo) => {
+  if (revalidandoId.value) return // evitar dobles clicks
+  revalidandoId.value = vuelo.id
+  try {
+    const { ok, status, data } = await revalidarVuelo(vuelo, {
+      adults: busqueda.value.adults,
+      children: busqueda.value.children,
+      infants: busqueda.value.infants
+    })
+
+    if (!ok) {
+      if (status === 409) {
+        mostrarNotificacion('error', 'Este vuelo ya no está disponible. Actualizando resultados...', 6000)
+        await realizarBusqueda()
+      } else if (status === 400) {
+        mostrarNotificacion('error', data?.error || 'Datos del itinerario incompletos.')
+      } else {
+        mostrarNotificacion('error', data?.error || 'No se pudo verificar la disponibilidad del vuelo. Inténtalo de nuevo.')
+      }
+      return
+    }
+
+    // Disponible: actualizar precio/condiciones con la respuesta confirmada
+    const precioOriginal = Number(vuelo.precio_total)
+    const precioConfirmado = Number(data.precio_total)
+    if (Number.isFinite(precioConfirmado)) {
+      if (Number.isFinite(precioOriginal) && Math.abs(precioConfirmado - precioOriginal) >= 0.01) {
+        const continuar = window.confirm(
+          `El precio del vuelo se actualizó.\n\n` +
+          `Anterior: $${formatearPrecio(precioOriginal)} ${vuelo.moneda || ''}\n` +
+          `Nuevo: $${formatearPrecio(precioConfirmado)} ${data.moneda || vuelo.moneda || ''}\n\n` +
+          `¿Deseas continuar con el nuevo precio?`
+        )
+        if (!continuar) return
+        mostrarNotificacion('warning', 'El precio fue actualizado al valor confirmado por la aerolínea.', 4000)
+      }
+      vuelo.precio_total = precioConfirmado
+    }
+    if (Number.isFinite(Number(data.precio_base))) vuelo.precio_base = Number(data.precio_base)
+    if (Number.isFinite(Number(data.impuestos))) vuelo.impuestos = Number(data.impuestos)
+    if (data.moneda) vuelo.moneda = data.moneda
+    if (data.ultima_fecha_compra) vuelo.ultima_fecha_compra = data.ultima_fecha_compra
+    if (data.aerolinea_validadora) vuelo.aerolinea_validadora = data.aerolinea_validadora
+
+    abrirCheckout(vuelo, data)
+  } finally {
+    revalidandoId.value = null
+  }
+}
+
+// Abre el modal de checkout (pasajeros + asientos + resumen).
+const abrirCheckout = (vuelo, revalidacion = null) => {
+  vueloCheckout.value = vuelo
+  revalidacionCheckout.value = revalidacion
+  mostrarCheckout.value = true
+}
+
+// Cuando el usuario confirma desde el checkout: el modal ya inició la
+// redirección a Stripe (window.location.href). Aquí sólo limpiamos UI
+// y guardamos contexto por si el usuario vuelve.
+const handleConfirmarCheckout = (payload) => {
+  mostrarCheckout.value = false
+  mostrarNotificacion('success', 'Redirigiéndote al pago seguro...', 4000)
+  // payload disponible por si se quiere registrar en analytics
+  void payload
+}
+
+const abrirModalReserva = (vuelo, revalidacion = null, checkout = null) => {
   const proveedorItinerario = formatearProveedor(vuelo.proveedor)
   const proveedorBusqueda = formatearProveedorBusqueda(vuelo.proveedor)
   const pasajerosTexto = `${busqueda.value.adults} adulto(s)${busqueda.value.children ? ', ' + busqueda.value.children + ' niño(s)' : ''}${busqueda.value.infants ? ', ' + busqueda.value.infants + ' infante(s)' : ''}`
@@ -285,22 +374,58 @@ const handleReservar = (vuelo) => {
     : `Ida: ${busqueda.value.date}`
   const resumenTramos = construirResumenTramosParaAgente(vuelo.tramos)
 
-  mensajeReserva.value = [
+  const lineas = [
     'Solicitud de reserva de vuelo',
     `Aerolínea: ${getNombreAerolinea(vuelo.aerolinea_validadora)}`,
     `Ruta: ${busqueda.value.origenLabel} -> ${busqueda.value.destinoLabel}`,
     fechasTexto,
     `Pasajeros: ${pasajerosTexto} | Clase: ${clases[busqueda.value.cabin_class] || busqueda.value.cabin_class}`,
-    `Total: $${formatearPrecio(vuelo.precio_total)} ${vuelo.moneda || ''} (Base $${formatearPrecio(vuelo.precio_base)}, Impuestos $${formatearPrecio(vuelo.impuestos)})`,
-    `Emitir antes de: ${vuelo.ultima_fecha_compra || 'N/D'}`,
-    'Detalle operativo:',
-    resumenTramos,
-    'Favor ayudarme a completar esta reserva.'
-  ].join('\n')
+    `Total vuelo: $${formatearPrecio(vuelo.precio_total)} ${vuelo.moneda || ''} (Base $${formatearPrecio(vuelo.precio_base)}, Impuestos $${formatearPrecio(vuelo.impuestos)})`,
+    `Emitir antes de: ${vuelo.ultima_fecha_compra || 'N/D'}${revalidacion?.ultima_hora_compra ? ' ' + revalidacion.ultima_hora_compra : ''}`,
+    'Disponibilidad confirmada con la aerolínea.'
+  ]
 
-  mensajeReservaInterno.value = [
+  if (checkout?.pasajeros?.length) {
+    lineas.push('', 'Pasajeros:')
+    checkout.pasajeros.forEach((p, i) => {
+      lineas.push(
+        `  ${i + 1}. [${p.tipo}] ${p.nombres} ${p.apellidos} | ${p.tipoDoc}: ${p.numeroDoc} | Nac: ${p.fechaNacimiento} | ${p.genero} | ${p.nacionalidad}`
+      )
+    })
+    if (checkout.contacto?.email) {
+      lineas.push('', `Contacto titular: ${checkout.contacto.email} | Tel: ${checkout.contacto.telefono}`)
+    }
+  }
+
+  if (checkout?.asientos?.length) {
+    lineas.push('', 'Asientos seleccionados:')
+    checkout.asientos.forEach(a => {
+      const pax = checkout.pasajeros?.[a.pasajero_indice - 1]
+      const nombrePax = pax ? `${pax.nombres} ${pax.apellidos}` : `Pax ${a.pasajero_indice}`
+      const costo = a.monto ? ` (+$${formatearPrecio(a.monto)} ${a.moneda})` : ''
+      lineas.push(`  Segmento ${a.segmento_indice} - ${nombrePax}: ${a.asiento_id}${costo}`)
+    })
+  }
+
+  if (checkout?.precio) {
+    lineas.push('', `TOTAL FINAL: $${formatearPrecio(checkout.precio.total)} ${checkout.precio.moneda} ` +
+      `(vuelo $${formatearPrecio(checkout.precio.vuelo)} + asientos $${formatearPrecio(checkout.precio.asientos)})`)
+  }
+
+  lineas.push('', 'Detalle operativo del itinerario:', resumenTramos, '', 'Favor confirmar y proceder con la emisión.')
+  mensajeReserva.value = lineas.join('\n')
+
+  const internas = [
     `Proveedor del servicio: ${proveedorItinerario} | Buscado en ${proveedorBusqueda}`
-  ].join('\n')
+  ]
+  if (checkout?.seatmap_offer_id) internas.push(`Seatmap offer_id: ${checkout.seatmap_offer_id}`)
+  if (checkout?.asientos?.some(a => a.offer_item_id)) {
+    internas.push('Offer items asientos:')
+    checkout.asientos.filter(a => a.offer_item_id).forEach(a => {
+      internas.push(`  seg ${a.segmento_indice} pax ${a.pasajero_indice} -> ${a.offer_item_id}`)
+    })
+  }
+  mensajeReservaInterno.value = internas.join('\n')
 
   mostrarModalContacto.value = true
 }
@@ -494,7 +619,14 @@ onMounted(() => {
               <span class="price-amount">${{ vuelo.precio_total.toLocaleString('en-US', { minimumFractionDigits: 2 }) }}</span>
               <span class="price-currency">{{ vuelo.moneda }}</span>
               <span class="price-per">Total por {{ busqueda.adults + busqueda.children + busqueda.infants }} pasajero{{ (busqueda.adults + busqueda.children + busqueda.infants) > 1 ? 's' : '' }}</span>
-              <button class="btn-reservar" @click.stop="handleReservar(vuelo)">Reservar</button>
+              <button
+                class="btn-reservar"
+                :disabled="revalidandoId === vuelo.id"
+                @click.stop="handleReservar(vuelo)"
+              >
+                <span v-if="revalidandoId === vuelo.id" class="spinner-inline"></span>
+                {{ revalidandoId === vuelo.id ? 'Verificando...' : 'Reservar' }}
+              </button>
             </div>
 
             <!-- Toggle detalle -->
@@ -591,9 +723,14 @@ onMounted(() => {
                     Comprar antes de: {{ vuelo.ultima_fecha_compra }}
                   </span>
                 </div>
-                <button class="btn-reservar-detail" @click.stop="handleReservar(vuelo)">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
-                  Reservar este vuelo
+                <button
+                  class="btn-reservar-detail"
+                  :disabled="revalidandoId === vuelo.id"
+                  @click.stop="handleReservar(vuelo)"
+                >
+                  <span v-if="revalidandoId === vuelo.id" class="spinner-inline"></span>
+                  <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                  {{ revalidandoId === vuelo.id ? 'Verificando disponibilidad...' : 'Reservar este vuelo' }}
                 </button>
               </div>
             </div>
@@ -602,6 +739,18 @@ onMounted(() => {
       </div>
     </section>
 
+    <!-- Modal Checkout (pasajeros + asientos + resumen) -->
+    <ModalCheckoutVuelo
+      v-if="vueloCheckout"
+      v-model:visible="mostrarCheckout"
+      :vuelo="vueloCheckout"
+      :revalidacion="revalidacionCheckout"
+      :pasajeros="{ adults: busqueda.adults, children: busqueda.children, infants: busqueda.infants }"
+      :origenLabel="busqueda.origenLabel"
+      :destinoLabel="busqueda.destinoLabel"
+      @confirmar="handleConfirmarCheckout"
+    />
+
     <!-- Modal Contacto -->
     <ModalContacto
       v-model:visible="mostrarModalContacto"
@@ -609,6 +758,18 @@ onMounted(() => {
       :mensajeInterno="mensajeReservaInterno"
       :mensajeReadonly="true"
     />
+
+    <!-- Notificación de revalidación -->
+    <transition name="toast-fade">
+      <div v-if="notificacion" class="revalidacion-toast" :class="'toast-' + notificacion.tipo">
+        <span class="toast-text">{{ notificacion.texto }}</span>
+        <button class="toast-close" @click="cerrarNotificacion" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -1457,5 +1618,91 @@ onMounted(() => {
   .filter-group select {
     width: 100%;
   }
+}
+
+/* ========== REVALIDACIÓN: spinner + toast ========== */
+.btn-reservar:disabled,
+.btn-reservar-detail:disabled {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.spinner-inline {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spinner-rotate 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spinner-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.revalidacion-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 420px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: #1a1a2e;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.revalidacion-toast.toast-error {
+  background: #b91c1c;
+}
+
+.revalidacion-toast.toast-warning {
+  background: #b5931a;
+}
+
+.revalidacion-toast.toast-success {
+  background: #047857;
+}
+
+.revalidacion-toast .toast-text {
+  flex: 1;
+}
+
+.revalidacion-toast .toast-close {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  opacity: 0.85;
+}
+
+.revalidacion-toast .toast-close:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
 }
 </style>

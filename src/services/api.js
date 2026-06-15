@@ -277,7 +277,212 @@ export async function buscarVuelosLive(datos) {
 }
 
 // =====================================================
-// AEROLINEAS POR IATA
+// REVALIDAR VUELO (SABRE)
+// =====================================================
+/**
+ * Revalida un itinerario antes de iniciar la reserva.
+ * Devuelve { ok, status, data } sin lanzar excepciones para que el
+ * caller pueda manejar 200 / 409 / 4xx / 5xx de forma uniforme.
+ *
+ * @param {Object} opcion - Opción seleccionada (tal cual viene de buscarVuelosLive).
+ * @param {Object} pasajeros - { adults, children, infants }
+ */
+export async function revalidarVuelo(opcion, pasajeros = {}) {
+  const payload = {
+    adults: pasajeros.adults ?? 1,
+    children: pasajeros.children ?? 0,
+    infants: pasajeros.infants ?? 0,
+    tramos: opcion?.tramos || []
+  }
+
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}/revalidar-vuelo/`, {
+      method: 'POST',
+      headers: getHeaders(true),
+      body: JSON.stringify(payload)
+    })
+  } catch (e) {
+    return { ok: false, status: 0, data: { disponible: false, error: 'No se pudo conectar con el servidor' } }
+  }
+
+  const data = await response.json().catch(() => ({ disponible: false, error: 'Respuesta inválida del servidor' }))
+  return { ok: response.ok && data.disponible === true, status: response.status, data }
+}
+
+// =====================================================
+// SEATMAP — MAPA DE ASIENTOS (SABRE Get Seats)
+// =====================================================
+/**
+ * Obtiene el mapa de asientos para un itinerario revalidado.
+ * Devuelve { ok, status, data } sin lanzar excepciones.
+ *
+ * @param {Object} opcion - Opción seleccionada (tal cual viene de buscarVuelosLive).
+ * @param {Array}  pasajeros - [{ passengerType, givenName, surname }, ...]
+ * @param {String} moneda - código de moneda (default USD)
+ */
+export async function obtenerSeatmap(opcion, pasajeros = [], moneda = 'USD') {
+  const payload = {
+    opcion,
+    pasajeros: Array.isArray(pasajeros) && pasajeros.length
+      ? pasajeros.map(p => ({
+          passengerType: p.passengerType || 'ADT',
+          givenName: (p.givenName || 'TEST').toUpperCase(),
+          surname: (p.surname || 'TEST').toUpperCase()
+        }))
+      : [{ passengerType: 'ADT', givenName: 'TEST', surname: 'TEST' }],
+    moneda: moneda || opcion?.moneda || 'USD'
+  }
+
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}/seatmap/`, {
+      method: 'POST',
+      headers: getHeaders(true),
+      body: JSON.stringify(payload)
+    })
+  } catch (e) {
+    return { ok: false, status: 0, data: { error: 'No se pudo conectar con el servidor' } }
+  }
+
+  const data = await response.json().catch(() => ({ error: 'Respuesta inválida del servidor' }))
+  return { ok: response.ok, status: response.status, data }
+}
+
+// =====================================================
+// BOOKING — CHECKOUT / CONFIRM (Stripe + Sabre)
+// =====================================================
+/**
+ * Crea la sesión de pago de Stripe.
+ * @param {Object} payload - { opcion, pasajeros, contacto, asientos_seleccionados, moneda }
+ * @returns { ok, status, data } - data.checkout_url para redireccionar
+ */
+export async function crearCheckoutBooking(payload) {
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}/booking/checkout/`, {
+      method: 'POST',
+      headers: getHeaders(true),
+      body: JSON.stringify(payload)
+    })
+  } catch (e) {
+    return { ok: false, status: 0, data: { error: 'No se pudo conectar con el servidor' } }
+  }
+  const data = await response.json().catch(() => ({ error: 'Respuesta inválida del servidor' }))
+  return { ok: response.ok, status: response.status, data }
+}
+
+/**
+ * Confirma una reserva contra Stripe + Sabre usando el session_id.
+ * Llamar desde la página de éxito (FRONTEND_BOOKING_SUCCESS_URL).
+ */
+export async function confirmarBooking(sessionId) {
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}/booking/confirm/`, {
+      method: 'POST',
+      headers: getHeaders(true),
+      body: JSON.stringify({ session_id: sessionId })
+    })
+  } catch (e) {
+    return { ok: false, status: 0, data: { error: 'No se pudo conectar con el servidor' } }
+  }
+  const data = await response.json().catch(() => ({ error: 'Respuesta inválida del servidor' }))
+  return { ok: response.ok, status: response.status, data }
+}
+
+// =====================================================
+// BOOKING DE PAQUETES (Stripe)
+// =====================================================
+/**
+ * Crea la sesión de pago de Stripe para un paquete turístico.
+ * @param {Object} payload - { paquete_id, n_personas, contacto, viajeros, fecha_viaje, moneda, success_url, cancel_url }
+ * @returns { ok, status, data } - data.checkout_url para redireccionar
+ */
+export async function crearCheckoutPaquete(payload) {
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}/paquetes/booking/checkout/`, {
+      method: 'POST',
+      headers: getHeaders(true),
+      body: JSON.stringify(payload)
+    })
+  } catch (e) {
+    return { ok: false, status: 0, data: { error: 'No se pudo conectar con el servidor' } }
+  }
+  const data = await response.json().catch(() => ({ error: 'Respuesta inválida del servidor' }))
+  return { ok: response.ok, status: response.status, data }
+}
+
+/**
+ * Confirma una reserva de paquete contra Stripe usando el session_id.
+ * Llamar desde la página de éxito de paquetes.
+ */
+export async function confirmarBookingPaquete(sessionId) {
+  let response
+  try {
+    response = await fetch(`${API_BASE_URL}/paquetes/booking/confirm/`, {
+      method: 'POST',
+      headers: getHeaders(true),
+      body: JSON.stringify({ session_id: sessionId })
+    })
+  } catch (e) {
+    return { ok: false, status: 0, data: { error: 'No se pudo conectar con el servidor' } }
+  }
+  const data = await response.json().catch(() => ({ error: 'Respuesta inválida del servidor' }))
+  return { ok: response.ok, status: response.status, data }
+}
+
+/**
+ * Construye la URL del voucher del paquete para imprimir o descargar.
+ * @param {Object} opts - { sessionId, loc, format }
+ */
+export function urlVoucherPaquete({ sessionId = null, loc = null, format = 'pdf' } = {}) {
+  const params = new URLSearchParams()
+  if (sessionId) params.set('session_id', sessionId)
+  else if (loc) params.set('loc', loc)
+  params.set('format', format)
+  return `${API_BASE_URL}/paquetes/booking/voucher/?${params.toString()}`
+}
+
+/**
+ * Descarga el voucher del paquete. Primero intenta el GET (caché backend);
+ * si falla (p. ej. la caché expiró -> 404), reenvía la reserva completa por POST.
+ * @param {Object} opts - { sessionId, loc, reserva, format }
+ * @returns { ok, blob, error }
+ */
+export async function descargarVoucherPaquete({ sessionId = null, loc = null, reserva = null, format = 'pdf' } = {}) {
+  // 1) Intento por GET (no requiere Content-Type)
+  try {
+    const url = urlVoucherPaquete({ sessionId, loc, format })
+    const res = await fetch(url, { headers: getHeaders() })
+    if (res.ok) {
+      return { ok: true, blob: await res.blob() }
+    }
+  } catch (e) { /* continúa al fallback */ }
+
+  // 2) Fallback por POST reenviando la reserva
+  if (reserva) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/paquetes/booking/voucher/`, {
+        method: 'POST',
+        headers: getHeaders(true),
+        body: JSON.stringify({ reserva, format })
+      })
+      if (res.ok) {
+        return { ok: true, blob: await res.blob() }
+      }
+      const data = await res.json().catch(() => ({}))
+      return { ok: false, error: data?.error || 'No se pudo generar el voucher.' }
+    } catch (e) {
+      return { ok: false, error: 'No se pudo conectar con el servidor.' }
+    }
+  }
+
+  return { ok: false, error: 'No se pudo generar el voucher.' }
+}
+
+
 // =====================================================
 export async function buscarAerolineaIATA(codigo) {
   const response = await fetch(`${API_BASE_URL}/aerolineas/buscar_iata/?codigo=${encodeURIComponent(codigo)}`, {

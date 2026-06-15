@@ -263,6 +263,14 @@
             CONTACTAR PARA RESERVAR
           </button>
 
+          <!-- Botón Reservar en línea (Stripe) -->
+          <button class="btn-reservar-online" @click="reservarEnLinea">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+            </svg>
+            RESERVAR EN LÍNEA
+          </button>
+
           <!-- Ver PDF si existe -->
           <button v-if="paquete.pdf_url" class="btn-ver-pdf" @click="verPdf">
             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -294,6 +302,12 @@
       :mensajePredefinido="mensajeReserva"
       :mensajeReadonly="true"
     />
+
+    <!-- MODAL DE RESERVA EN LÍNEA -->
+    <ModalReservaPaquete
+      v-model:visible="mostrarModalReserva"
+      :paquete="paquete || {}"
+    />
   </div>
 </template>
 
@@ -303,6 +317,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { getPaquete } from '../services/api.js'
 import ModalPdfViewer from '../components/ModalPdfViewer.vue'
 import ModalContacto from '../components/ModalContacto.vue'
+import ModalReservaPaquete from '../components/ModalReservaPaquete.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -314,6 +329,7 @@ const error = ref(null)
 // Estados para los modales
 const mostrarModalPdf = ref(false)
 const mostrarModalContacto = ref(false)
+const mostrarModalReserva = ref(false)
 const mensajeReserva = ref('')
 
 onMounted(async () => {
@@ -447,6 +463,10 @@ const generarMensajePaquete = () => {
 const contactar = () => {
   mensajeReserva.value = generarMensajePaquete()
   mostrarModalContacto.value = true
+}
+
+const reservarEnLinea = () => {
+  mostrarModalReserva.value = true
 }
 
 const verPdf = () => {
@@ -1150,6 +1170,33 @@ const volver = () => {
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.btn-reservar-online {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 12px;
+  background: linear-gradient(135deg, #d4af37 0%, #b5931a 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(181, 147, 26, 0.4);
+}
+
+.btn-reservar-online:hover {
+  background: linear-gradient(135deg, #b5931a 0%, #8a6f14 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(181, 147, 26, 0.5);
 }
 
 .btn-reservar {
