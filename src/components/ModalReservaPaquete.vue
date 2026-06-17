@@ -38,8 +38,11 @@
             <!-- Fecha tentativa -->
             <section class="pkg-section">
               <h3 class="section-title">Fecha tentativa de viaje</h3>
-              <input v-model="fechaViaje" type="date" :min="hoyISO" class="input" />
-              <span class="field-hint">Opcional. Confirmaremos disponibilidad contigo.</span>
+              <input v-model="fechaViaje" type="date" :min="fechaMinViaje" :max="fechaMaxViaje" class="input" />
+              <span class="field-hint">
+                <template v-if="rangoPreciosTexto">Selecciona una fecha dentro del periodo en que aplican los precios: {{ rangoPreciosTexto }}.</template>
+                <template v-else>Opcional. Confirmaremos disponibilidad contigo.</template>
+              </span>
             </section>
 
             <!-- Datos de contacto -->
@@ -51,8 +54,8 @@
                   <input v-model.trim="contacto.email" type="email" maxlength="80" placeholder="tucorreo@ejemplo.com" />
                 </div>
                 <div class="field">
-                  <label>Teléfono</label>
-                  <input v-model.trim="contacto.phone" type="tel" maxlength="20" placeholder="+593..." />
+                  <label>Teléfono *</label>
+                  <input v-model.trim="contacto.phone" type="tel" maxlength="20" placeholder="+593 99 999 9999" />
                 </div>
               </div>
             </section>
@@ -64,7 +67,7 @@
               <div class="viajero-list">
                 <div v-for="(v, i) in viajeros" :key="i" class="viajero-card">
                   <span class="viajero-num">{{ i + 1 }}</span>
-                  <div class="grid-3">
+                  <div class="grid-viajero">
                     <div class="field">
                       <label>Nombre *</label>
                       <input v-model.trim="v.nombre" type="text" maxlength="40" />
@@ -74,8 +77,21 @@
                       <input v-model.trim="v.apellido" type="text" maxlength="40" />
                     </div>
                     <div class="field">
-                      <label>Documento</label>
-                      <input v-model.trim="v.documento" type="text" maxlength="30" />
+                      <label>Tipo de documento *</label>
+                      <select v-model="v.tipoDoc">
+                        <option value="CEDULA">Cédula</option>
+                        <option value="PASAPORTE">Pasaporte</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label>{{ v.tipoDoc === 'PASAPORTE' ? 'N.º de pasaporte *' : 'N.º de cédula *' }}</label>
+                      <input
+                        v-model.trim="v.documento"
+                        type="text"
+                        maxlength="30"
+                        :inputmode="v.tipoDoc === 'CEDULA' ? 'numeric' : 'text'"
+                        :placeholder="v.tipoDoc === 'CEDULA' ? '10 dígitos' : 'Número de pasaporte'"
+                      />
                     </div>
                   </div>
                 </div>
@@ -108,6 +124,7 @@
 <script setup>
 import { ref, computed, reactive, watch } from 'vue'
 import { crearCheckoutPaquete } from '../services/api.js'
+import { validarCedulaEcuatoriana } from '../utils/validacion.js'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -121,12 +138,33 @@ const hoyISO = new Date().toISOString().slice(0, 10)
 const nPersonas = ref(1)
 const fechaViaje = ref('')
 const contacto = reactive({ email: '', phone: '' })
-const viajeros = ref([{ nombre: '', apellido: '', documento: '' }])
+const viajeros = ref([{ nombre: '', apellido: '', tipoDoc: 'CEDULA', documento: '' }])
 const procesando = ref(false)
 const error = ref('')
 
 const precioUnitario = computed(() => Number(props.paquete?.precio) || 0)
 const moneda = computed(() => props.paquete?.moneda || 'USD')
+
+// La fecha tentativa solo puede elegirse dentro del periodo en que aplican los precios
+const normalizarFecha = (f) => {
+  if (!f) return ''
+  const s = String(f)
+  return s.length >= 10 ? s.slice(0, 10) : s
+}
+const fechaMinViaje = computed(() => {
+  const desde = normalizarFecha(props.paquete?.precio_aplica_desde)
+  // No permitir fechas pasadas aunque el rango empiece antes de hoy
+  if (desde) return desde > hoyISO ? desde : hoyISO
+  return hoyISO
+})
+const fechaMaxViaje = computed(() => normalizarFecha(props.paquete?.precio_aplica_hasta) || '')
+const rangoPreciosTexto = computed(() => {
+  const desde = normalizarFecha(props.paquete?.precio_aplica_desde)
+  const hasta = normalizarFecha(props.paquete?.precio_aplica_hasta)
+  if (!desde && !hasta) return ''
+  const fmt = (f) => f ? f.split('-').reverse().join('/') : ''
+  return `${fmt(desde)} al ${fmt(hasta)}`
+})
 
 const formatear = (n) => Number(n || 0).toFixed(2)
 
@@ -137,13 +175,23 @@ const ajustarPersonas = (delta) => {
   // Ajustar lista de viajeros
   const actual = viajeros.value.length
   if (nuevo > actual) {
-    for (let i = actual; i < nuevo; i++) viajeros.value.push({ nombre: '', apellido: '', documento: '' })
+    for (let i = actual; i < nuevo; i++) viajeros.value.push({ nombre: '', apellido: '', tipoDoc: 'CEDULA', documento: '' })
   } else {
     viajeros.value.splice(nuevo)
   }
 }
 
 const validar = () => {
+  if (fechaViaje.value) {
+    if (fechaMinViaje.value && fechaViaje.value < fechaMinViaje.value) {
+      error.value = `La fecha de viaje debe ser a partir del ${fechaMinViaje.value.split('-').reverse().join('/')}.`
+      return false
+    }
+    if (fechaMaxViaje.value && fechaViaje.value > fechaMaxViaje.value) {
+      error.value = `La fecha de viaje debe ser hasta el ${fechaMaxViaje.value.split('-').reverse().join('/')}.`
+      return false
+    }
+  }
   if (!contacto.email) {
     error.value = 'Ingresa un correo electrónico de contacto.'
     return false
@@ -152,10 +200,26 @@ const validar = () => {
     error.value = 'El correo electrónico no es válido.'
     return false
   }
+  if (!contacto.phone) {
+    error.value = 'Ingresa un número de teléfono de contacto.'
+    return false
+  }
+  if (contacto.phone.replace(/\D/g, '').length < 7) {
+    error.value = 'El número de teléfono no es válido.'
+    return false
+  }
   for (let i = 0; i < viajeros.value.length; i++) {
     const v = viajeros.value[i]
     if (!v.nombre || !v.apellido) {
       error.value = `Completa nombre y apellido del viajero ${i + 1}.`
+      return false
+    }
+    if (!v.documento) {
+      error.value = `Ingresa el documento del viajero ${i + 1}.`
+      return false
+    }
+    if (v.tipoDoc === 'CEDULA' && !validarCedulaEcuatoriana(v.documento)) {
+      error.value = `La cédula del viajero ${i + 1} no es una cédula ecuatoriana válida.`
       return false
     }
   }
@@ -174,6 +238,7 @@ const confirmar = async () => {
     viajeros: viajeros.value.map(v => ({
       nombre: (v.nombre || '').toUpperCase(),
       apellido: (v.apellido || '').toUpperCase(),
+      tipo_documento: v.tipoDoc,
       documento: v.documento || ''
     })),
     moneda: moneda.value,
@@ -201,7 +266,7 @@ watch(() => props.visible, (v) => {
     nPersonas.value = 1
     fechaViaje.value = ''
     Object.assign(contacto, { email: '', phone: '' })
-    viajeros.value = [{ nombre: '', apellido: '', documento: '' }]
+    viajeros.value = [{ nombre: '', apellido: '', tipoDoc: 'CEDULA', documento: '' }]
     procesando.value = false
     error.value = ''
   }
@@ -271,13 +336,19 @@ watch(() => props.visible, (v) => {
 
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; flex: 1; }
-.field { display: flex; flex-direction: column; gap: 4px; }
+.grid-viajero {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px; flex: 1; min-width: 0;
+}
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .field label { font-size: 0.78rem; color: #475569; font-weight: 600; }
-.field input {
+.field input, .field select {
+  width: 100%; min-width: 0; box-sizing: border-box;
   padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 8px;
   font-size: 0.92rem; background: #fff;
 }
-.field input:focus, .input:focus { outline: none; border-color: #b5931a; }
+.field input:focus, .field select:focus, .input:focus { outline: none; border-color: #b5931a; }
 
 .viajero-list { display: flex; flex-direction: column; gap: 12px; }
 .viajero-card {
@@ -328,7 +399,7 @@ watch(() => props.visible, (v) => {
 .modal-fade-enter-from, .modal-fade-leave-to { opacity: 0; }
 
 @media (max-width: 600px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .grid-2, .grid-3, .grid-viajero { grid-template-columns: 1fr; }
   .viajero-num { margin-top: 0; }
   .viajero-card { flex-direction: column; }
 }

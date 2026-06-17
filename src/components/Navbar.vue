@@ -62,7 +62,9 @@ const menuAbierto = ref(false)
 
 // Rutas donde siempre debe tener fondo oscuro (no transparente)
 const rutasConFondoOscuro = computed(() => {
-  return (route.path.startsWith('/paquetes/') && route.params.id) || route.path.startsWith('/vuelos/resultados') || route.path.startsWith('/reserva/')
+  return (route.path.startsWith('/paquetes/') && route.params.id) ||
+    route.path.startsWith('/vuelos/resultados') ||
+    route.path.includes('/reserva/')
 })
 
 // El navbar tiene fondo oscuro si: está scrolleado O está en una ruta que requiere fondo oscuro

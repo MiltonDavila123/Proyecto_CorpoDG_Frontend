@@ -340,6 +340,7 @@
 <script setup>
 import { ref, computed, watch, reactive } from 'vue'
 import { obtenerSeatmap, crearCheckoutBooking } from '../services/api.js'
+import { validarCedulaEcuatoriana } from '../utils/validacion.js'
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -569,6 +570,11 @@ const validarPasajeros = () => {
     const p = formPasajeros.value[i]
     if (!p.nombres || !p.apellidos || !p.genero || !p.fechaNacimiento || !p.numeroDoc || !p.nacionalidad) {
       errorPaso.value = `Completa todos los datos del pasajero ${i + 1}.`
+      return false
+    }
+    // Validar cédula ecuatoriana cuando el documento es Cédula
+    if (p.tipoDoc === 'CEDULA' && !validarCedulaEcuatoriana(p.numeroDoc)) {
+      errorPaso.value = `La cédula del pasajero ${i + 1} no es una cédula ecuatoriana válida.`
       return false
     }
     // Validar edad según tipo de pasajero
