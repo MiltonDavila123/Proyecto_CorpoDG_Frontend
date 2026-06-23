@@ -42,7 +42,16 @@
             class="mensaje"
             :class="msg.role === 'user' ? 'mensaje-usuario' : 'mensaje-asistente'"
           >
-            <div class="mensaje-burbuja" v-html="formatearMensaje(msg.content)"></div>
+            <div class="mensaje-wrapper">
+              <div class="mensaje-burbuja" v-html="formatearMensaje(msg.content)"></div>
+              <button
+                v-if="msg.accion"
+                class="chatbot-btn-accion"
+                @click="irAResultados(msg.accion)"
+              >
+                ✈ {{ msg.accion.label }}
+              </button>
+            </div>
           </div>
 
           <!-- Indicador de carga (typing) -->
@@ -109,7 +118,10 @@
 
 <script setup>
 import { ref, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 import { enviarMensajeChatbot } from '../services/api.js'
+
+const router = useRouter()
 
 // =====================================================
 // ESTADO
@@ -124,6 +136,10 @@ const inputRef = ref(null)
 // =====================================================
 // ACCIONES
 // =====================================================
+
+function irAResultados(accion) {
+  router.push({ path: accion.path, query: accion.params })
+}
 
 function toggleChat() {
   abierto.value = !abierto.value
@@ -155,7 +171,11 @@ async function enviarMensaje() {
     const resultado = await enviarMensajeChatbot(texto, historial.value.slice(0, -1))
     // El backend retorna el historial completo actualizado, pero nosotros
     // solo agregamos la respuesta del asistente al historial local
-    historial.value.push({ role: 'assistant', content: resultado.respuesta })
+    historial.value.push({
+      role: 'assistant',
+      content: resultado.respuesta,
+      accion: resultado.accion || null,
+    })
   } catch (error) {
     historial.value.push({
       role: 'assistant',
@@ -501,6 +521,36 @@ function formatearMensaje(texto) {
 .chatbot-btn-enviar:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* =====================================================
+   BOTÓN DE ACCIÓN (redirect)
+   ===================================================== */
+.mensaje-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.chatbot-btn-accion {
+  align-self: flex-start;
+  background: var(--chat-primary);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  font-family: 'Arial', sans-serif;
+  white-space: nowrap;
+}
+
+.chatbot-btn-accion:hover {
+  background: var(--chat-primary-dark);
+  transform: scale(1.03);
 }
 
 /* =====================================================
