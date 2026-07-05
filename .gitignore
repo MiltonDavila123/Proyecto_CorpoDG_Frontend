@@ -29,3 +29,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Claude Code
+.claude/
+
+# Playwright test results
+test-results/
+playwright-report/
