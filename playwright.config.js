@@ -17,7 +17,7 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { browserName: 'firefox' },
-      testMatch: ['**/responsive.spec.js'],
+      testMatch: '**/responsive.spec.js',
     },
   ],
   webServer: {
