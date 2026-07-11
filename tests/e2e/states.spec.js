@@ -3,6 +3,11 @@ import { test, expect } from '@playwright/test'
 test.describe('RNF-04: Estados de carga, error y sin resultados', () => {
 
   test('flight results muestra estado de carga inicial', async ({ page }) => {
+    // delay API so loading state stays visible
+    await page.route(/\/api\/buscar-vuelos-live/, async route => {
+      await new Promise(r => setTimeout(r, 5000))
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
+    })
     await page.goto('/vuelos/resultados?origin=UIO&destination=GYE&date=2026-08-15')
     await expect(page.locator('.loading-section')).toBeVisible({ timeout: 8000 })
   })
@@ -24,6 +29,10 @@ test.describe('RNF-04: Estados de carga, error y sin resultados', () => {
   })
 
   test('detalle paquete muestra estado de carga inicial', async ({ page }) => {
+    await page.route(/\/api\/paquetes\//, async route => {
+      await new Promise(r => setTimeout(r, 5000))
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
+    })
     await page.goto('/paquetes/1')
     await expect(page.locator('.loading-container')).toBeVisible({ timeout: 8000 })
   })
