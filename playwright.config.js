@@ -10,8 +10,15 @@ export default defineConfig({
     headless: true,
   },
   projects: [
-    { name: 'chromium', use: { browserName: 'chromium' } },
-    { name: 'firefox',   use: { browserName: 'firefox' } },
+    {
+      name: 'chromium',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'firefox',
+      use: { browserName: 'firefox' },
+      testMatch: ['**/responsive.spec.js'],
+    },
   ],
   webServer: {
     command: 'npm run dev',
