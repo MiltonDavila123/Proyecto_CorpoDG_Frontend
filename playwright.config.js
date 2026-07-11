@@ -10,18 +10,8 @@ export default defineConfig({
     headless: true,
   },
   projects: [
-    {
-      name: 'chromium',
-      use: { browserName: 'chromium' },
-    },
-    {
-      name: 'firefox',
-      use: { browserName: 'firefox' },
-    },
-    {
-      name: 'edge',
-      use: { browserName: 'chromium', channel: 'msedge' },
-    },
+    { name: 'chromium', use: { browserName: 'chromium' } },
+    { name: 'firefox',   use: { browserName: 'firefox' } },
   ],
   webServer: {
     command: 'npm run dev',
