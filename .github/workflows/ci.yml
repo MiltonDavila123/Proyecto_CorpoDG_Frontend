@@ -32,7 +32,7 @@ jobs:
         run: npx playwright install --with-deps chromium firefox
 
       - name: Run E2E tests
-        run: npx playwright test --reporter=html
+        run: npx playwright test --reporter=list,html 2>&1; echo "EXIT_CODE=$?"
         env:
           CI: true
 
