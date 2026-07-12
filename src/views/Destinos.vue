@@ -68,7 +68,7 @@
 
     <div v-else class="destinos-grid">
       <div class="destino-card" v-for="destino in destinos" :key="destino.id">
-        <div class="destino-img" :style="{ backgroundImage: `url(${destino.imagen_url})` }">
+        <div class="destino-img" :style="{ backgroundImage: `url(${destino.imagen_url || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600'})` }">
           <span v-if="destino.destacado" class="destino-badge">Destacado</span>
         </div>
         <div class="destino-info">

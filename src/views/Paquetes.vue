@@ -122,7 +122,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { getRegiones, getPaisesByRegion, getPaquetes } from '../services/api.js'
+import { getRegiones, getPaquetes } from '../services/api.js'
 import CarruselPaquetes from '../components/CarruselPaquetes.vue'
 
 // Router
@@ -175,7 +175,8 @@ const imagenesRegiones = {
   medio_oriente: 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?w=800',
   africa: 'https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=800',
   asia: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800',
-  ecuador: 'https://media.istockphoto.com/id/481766414/es/foto/bandera-y-church-en-guayaquil.jpg?s=612x612&w=0&k=20&c=88OO2aWG6rnqRBpJyzhqsWEBX5YXxnbiJ2r-JlghsuA='
+  ecuador: 'https://media.istockphoto.com/id/481766414/es/foto/bandera-y-church-en-guayaquil.jpg?s=612x612&w=0&k=20&c=88OO2aWG6rnqRBpJyzhqsWEBX5YXxnbiJ2r-JlghsuA=',
+  oceania: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800'
 }
 
 const getImagenRegion = (nombre) => {
@@ -201,17 +202,27 @@ onMounted(async () => {
         regionSeleccionada.value = region
         
         if (paisId) {
-          // Cargar países de la región y paquetes del país
-          const [paisesData, paquetesData] = await Promise.all([
-            getPaisesByRegion(region.id),
+          const [paquetesRegionData, paquetesData] = await Promise.all([
+            getPaquetes({ region: region.id }),
             getPaquetes({ region: region.id, pais: paisId })
           ])
-          
-          paises.value = paisesData
-          paquetesRegion.value = paquetesData
+
+          // Extraer países únicos desde los paquetes
+          const paisesMap = new Map()
+          paquetesRegionData.forEach(p => {
+            if (p.pais_destino && !paisesMap.has(p.pais_destino)) {
+              paisesMap.set(p.pais_destino, {
+                id: p.pais_destino,
+                nombre: p.pais_nombre || '',
+                bandera_url: p.pais_bandera || ''
+              })
+            }
+          })
+          paises.value = Array.from(paisesMap.values())
+          paquetesRegion.value = paquetesRegionData
           
           // Buscar y seleccionar el país
-          const pais = paisesData.find(p => p.id == paisId)
+          const pais = paises.value.find(p => p.id == paisId)
           if (pais) {
             paisSeleccionado.value = pais
             paquetes.value = paquetesData
@@ -285,14 +296,21 @@ const seleccionarRegion = async (region) => {
   vistaActual.value = 'paises'
   
   try {
-    // Cargar países y paquetes de la región en paralelo
-    const [paisesData, paquetesData] = await Promise.all([
-      getPaisesByRegion(region.id),
-      getPaquetes({ region: region.id })
-    ])
-    
-    paises.value = paisesData
+    const paquetesData = await getPaquetes({ region: region.id })
     paquetesRegion.value = paquetesData
+
+    // Extraer países únicos desde los paquetes
+    const paisesMap = new Map()
+    paquetesData.forEach(p => {
+      if (p.pais_destino && !paisesMap.has(p.pais_destino)) {
+        paisesMap.set(p.pais_destino, {
+          id: p.pais_destino,
+          nombre: p.pais_nombre || '',
+          bandera_url: p.pais_bandera || ''
+        })
+      }
+    })
+    paises.value = Array.from(paisesMap.values())
   } catch (error) {
     console.error('Error cargando países:', error)
   } finally {
