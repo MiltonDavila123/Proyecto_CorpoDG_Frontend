@@ -74,7 +74,7 @@
                     </div>
                     <div class="field">
                       <label>Fecha de nacimiento *</label>
-                      <input v-model="pax.fechaNacimiento" type="date" :max="fechaMaxNac(pax.tipo)" :min="fechaMinNac(pax.tipo)" required />
+                      <InputFecha v-model="pax.fechaNacimiento" :max="fechaMaxNac(pax.tipo)" :min="fechaMinNac(pax.tipo)" required />
                       <span v-if="pax.tipo === 'ADT'" class="field-hint">Debe ser mayor de 18 años</span>
                       <span v-else-if="pax.tipo === 'CNN'" class="field-hint">Entre 2 y 17 años</span>
                       <span v-else-if="pax.tipo === 'INF'" class="field-hint">Menos de 2 años</span>
@@ -97,7 +97,7 @@
                     </div>
                     <div v-if="pax.tipoDoc === 'PASAPORTE'" class="field">
                       <label>Vencimiento del pasaporte</label>
-                      <input v-model="pax.vencimientoDoc" type="date" :min="hoyISO" />
+                      <InputFecha v-model="pax.vencimientoDoc" :min="hoyISO" />
                     </div>
                   </div>
 
@@ -340,6 +340,7 @@
 <script setup>
 import { ref, computed, watch, reactive } from 'vue'
 import { obtenerSeatmap, crearCheckoutBooking } from '../services/api.js'
+import InputFecha from './InputFecha.vue'
 import { validarCedulaEcuatoriana } from '../utils/validacion.js'
 
 const props = defineProps({

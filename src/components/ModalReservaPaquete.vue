@@ -38,7 +38,7 @@
             <!-- Fecha tentativa -->
             <section class="pkg-section">
               <h3 class="section-title">Fecha tentativa de viaje</h3>
-              <input v-model="fechaViaje" type="date" :min="fechaMinViaje" :max="fechaMaxViaje" class="input" />
+              <InputFecha v-model="fechaViaje" :min="fechaMinViaje" :max="fechaMaxViaje" />
               <span class="field-hint">
                 <template v-if="rangoPreciosTexto">Selecciona una fecha dentro del periodo en que aplican los precios: {{ rangoPreciosTexto }}.</template>
                 <template v-else>Opcional. Confirmaremos disponibilidad contigo.</template>
@@ -124,6 +124,7 @@
 <script setup>
 import { ref, computed, reactive, watch } from 'vue'
 import { crearCheckoutPaquete } from '../services/api.js'
+import InputFecha from './InputFecha.vue'
 import { validarCedulaEcuatoriana } from '../utils/validacion.js'
 
 const props = defineProps({
