@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <transition name="modal-fade">
-      <div v-if="visible" class="modal-overlay" @click.self="cerrar">
+      <div v-if="visible" class="modal-overlay">
         <div class="modal-container">
           <!-- Header -->
           <div class="modal-header">

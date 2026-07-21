@@ -296,7 +296,7 @@
                     <span>${{ formatear(precioVuelo) }}</span>
                   </div>
                   <div v-if="costoAsientos > 0" class="precio-row">
-                    <span>Asientos adicionales</span>
+                    <span>Impuesto por asiento</span>
                     <span>${{ formatear(costoAsientos) }}</span>
                   </div>
                   <div class="precio-row total">
